@@ -1,0 +1,37 @@
+
+train: /data/proj/www/repo/yolo8_test/dataset/digita/train.txt
+val: /data/proj/www/repo/yolo8_test/dataset/digita/val.txt
+test: /data/proj/www/repo/yolo8_test/dataset/digita/test.txt
+
+# number of classes
+nc: 26
+
+# class names
+names:
+  0: T
+  1: pushoff
+  2: legend
+  3: counter
+  4: closing_white
+  5: screw
+  6: closing_door
+  7: evopact
+  8: schneider
+  9: pushon
+  10: rect
+  11: closing_green
+  12: closing_red
+  13: battery
+  14: battery_screw
+  15: T1
+  16: T2
+  17: environmental
+  18: dangerous
+  19: model
+  20: hanging_board
+  21: hole_plug
+  22: drive_plate
+  23: drive_label
+  24: closing_label
+  25: T3
+  
