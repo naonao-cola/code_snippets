@@ -2091,7 +2091,7 @@ bool TwoImg_Average(cv::Mat matSrc1Buf, cv::Mat matSrc2Buf,
 bool Make_HardDefect_Mask(cv::Mat &matGrayChanels,
                                       cv::Mat &defectMask, int nLineThreshold,
                                       int nStepX, int nStepY) {
- 
+
   cv::Mat matSrcROIBuf;
   matGrayChanels.copyTo(matSrcROIBuf);
   cv::Mat matLineMask = cv::Mat::zeros(matSrcROIBuf.size(), CV_8UC1);
@@ -2225,7 +2225,7 @@ void test_pca() {
     //开口
     nao::img::feature::HogTransform ok_hog_transform(ok_img_vec, 11, 8, 4, cv::Size(100, 55), 1);
     cv::Mat ok_feature = ok_hog_transform();
-   
+
     int maxComponents = 500;
     cv::Mat testset = ok_feature.clone();
     cv::Mat compressed;
@@ -2240,7 +2240,7 @@ void test_pca() {
         maxComponents // specify, how many principal components to retain
     );
     // if there is no test data, just return the computed basis, ready-to-use
-    
+
     CV_Assert(testset.cols == ok_feature.cols);
 
     compressed.create(testset.rows, maxComponents, testset.type());
@@ -2339,7 +2339,7 @@ int sample_otsu(cv::Mat img ,int min_value=0,int max_value=255) {
 void test_auto_otsu() {
 
     cv::Mat img = cv::imread(R"(E:\demo\test\test_opencv\img\item_8.jpg)",0);
-    
+
     int globalThresh = sample_otsu(img);
 
     cv::Mat brightmask, darkmask;
@@ -2414,7 +2414,7 @@ void test_jubu() {
         cv::Mat ret = jubu(img, 1, 5, 0.01 * (i + 1));
         img_vec_3.emplace_back(ret);
     }
-    
+
 }
 
 
@@ -2529,7 +2529,7 @@ void test_split() {
             img_vec.push_back(std::make_pair(rect, tmp));
         }
         std::sort(img_vec.begin(), img_vec.end(), [&](std::pair<cv::Rect, cv::Mat> a, std::pair<cv::Rect, cv::Mat>b) { return a.first.x < b.first.x; });
-        
+
         for (int j = 0; j < img_vec.size(); j++) {
             cv::imwrite("E:\\demo\\cxx\\connector_algo\\data\\test_data\\1\\" + std::to_string(index) + ".jpg", img_vec[j].second);
             index++;
