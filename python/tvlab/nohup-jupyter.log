@@ -1,0 +1,8 @@
+[I 20:28:12.736 NotebookApp] [jupyter_nbextensions_configurator] enabled 0.4.1
+[I 20:28:12.736 NotebookApp] Serving notebooks from local directory: /data/xb/code/tvlab
+[I 20:28:12.736 NotebookApp] Jupyter Notebook 6.3.0 is running at:
+[I 20:28:12.736 NotebookApp] http://tvtserver:15000/
+[I 20:28:12.736 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 20:28:15.787 NotebookApp] 404 GET /api/kernels/28eb17a1-37bd-4d93-8f8e-b61b84a7821d/channels?session_id=5b51e5faefd4405780510fea27989b10 (127.0.0.1): Kernel does not exist: 28eb17a1-37bd-4d93-8f8e-b61b84a7821d
+[W 20:28:15.797 NotebookApp] 404 GET /api/kernels/28eb17a1-37bd-4d93-8f8e-b61b84a7821d/channels?session_id=5b51e5faefd4405780510fea27989b10 (127.0.0.1) 13.810000ms referer=None
+[W 20:28:31.806 NotebookApp] Replacing stale connection: 28eb17a1-37bd-4d93-8f8e-b61b84a7821d:5b51e5faefd4405780510fea27989b10

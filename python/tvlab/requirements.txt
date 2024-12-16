@@ -1,0 +1,10 @@
+cv2 >=4.5.5
+scikit-image
+shapely
+numpy>=1.15.2
+tqdm>=4.29.1
+bokeh>=1.0.0
+mysql-connector-python>=8.0.13
+fastai>=1.0.52
+torch>=1.0.1.post2
+torchvision>=0.2.2.post3

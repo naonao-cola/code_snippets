@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# anomaly_detection
+python test_anomaly_detection_tvdl_anomaly_detection_MSAE.py
+
+# category
+python test_category_tvdl_category.py
+
+# detection
+python test_detection_tvdl_detection.py
+python test_detection_tvdl_detection_CenterNet.py
+python test_detection_tvdl_detection_Faster_RCNN.py
+
+# instance_segmentation
+python test_segmentation_tvdl_segmentation.py
+python test_segmentation_tvdl_segmentation_OFC.py
+python test_segmentation_tvdl_segmentation_U2Net.py
+python test_segmentation_tvdl_segmentation_Mask_RCNN.py
