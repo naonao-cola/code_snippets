@@ -1,0 +1,16 @@
+This version is mainly the change of coding style, make it more concise and clear.
+The overlook filetree is as follows:
+-main.py
+-be_codes.txt
+-predictor.py
+-README.txt
+-conf
+  --config.py
+  --model.pth
+  --classes.txt
+  --hyper_param.json
+-tools
+  --**.py
+  --...
+-utils_
+-models

@@ -1,0 +1,19 @@
+{
+  "image": {
+    "Color": {
+      "path": "D:/shtm/DM/w0cwp0120a_macro.jpg"
+    }
+  },
+  "info": {
+    "saveRootPath": "D:\\shtm\\adc\\dm_oled_0419\\test0506",
+    "Dx": 11,
+    "Dy": 1.0,
+    "ProductId": "123",
+    "LineWidthSD": 1,
+    "LineWidthGate": 1,
+    "LineWidthIT0": 1
+  },
+
+    "run_online": 1
+
+}

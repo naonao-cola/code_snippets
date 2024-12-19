@@ -1,0 +1,23 @@
+{
+	"ok_code": "OK",
+	"ok_conf": 0.99,
+	"conf_thres": 0.1,
+	"iou_thres": 0.1,
+	"imgsz": 640,
+	"priority":["P304", "B510A", "B510B", "P510", "P501", "P302", "P306", "P504","P705", "peeling", "P303", "obscure", "repair", "ECHO"],
+
+	"code_threshold": {
+			"P302": 0.1,
+			"P303": 0.1,
+			"P304": 0.1,
+			"P306": 0.1,
+			"P501": 0.1,
+			"P504": 0.1,
+			"P510": 0.1,
+			"P705": 0.1,
+			"B510A": 0.1,
+			"B510B": 0.1,
+			"peeling": 0.1,
+			"repair": 0.1
+	}
+}
