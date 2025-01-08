@@ -1,0 +1,46 @@
+		{	
+			"type_id": "2200000",		
+	 		"device_id":"0",
+			"paras": {						
+					"detect_classes":"PLUG",
+					"model_path": ""
+			},
+			"cv_algorithm_param": {
+					"COthreshold": 150,
+					"center": [776, 500],
+					"Cradius_min_distance": 290,
+					"Cradius_max_distance": 380,
+					"Oradius_min_distance": 390,
+					"Oradius_max_distance": 480,
+					"CConfidence_degree" : 0.8,
+					"OConfidence_degree" : 0.8,
+					"find_min_radius": 100,
+					"find_max_radius": 300,
+					"Eratio_min": 0.9,
+					"Eratio_max": 1.15,
+					"Hratio_min": 0.7,
+					"Hratio_max": 1.5,
+					"PLUGthreshold": 150,
+					"Pfiltration": 4000
+			},
+			"ai_algorithm_param": {
+				"resize":[0,0],
+				"cutting":[0,0],
+				"other":0
+			},
+			"template": {
+				"img_path":	"D:/Ronnie/pakege",
+				"shapes": [{
+					"label": "mark_a",
+					"points": [[3760, 2656],[3913, 2748]],
+					"shape_type": "rectangle"
+		         },
+		        {
+					"label": "mark_b",
+					"points": [[3760, 2656],[3913, 2748]],
+					"shape_type": "rectangle"
+		         }
+		       ]
+			}
+			
+		}
