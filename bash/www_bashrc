@@ -1,0 +1,27 @@
+﻿target_path="/home/tvt/www/"
+
+current_path=$(pwd)
+
+#
+if [[ "$current_path" == "$target_path"* ]]; then
+    echo "当前目录 is $current_path"
+    echo "www 环境更新"
+else
+    cd "$target_path"
+    echo "www 环境更新, 当前目录 /home/tvt/www/"
+fi
+
+# conda activate hjx_base
+
+# alias base='conda activate hjx_base'
+
+
+alias kj='sudo /home/tvt/www/script/kejilion.sh'
+alias vw='vi /home/tvt/www/script/www_bashrc'
+alias vb='vi ~/.bashrc'
+alias sb='source ~/.bashrc'
+alias lzd='/home/tvt/.local/bin/lazydocker'
+alias chsrc='/home/tvt/.local/bin/chsrc'
+alias scuda='source /home/tvt/www/script/switch_cuda.sh'
+
+echo "别名已更新"

@@ -1,0 +1,2 @@
+﻿sudo nvidia-smi -pm 1  #启用持久模式
+

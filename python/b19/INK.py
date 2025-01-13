@@ -5,23 +5,23 @@ import numpy as np
 
 def remove_bright_areas(image, roi, threshold=150):
     """
-    å»é™¤æ„Ÿå…´è¶£åŒºåŸŸä¸­ç°åº¦å€¼è¾ƒå¤§çš„åŒºåŸŸã€‚
+    È¥³ı¸ĞĞËÈ¤ÇøÓòÖĞ»Ò¶ÈÖµ½Ï´óµÄÇøÓò¡£
 
-    :param image: è¾“å…¥å›¾åƒ (BGR)
-    :param roi: æ„Ÿå…´è¶£åŒºåŸŸ (x, y, width, height)
-    :param threshold: ç°åº¦é˜ˆå€¼ï¼Œé«˜äºæ­¤å€¼çš„åƒç´ å°†è¢«ç§»é™¤
-    :return: è¿‡æ»¤åçš„å›¾åƒå’Œæ©ç 
+    :param image: ÊäÈëÍ¼Ïñ (BGR)
+    :param roi: ¸ĞĞËÈ¤ÇøÓò (x, y, width, height)
+    :param threshold: »Ò¶ÈãĞÖµ£¬¸ßÓÚ´ËÖµµÄÏñËØ½«±»ÒÆ³ı
+    :return: ¹ıÂËºóµÄÍ¼ÏñºÍÑÚÂë
     """
-    # æå–æ„Ÿå…´è¶£åŒºåŸŸ (ROI)
+    # ÌáÈ¡¸ĞĞËÈ¤ÇøÓò (ROI)
     roi_image = image[roi[1]:roi[3], :]
 
-    # å°† ROI è½¬æ¢ä¸ºç°åº¦å›¾åƒ
+    # ½« ROI ×ª»»Îª»Ò¶ÈÍ¼Ïñ
     gray_roi = cv2.cvtColor(roi_image, cv2.COLOR_BGR2GRAY)
 
-    # åˆ›å»ºæ©ç ï¼šç°åº¦å€¼ä½äºé˜ˆå€¼çš„åƒç´ è®¾ä¸º 1ï¼ˆç™½è‰²ï¼‰ï¼Œé«˜äºé˜ˆå€¼çš„åƒç´ è®¾ä¸º 0ï¼ˆé»‘è‰²ï¼‰
+    # ´´½¨ÑÚÂë£º»Ò¶ÈÖµµÍÓÚãĞÖµµÄÏñËØÉèÎª 1£¨°×É«£©£¬¸ßÓÚãĞÖµµÄÏñËØÉèÎª 0£¨ºÚÉ«£©
     _, mask = cv2.threshold(gray_roi, threshold, 255, cv2.THRESH_BINARY_INV)
 
-    # ä½¿ç”¨æ©ç è¿‡æ»¤ ROI å›¾åƒ
+    # Ê¹ÓÃÑÚÂë¹ıÂË ROI Í¼Ïñ
     filtered_roi = cv2.bitwise_and(roi_image, roi_image, mask=mask)
     cv2.imwrite(os.path.join(out_path, f'{ori_image.split("/")[-1].split(".")[0]}_filtered_roi.jpg'), filtered_roi)
 
@@ -30,15 +30,15 @@ def remove_bright_areas(image, roi, threshold=150):
 
 def bgr_to_primary_color(image, mask):
     """
-    æ ¹æ® BGR å€¼åˆ¤æ–­ä¸»è¦é¢œè‰²ï¼ˆçº¢ã€ç»¿ã€è“ï¼‰ã€‚
+    ¸ù¾İ BGR ÖµÅĞ¶ÏÖ÷ÒªÑÕÉ«£¨ºì¡¢ÂÌ¡¢À¶£©¡£
 
-    :param bgr: å¹³å‡é¢œè‰² (B, G, R)
-    :return: ä¸»è¦é¢œè‰²åç§°
+    :param bgr: Æ½¾ùÑÕÉ« (B, G, R)
+    :return: Ö÷ÒªÑÕÉ«Ãû³Æ
     """
     avg_color_per_row = cv2.mean(image, mask=mask)
-    b, g, r = avg_color_per_row[:3]  # å¿½ç•¥ alpha é€šé“ï¼ˆå¦‚æœæœ‰ï¼‰
+    b, g, r = avg_color_per_row[:3]  # ºöÂÔ alpha Í¨µÀ£¨Èç¹ûÓĞ£©
 
-    # å®šä¹‰ä¸€ä¸ªç®€å•çš„è§„åˆ™æ¥åˆ¤æ–­ä¸‰åŸè‰²
+    # ¶¨ÒåÒ»¸ö¼òµ¥µÄ¹æÔòÀ´ÅĞ¶ÏÈıÔ­É«
     if max(b, g, r) == r and r > g and r > b:
         return "Red"
     elif max(b, g, r) == g and g > r and g > b:
@@ -53,16 +53,16 @@ def eaxB501Arar(ori_image):
     img = cv2.imread(ori_image)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    # ä½¿ç”¨é«˜æ–¯æ»¤æ³¢å™¨å¯¹å›¾åƒè¿›è¡Œå¹³æ»‘å¤„ç†
+    # Ê¹ÓÃ¸ßË¹ÂË²¨Æ÷¶ÔÍ¼Ïñ½øĞĞÆ½»¬´¦Àí
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
 
-    # ä½¿ç”¨ Canny ç®—å­æ£€æµ‹è¾¹ç¼˜
+    # Ê¹ÓÃ Canny Ëã×Ó¼ì²â±ßÔµ
     edges = cv2.Canny(blurred, threshold1=50, threshold2=150)
     cv2.imwrite(os.path.join(out_path, 'canny.jpg'), edges)
 
     kernel = np.ones((2, 2), np.uint8)
 
-    # è†¨èƒ€è¾¹ç¼˜
+    # ÅòÕÍ±ßÔµ
     dilation = cv2.dilate(edges, kernel, iterations=1)
     cv2.imwrite(os.path.join(out_path, 'dilation.jpg'), edges)
 
@@ -77,15 +77,15 @@ def eaxB501Arar(ori_image):
         area = cv2.contourArea(contour)
         contour_areas.append(area)
 
-        # è¿‘ä¼¼å¤šè¾¹å½¢
+        # ½üËÆ¶à±ßĞÎ
         epsilon = 0.02 * cv2.arcLength(contour, True)
         approx_polygon = cv2.approxPolyDP(contour, epsilon, True)
 
-        # åªä¿ç•™é—­åˆçš„å¤šè¾¹å½¢
+        # Ö»±£Áô±ÕºÏµÄ¶à±ßĞÎ
         if len(approx_polygon) > 5:
             polygons.append(approx_polygon)
 
-            # ç»˜åˆ¶å¤šè¾¹å½¢è½®å»“
+            # »æÖÆ¶à±ßĞÎÂÖÀª
             cv2.drawContours(polygon_image, [approx_polygon], -1, (0, 0, 255), 2)
 
             cv2.imwrite(os.path.join(out_path, f'polygon.jpg'), polygon_image)
@@ -93,26 +93,26 @@ def eaxB501Arar(ori_image):
 
 def fft_flt(img):
     f = np.fft.fft2(img)
-    fshift = np.fft.fftshift(f)  # ç§»åŠ¨é›¶é¢‘åˆ†é‡åˆ°ä¸­å¿ƒ
+    fshift = np.fft.fftshift(f)  # ÒÆ¶¯ÁãÆµ·ÖÁ¿µ½ÖĞĞÄ
 
-    # è·å–é¢‘è°±çš„å½¢çŠ¶
+    # »ñÈ¡ÆµÆ×µÄĞÎ×´
     rows, cols = image.shape[:2]
     crow, ccol = rows // 2, cols // 2
 
-    # åˆ›å»ºä¸€ä¸ªæ©æ¨¡ï¼Œç”¨äºå±è”½é¢‘è°±ä¸­å¿ƒé™„è¿‘çš„ä½é¢‘éƒ¨åˆ†
+    # ´´½¨Ò»¸öÑÚÄ££¬ÓÃÓÚÆÁ±ÎÆµÆ×ÖĞĞÄ¸½½üµÄµÍÆµ²¿·Ö
     mask = np.ones((rows, cols), dtype=np.uint8)
 
-    # é˜ˆå€¼è®¾ç½®ï¼šä¿ç•™é¢‘è°±ä¸­çš„é«˜é¢‘éƒ¨åˆ†ï¼Œæ»¤é™¤ä½é¢‘éƒ¨åˆ†
-    # è®¾ç½®ä¸€ä¸ªèŒƒå›´ï¼Œå±è”½é¢‘è°±ä¸­çš„æ°´å¹³å’Œå‚ç›´é¢‘ç‡åˆ†é‡
-    radius = 30  # å¯è°ƒèŠ‚åŠå¾„ï¼Œè¶Šå°è¶Šèƒ½å»é™¤æ›´å¤šä½é¢‘ä¿¡æ¯
-    mask[crow - radius:crow + radius, :] = 0  # æ°´å¹³çº¿ï¼ˆå»é™¤ä¸­å¿ƒçš„ä½é¢‘éƒ¨åˆ†ï¼‰
-    mask[:, ccol - radius:ccol + radius] = 0  # å‚ç›´çº¿ï¼ˆå»é™¤ä¸­å¿ƒçš„ä½é¢‘éƒ¨åˆ†ï¼‰
+    # ãĞÖµÉèÖÃ£º±£ÁôÆµÆ×ÖĞµÄ¸ßÆµ²¿·Ö£¬ÂË³ıµÍÆµ²¿·Ö
+    # ÉèÖÃÒ»¸ö·¶Î§£¬ÆÁ±ÎÆµÆ×ÖĞµÄË®Æ½ºÍ´¹Ö±ÆµÂÊ·ÖÁ¿
+    radius = 30  # ¿Éµ÷½Ú°ë¾¶£¬Ô½Ğ¡Ô½ÄÜÈ¥³ı¸ü¶àµÍÆµĞÅÏ¢
+    mask[crow - radius:crow + radius, :] = 0  # Ë®Æ½Ïß£¨È¥³ıÖĞĞÄµÄµÍÆµ²¿·Ö£©
+    mask[:, ccol - radius:ccol + radius] = 0  # ´¹Ö±Ïß£¨È¥³ıÖĞĞÄµÄµÍÆµ²¿·Ö£©
 
-    # åº”ç”¨æ©æ¨¡
+    # Ó¦ÓÃÑÚÄ£
     fshift = fshift * mask
 
-    # åå‚…é‡Œå¶å˜æ¢ï¼Œæ¢å¤å›¾åƒ
-    f_ishift = np.fft.ifftshift(fshift)  # åç§»ä½
+    # ·´¸µÀïÒ¶±ä»»£¬»Ö¸´Í¼Ïñ
+    f_ishift = np.fft.ifftshift(fshift)  # ·´ÒÆÎ»
     image_back = np.fft.ifft2(f_ishift)
     image_back = np.abs(image_back)
     cv2.imwrite(os.path.join(out_path, 'image_back.jpg'), image_back)
@@ -120,32 +120,32 @@ def fft_flt(img):
 
 
 def center_threshold_binarization(image_path, sacle, ratio):
-    # è¯»å–å›¾åƒ
+    # ¶ÁÈ¡Í¼Ïñ
     image = cv2.imread(image_path)
     if image is None:
         print("Error: Could not open or find the image!")
         return
 
-    # è½¬æ¢ä¸ºç°åº¦å›¾åƒ
+    # ×ª»»Îª»Ò¶ÈÍ¼Ïñ
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    # è·å–å›¾åƒå°ºå¯¸
+    # »ñÈ¡Í¼Ïñ³ß´ç
     height, width = gray_image.shape[:2]
 
-    # è®¡ç®—ä¸­å¿ƒç‚¹åæ ‡
+    # ¼ÆËãÖĞĞÄµã×ø±ê
     center_x, center_y = width // 2, height // 2
 
-    # è·å–ä¸­å¿ƒç‚¹çš„ç°åº¦å€¼ä½œä¸ºé˜ˆå€¼
+    # »ñÈ¡ÖĞĞÄµãµÄ»Ò¶ÈÖµ×÷ÎªãĞÖµ
     threshold_value = gray_image[center_y, center_x] - 25
 
     print(f"Center pixel value (threshold): {threshold_value}")
 
-    # åº”ç”¨äºŒå€¼åŒ–ï¼Œè¿™é‡Œå‡è®¾æ˜¯äºŒå€¼åŒ–ä¸ºé»‘ç™½è‰²ï¼Œå³0å’Œ255
+    # Ó¦ÓÃ¶şÖµ»¯£¬ÕâÀï¼ÙÉèÊÇ¶şÖµ»¯ÎªºÚ°×É«£¬¼´0ºÍ255
     _, binary_image = cv2.threshold(gray_image, threshold_value, 255, cv2.THRESH_BINARY)
     cv2.imwrite(os.path.join(out_path, 'binary_image.jpg'), binary_image)
 
     kernel = np.ones((5, 5), np.uint8)
-    # è†¨èƒ€è¾¹ç¼˜
+    # ÅòÕÍ±ßÔµ
     dilation = cv2.dilate(binary_image, kernel, iterations=1)
 
     contours, _ = cv2.findContours(dilation, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -153,9 +153,9 @@ def center_threshold_binarization(image_path, sacle, ratio):
     cv2.drawContours(image, large_contours, -1, (0, 0, 255), 2)
 
     for cnt in large_contours:
-        # è®¡ç®—å¤–æ¥çŸ©å½¢
+        # ¼ÆËãÍâ½Ó¾ØĞÎ
         x, y, w, h = cv2.boundingRect(cnt)
-        cv2.rectangle(image, (x-5, y-5), (x + w + 5, y + h + 5), (0, 255, 0), 2)  # ç»˜åˆ¶ç»¿è‰²çš„ç›´ç«‹çŸ©å½¢
+        cv2.rectangle(image, (x-5, y-5), (x + w + 5, y + h + 5), (0, 255, 0), 2)  # »æÖÆÂÌÉ«µÄÖ±Á¢¾ØĞÎ
         cv2.imwrite(os.path.join(out_path, 'counter_image.jpg'), image)
 
         x1, y1, x2, y2 = x, y, x+w, y+h
@@ -171,15 +171,15 @@ def center_threshold_binarization(image_path, sacle, ratio):
                 y_2 = y1 + (j+1)*sacle
                 cut_img = binary_image[y_1:y_2, x_1:x_2]
                 cv2.imwrite(os.path.join(out_path, f'cut_img_{i}_{j}.jpg'), cut_img)
-                # è®¡ç®—ç™½è‰²åƒç´ çš„æ€»æ•°
+                # ¼ÆËã°×É«ÏñËØµÄ×ÜÊı
                 white_pixel_count = cv2.countNonZero(cut_img)
 
-                # è®¡ç®—æ€»çš„åƒç´ æ•°
+                # ¼ÆËã×ÜµÄÏñËØÊı
                 total_pixel_count = sacle*sacle
 
-                # åˆ¤æ–­ç™½è‰²åƒç´ çš„æ¯”ä¾‹æ˜¯å¦å¤§äºé˜ˆå€¼
+                # ÅĞ¶Ï°×É«ÏñËØµÄ±ÈÀıÊÇ·ñ´óÓÚãĞÖµ
                 if white_pixel_count / total_pixel_count > ratio:
-                    # åœ¨åŸå§‹å›¾åƒä¸Šç»˜åˆ¶è¾¹æ¡†
+                    # ÔÚÔ­Ê¼Í¼ÏñÉÏ»æÖÆ±ß¿ò
                     cv2.rectangle(image, (x_1, y_1), (x_2, y_2), (255, 255, 0), 2)
 
         cv2.imwrite(os.path.join(out_path, 'counter_boxes.jpg'), image)
@@ -187,7 +187,7 @@ def center_threshold_binarization(image_path, sacle, ratio):
 
 
 if __name__ == "__main__":
-    # è¯»å–å›¾åƒ
+    # ¶ÁÈ¡Í¼Ïñ
     ori_image = '/data/hjx/B19/data/ink/CF-RML14_202412051724141128.jpg'
     image = cv2.imread(ori_image)
     out_path = "/data/hjx/B19/data/out"

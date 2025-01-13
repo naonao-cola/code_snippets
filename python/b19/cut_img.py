@@ -1,31 +1,22 @@
 import glob
 import cv2
 
-img_path = '/data/hjx/B19/data/ink'
+large = True
+img_path = '/data/hjx/B19/data/TVPS/LOU'
 
 img_files = glob.glob(img_path + '/*.jpg')
 
 for img_file in img_files:
-    # img = cv2.imread(img_file)
-    # cut_img = img[:474, :635, :]
-    #
-    # (h, w, c) = cut_img.shape
-    # cv2.imwrite(img_file, cut_img)
+    if not large:
+        img = cv2.imread(img_file)
+        cut_img = img[:474, :635, :]
 
-    # xml_file = img_file.replace('jpg', 'xml')
-    # tree = ET.parse(xml_file)
-    # myroot = tree.getroot()
-    #
-    # size = myroot.find('size')
-    # size.find('width').text = str(w)
-    # size.find('height').text = str(h)
-    #
-    # tree.write(xml_file)
+        cv2.imwrite(img_file, cut_img)
+        print(f'{img_file} cut finished')
 
-    # print(f'{img_file} cut finished')
+    else:
+        img = cv2.imread(img_file)
+        cut_img = img[59:538, 13:652,  :]
 
-    img = cv2.imread(img_file)
-    cut_img = img[59:538, 13:652,  :]
-
-    (h, w, c) = cut_img.shape
-    cv2.imwrite(img_file, cut_img)
+        (h, w, c) = cut_img.shape
+        cv2.imwrite(img_file, cut_img)

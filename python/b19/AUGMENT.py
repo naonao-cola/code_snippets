@@ -82,57 +82,47 @@ def flip(image):
 
 if __name__ == "__main__":
     # 图片文件夹路径
-    num = 3
-    file_dir = r'/data/hjx/B19/data/TVPS/zhoumolouiu/1'
-    out_path = r'/data/hjx/B19/data/TVPS/zhoumolouiu/out'
+    num = 4
+    file_dir = r'/data/hjx/B19/data/POAPS/POA客诉'
+    out_path = r'/data/hjx/B19/data/POAPS/out'
 
     if not os.path.exists(out_path):
         os.makedirs(out_path)
 
     for i in range(num):
-        # for img_name in os.listdir(file_dir):
-        #     if img_name.endswith(".jpg"):
-        #         img_path = file_dir + '/' + img_name
-        #         img = cv2.imread(img_path)
-        #         # cv2.imshow("1",img)
-        #         # cv2.waitKey(5000)
-        #         # 旋转
-        #         rotated_90 = rotate(img, 90)
-        #         cv2.imwrite(out_path + '/' +  img_name[0:-4] + f'_r90{i}.jpg', rotated_90)
-        #         rotated_180 = rotate(img, 180)
-        #         cv2.imwrite(out_path + '/' +  img_name[0:-4] + f'_r180{i}.jpg', rotated_180)
-
         for img_name in os.listdir(file_dir):
             if img_name.endswith(".jpg"):
                 img_path = file_dir + '/' +  img_name
                 xml_path = file_dir + '/' +  img_name.replace('.jpg', '.xml')
                 img = cv2.imread(img_path)
                 # 镜像
-                # flipped_img = flip(img)
-                # cv2.imwrite(out_path + '/' +  img_name[0:-4] + f'_fli{i}.jpg', flipped_img)
+                flipped_img = flip(img)
+                cv2.imwrite(out_path + '/' +  img_name[0:-4] + f'_fli{i}.jpg', flipped_img)
+
+                blur = cv2.GaussianBlur(img, (3, 3), 1.5)
+                GaussianBlur_name = out_path + '/' + img_name[0:-4] + f'_GaussianBlur{i}.jpg'
+                cv2.imwrite(GaussianBlur_name, blur)
+                shutil.copy(xml_path, GaussianBlur_name.replace('.jpg', '.xml'))
 
                 # 增加噪声
-                img_salt = SaltAndPepper(img, 0.01)
-                salt_name = out_path + '/' +  img_name[0:-4] + '_salt.jpg'
-                cv2.imwrite(salt_name, img_salt)
-                shutil.copy(xml_path, salt_name.replace('.jpg', '.xml'))
-
-                img_gauss = addGaussianNoise(img, 0.01)
-                gauss_name = out_path + '/' +  img_name[0:-4] + f'_noise{i}.jpg'
-                cv2.imwrite(gauss_name, img_gauss)
-                shutil.copy(xml_path, gauss_name.replace('.jpg', '.xml'))
+                # img_salt = SaltAndPepper(img, 0.01)
+                # salt_name = out_path + '/' +  img_name[0:-4] + '_salt.jpg'
+                # cv2.imwrite(salt_name, img_salt)
+                # shutil.copy(xml_path, salt_name.replace('.jpg', '.xml'))
+                #
+                # img_gauss = addGaussianNoise(img, 0.01)
+                # gauss_name = out_path + '/' +  img_name[0:-4] + f'_noise{i}.jpg'
+                # cv2.imwrite(gauss_name, img_gauss)
+                # shutil.copy(xml_path, gauss_name.replace('.jpg', '.xml'))
 
                 # 变亮、变暗
                 img_darker = darker(img)
                 darker_name = out_path + '/' +  img_name[0:-4] + f'_darker{i}.jpg'
                 cv2.imwrite(darker_name, img_darker)
                 shutil.copy(xml_path, darker_name.replace('.jpg', '.xml'))
-                
+
                 img_brighter = brighter(img)
                 brighter_name = out_path + '/' +  img_name[0:-4] + f'_brighter{i}.jpg'
                 cv2.imwrite(brighter_name, img_brighter)
                 shutil.copy(xml_path, brighter_name.replace('.jpg', '.xml'))
 
-                # blur = cv2.GaussianBlur(img, (7, 7), 1.5)
-                # #      cv2.GaussianBlur(图像，卷积核，标准差）
-                # cv2.imwrite(out_path + '/' +  img_name[0:-4] + f'_blur{i}.jpg', blur)

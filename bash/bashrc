@@ -1,0 +1,6 @@
+﻿alias zhangx='source ~/zhangx/script/zhangx_envs'
+
+alias hjx='source ~/hjx/script/hjx_bashrc'
+
+
+bash /home/tvt/zhangx/script/fozu.sh
