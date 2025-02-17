@@ -1,18 +1,4 @@
-﻿/**
- * @FilePath     : /connector_ai/src/project/AlgoA.cpp
- * @Description  :
- * @Author       : naonao
- * @Date         : 2024-10-12 11:33:46
- * @Version      : 0.0.1
- * @LastEditors  : naonao
-<<<<<<< HEAD
- * @LastEditTime : 2024-11-25 17:22:07
-=======
- * @LastEditTime : 2024-11-25 16:00:20
->>>>>>> 684d7c054fb397d16151f0cb72036d8000114348
- * @Copyright (c) 2024 by G, All Rights Reserved.
- **/
-#include "AlgoA.h"
+﻿#include "AlgoA.h"
 #include "../../modules/tv_algo_base/src/framework/InferenceEngine.h"
 
 #include "../../modules/tv_algo_base/src/utils/logger.h"
@@ -281,6 +267,7 @@ void AlgoA::CropTaskImg(const cv::Mat& input_img)
                 // 截图
                 cv::Rect boxCrop = partRect[p];
                 cv::Mat  cropImg = crop_img_vec_[i].img(boxCrop);
+
                 // 绘制top框
                 cv::Mat drawImg = crop_img_vec_[i].img.clone();
                 cv::rectangle(drawImg, boxCrop, cv::Scalar(0, 0, 255), 1, 8);
@@ -299,6 +286,8 @@ void AlgoA::CropTaskImg(const cv::Mat& input_img)
                     savePath = sampleSavePath_ + "top\\" + imgName_ + "_" + std::to_string(i) + "_" + std::to_string(p) + ".jpg";
                 }
                 cv::imwrite(savePath, cropImg);
+                savePath = sampleSavePath_ + "origin\\" + imgName_ + "_" + std::to_string(i) + ".jpg";
+                cv::imwrite(savePath, crop_img_vec_[i].img);
             }
         }
     }
@@ -314,7 +303,7 @@ cv::Mat draw_rst_withmask(cv::Mat image, const std::vector<std::vector<cv::Point
 void AlgoA::Infer(InferTaskPtr task, AlgoResultPtr algo_result)
 {
     // LOGI("exec Infer function!");
-#ifdef DRAW
+#if DRAW
     cv::Mat display = task->image.clone();
 #endif
     AIRuntimeInterface*  ai_obj = GetAIRuntime();
@@ -421,7 +410,7 @@ void AlgoA::Infer(InferTaskPtr task, AlgoResultPtr algo_result)
                     InvertMask(top_pt[p], lv_vec[cropIndexList[i]].invertMat);
                     std::vector<std::vector<cv::Point>> tmp;
                     tmp.push_back(top_pt[p]);
-#ifdef DRAW
+#if DRAW
                     cv::RNG    rng(0);
                     cv::Scalar color = cv::Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
                     draw_rst_withmask(display, tmp, color, crop_img_vec_[cropIndexList[i]].pt);
@@ -435,7 +424,7 @@ void AlgoA::Infer(InferTaskPtr task, AlgoResultPtr algo_result)
                     InvertMask(side_pt[p], lv_vec[cropIndexList[i]].invertMat);
                     std::vector<std::vector<cv::Point>> tmp;
                     tmp.push_back(side_pt[p]);
-#ifdef DRAW
+#if DRAW
                     cv::RNG    rng(1);
                     cv::Scalar color = cv::Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
                     draw_rst_withmask(display, tmp, color, crop_img_vec_[cropIndexList[i]].pt);
@@ -448,7 +437,7 @@ void AlgoA::Infer(InferTaskPtr task, AlgoResultPtr algo_result)
                     InvertMask(center_pt[p], lv_vec[cropIndexList[i]].invertMat);
                     std::vector<std::vector<cv::Point>> tmp;
                     tmp.push_back(center_pt[p]);
-#ifdef DRAW
+#if DRAW
                     cv::RNG    rng(2);
                     cv::Scalar color = cv::Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
                     draw_rst_withmask(display, tmp, color, crop_img_vec_[cropIndexList[i]].pt);
@@ -459,7 +448,7 @@ void AlgoA::Infer(InferTaskPtr task, AlgoResultPtr algo_result)
                 }
             }
             // 绘制模型判断结果
-#ifdef DRAW
+#if DRAW
             if (!lv_vec[cropIndexList[i]].segment_status || !lv_vec[cropIndexList[i]].classify_status) {
                 cv::rectangle(display, cv::Rect(lv_vec[cropIndexList[i]].lt.x, lv_vec[cropIndexList[i]].lt.y, bw, bh), cv::Scalar(0, 0, 255), 1, 8);
             }

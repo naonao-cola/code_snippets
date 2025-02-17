@@ -56,6 +56,8 @@ struct PinInfo
     int     index;
     bool    classify_status = true;
     cv::Mat cropPinImg;
+    std::string okName;
+    std::string ngName;
 };
 
 using PinInfoPtr = std::shared_ptr<PinInfo>;
@@ -85,7 +87,13 @@ enum class productNames
     rxzg_151,
     rxzg_131K,
     rxzg_130A,
-    sbzg_1851408151
+    sbzg_1851408151,
+    lc_189,
+    lc_190,
+    aizg_pw_6,
+    aizg_p2,
+    aizg_jian,
+    aizg_yuan
 };
 
 class FrontPinDetect : public BaseAlgo
@@ -163,7 +171,7 @@ private:
     cv::Point2f FrontPinDetect::Refind_pin_fromImg1(cv::Mat& white_roi, const json& params);
     bool CheckBlobByShapeOld(cv::Mat& sub_tmp_bin, cv::Mat& sub_whiteImg, cv::Mat& sub_img_bin, std::vector<cv::Point>& sub_con, cv::Mat& labels, int num_labels, const json& params);
     bool CheckBlobByShape(cv::Mat& sub_tmp_bin, cv::Mat& sub_whiteImg, cv::Mat& sub_SvmImg, std::vector<cv::Point>& sub_con, const json& params);
-    bool CheckBlobByClassify(std::vector<cv::Mat>& imgList, std::vector<int>& indexList, std::vector<PinInfoPtr>& pin_infos, double confThr);
+    bool CheckBlobByClassify(std::vector<cv::Mat>& imgList, std::vector<int>& indexList, std::vector<PinInfoPtr>& pin_infos, double confThr, const json& params);
     cv::Mat AlignTransform(cv::Mat& image1, cv::Mat& pin_img, std::vector<PinInfoPtr>& pin_infos, const json& params);
 
     cv::Mat alignMatrix;
@@ -180,6 +188,9 @@ private:
 
     int detect_lt_x = 0;
     int detect_lt_y = 0;
+
+    // ai模型序号
+    int AI_modelIndex = 0;
 
 private:
     DCLEAR_ALGO_GROUP_REGISTER(FrontPinDetect)

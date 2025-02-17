@@ -1,16 +1,6 @@
 ﻿#include "algo_tool.h"
 namespace connector {
 /**
- * @FilePath     : /code_snippets/cxx/project/huafengai/algo_tool.cpp
- * @Description  :
- * @Author       : naonao
- * @Date         : 2025-01-06 14:10:33
- * @Version      : 0.0.1
- * @LastEditors  : naonao
- * @LastEditTime : 2025-01-06 14:10:35
- * @Copyright (c) 2025 by G, All Rights Reserved.
-**/
-/**
  * @FilePath     : /connector_ai/src/project/algo_tool.cpp
  * @Description  :
  * @Author       : naonao

@@ -31,6 +31,12 @@ FrontPinDetect::FrontPinDetect()
     selectModel["rxzg_131K"]        = productNames::rxzg_131K;
     selectModel["rxzg_103A"]        = productNames::rxzg_130A;
     selectModel["sbzg_1851408151"]  = productNames::sbzg_1851408151;
+    selectModel["lc_189"]			= productNames::lc_189;
+    selectModel["lc_190"]			= productNames::lc_190;
+    selectModel["aizg_pw_6"]        = productNames::aizg_pw_6;
+    selectModel["aizg_p2"]          = productNames::aizg_p2;
+    selectModel["aizg_jian"]        = productNames::aizg_jian;
+    selectModel["aizg_yuan"]        = productNames::aizg_yuan;
 }
 
 FrontPinDetect::~FrontPinDetect()
@@ -64,10 +70,10 @@ AlgoResultPtr FrontPinDetect::RunAlgo(InferTaskPtr task, std::vector<AlgoResultP
     detect_lt_y = roi_lt_y;
 
 	// 测试使用
-	roi_lt_x = 2550;
-	roi_lt_y = 2147;
-	roi_width = 152;
-	roi_height = 131;
+	//roi_lt_x = 760;
+	//roi_lt_y = 2664;
+	//roi_width = 1920;
+	//roi_height = 280;
 
 	cv::Rect roi_bbox(roi_lt_x, roi_lt_y, roi_width, roi_height);
 	img1_gray = img1_gray(roi_bbox);
@@ -138,12 +144,11 @@ AlgoResultPtr FrontPinDetect::RunAlgo(InferTaskPtr task, std::vector<AlgoResultP
 		}
 	}
 
-
 	// 判断是否无产品
     algo_result->result_info = json::array();
     int expect_pin_count =
-        params["x_coords1"].size() * params["y_coords1"].size() +
-        params["x_coords2"].size() * params["y_coords2"].size();
+        params["param"]["x_coords1"].size() * params["param"]["y_coords1"].size() +
+        params["param"]["x_coords2"].size() * params["param"]["y_coords2"].size();
     if (found_cnt < expect_pin_count / 3 * 2) {
         algo_result->judge_result = 0;
         LOGI("Skip no red pin, return result:{}", algo_result->judge_result);
@@ -371,6 +376,31 @@ void FrontPinDetect::FirstPassLocate(const cv::Mat& redImage, const cv::Mat& whi
         isInit              = svm_obj.init("./", "sbzg_1851408151.mdl");
         modelName           = "sbzg_1851408151.mdl";
         break;
+    // ------------lc----------------//
+    case productNames::lc_189:
+        svm_obj._train_size = cv::Size(80, 80);
+        isInit              = svm_obj.init("./", "lc_189.mdl");
+        modelName           = "lc_189.mdl";
+        break;
+    case productNames::lc_190:
+        svm_obj._train_size = cv::Size(80, 80);
+        isInit              = svm_obj.init("./", "lc_190.mdl");
+        modelName           = "lc_190.mdl";
+        break;
+    // ------------aizg----------------//
+    case productNames::aizg_pw_6:
+        AI_modelIndex = 0;
+        break;
+    case productNames::aizg_p2:
+        AI_modelIndex = 1;
+        break;
+    case productNames::aizg_jian:
+        AI_modelIndex = 2;
+        break;
+    case productNames::aizg_yuan:
+        AI_modelIndex = 3;
+        break;
+
     default:
         isInit    = false;
         modelName = "no model";
@@ -557,6 +587,8 @@ void FrontPinDetect::FirstPassLocate(const cv::Mat& redImage, const cv::Mat& whi
                 cv::Mat colorImg;
                 cv::cvtColor(sub_SvmImg, colorImg, cv::COLOR_GRAY2BGR);
                 pinInfo->cropPinImg = colorImg;
+                pinInfo->okName     = floderOKName + cropName;
+                pinInfo->ngName     = floderNGName + cropName;
             }
 			pin_infos.push_back(pinInfo);
             conCount++;
@@ -572,12 +604,12 @@ void FrontPinDetect::FirstPassLocate(const cv::Mat& redImage, const cv::Mat& whi
 
             std::vector<cv::Mat> cropImgList;
             std::vector<int>     indexList;
-            for (int m = start; start < end; start++) {
-                cropImgList.push_back(pin_infos[start]->cropPinImg);
-                indexList.push_back(pin_infos[start]->index);
+            for (int m = start; m < end; m++) {
+                cropImgList.push_back(pin_infos[m]->cropPinImg);
+                indexList.push_back(pin_infos[m]->index);
             }
             // 分类模型检测
-            bool ret = CheckBlobByClassify(cropImgList, indexList, pin_infos, classifyConfThr);
+            bool ret = CheckBlobByClassify(cropImgList, indexList, pin_infos, classifyConfThr, params);
         }
     }
 }
@@ -607,10 +639,10 @@ void FrontPinDetect::FindPinByImage1(cv::Mat& image1, cv::Mat bin_img, const jso
             continue;
 		}
 
-		cv::Mat pin_img = image1(pin_info->bbox);
+		cv::Mat pin_img;
 		cv::Mat pin_img_copy = image1(pin_info->bbox).clone();
 		cv::Mat mask = bin_img(pin_info->bbox);
-		cv::bitwise_and(pin_img, mask, pin_img);
+        cv::bitwise_and(pin_img_copy, mask, pin_img);
 
 		// 以下算法通过迭代的方式搜索最有可能的针尖位置，具体思想是：
 		// 设定不同的二值化阈值，通过针尖亮斑的面积、中心离红斑中心的距离等综合进行判断
@@ -1813,6 +1845,7 @@ json FrontPinDetect::CalcPinResults(std::vector<PinInfoPtr>& pin_infos, const cv
 		// 如果超公差，重新在红图找针尖
 		// 1、用标准框截图 2、判断红图的blob状态 3、计算针尖，满足条件的重新赋值
 		bool enable_FindPinByImage2 = params["enable_FindPinByImage2"];
+        bool enable_FindPinByImage1 = Tival::JsonHelper::GetParam(params, "enable_FindPinByImage1", false);
 		if ((std::abs(x_off) > tolerance || std::abs(y_off) > tolerance) && enable_FindPinByImage2)
 		{
 			int tmp_index = pr["index"];
@@ -1903,41 +1936,57 @@ json FrontPinDetect::CalcPinResults(std::vector<PinInfoPtr>& pin_infos, const cv
 				}
 			}
 			cv::findContours(binary_roi, contorus_roi, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-			cv::Point2f m_center = { -1, -1 };
-			if (contorus_roi.size() > 0 && ref_flag) {
-				m_center = Refind_pin_fromImg2(binary_roi, contorus_roi, params);
+            cv::Point2f m_center = {-1, -1};
+            bool        isRefind = false;
+            if (contorus_roi.size() > 0 && ref_flag) {
+                m_center = Refind_pin_fromImg2(binary_roi, contorus_roi, params);
 
-				json pin_img_pos = { 0, 0 };
-				cv::Point2f measure_pos = { 0, 0 };
-				// 重新赋值
-				if (m_center.x != -1) {
-					m_center.x = m_center.x + int(temp_x - tolerance_px * 2) + roi_lt_x;
-					m_center.y = m_center.y + int(temp_y - tolerance_px * 2) + roi_lt_y;
-					LOGD("execate Refind_pin_fromImg2! Point.x:{}, Point.y:{}", m_center.x, m_center.y);
+                if (m_center.x != -1) {
+                    isRefind   = true;
+                    m_center.x = m_center.x + int(temp_x - tolerance_px * 2) + roi_lt_x;
+                    m_center.y = m_center.y + int(temp_y - tolerance_px * 2) + roi_lt_y;
+                    LOGD("execate Refind_pin_fromImg2! Point.x:{}, Point.y:{}", m_center.x, m_center.y);
+                }
+                // 如果红图没有找到，在白图框内找
+                if (!isRefind && enable_FindPinByImage1) {
+                    cv::Mat whiteImg = img1_gray(white_rect_roi);
+                    m_center         = Refind_pin_fromImg1(whiteImg, params);
+                    if (m_center.x != -1) {
+                        isRefind   = true;
+                        m_center.x = m_center.x + int(temp_x - tolerance_px) + roi_lt_x;
+                        m_center.y = m_center.y + int(temp_y - tolerance_px) + roi_lt_y;
+                        LOGD("execate Refind_pin_fromImg1! Point.x:{}, Point.y:{}", m_center.x, m_center.y);
+                    }
+                }
 
-					//更新像素当量
-					reget_ppum(index, ppum, params, enable_offset, 1, 0);
-					measure_pos.x = Px2Mm(TransPoint(M, m_center), ppum).x;
-					reget_ppum(index, ppum, params, enable_offset, 0, 1);
-					measure_pos.y = Px2Mm(TransPoint(M, m_center), ppum).y ;
+                json        pin_img_pos = {0, 0};
+                cv::Point2f measure_pos = {0, 0};
+                // 重新赋值
+                if (isRefind) {
+
+                    // 更新像素当量
+                    reget_ppum(index, ppum, params, enable_offset, 1, 0);
+                    measure_pos.x = Px2Mm(TransPoint(M, m_center), ppum).x;
+                    reget_ppum(index, ppum, params, enable_offset, 0, 1);
+                    measure_pos.y = Px2Mm(TransPoint(M, m_center), ppum).y;
 
                     img_pt.x = TransPoint(M, m_center).x;
                     img_pt.y = TransPoint(M, m_center).y;
 
-					x = enable_coord_adj ? measure_pos.x - adj_x : org_x;
-					y = enable_coord_adj ? measure_pos.y - adj_y : org_y;
-					pr["measured_x"] = x;
-					pr["measured_y"] = y;
+                    x                = enable_coord_adj ? measure_pos.x - adj_x : org_x;
+                    y                = enable_coord_adj ? measure_pos.y - adj_y : org_y;
+                    pr["measured_x"] = x;
+                    pr["measured_y"] = y;
 
-					x_off = std_x - x;
-					y_off = std_y - y;
+                    x_off = std_x - x;
+                    y_off = std_y - y;
 
-					pin_img_pos[0] = m_center.x;
-					pin_img_pos[1] = m_center.y;
-					pr["pin_coord"] = pin_img_pos;
-				}
-			}
-		}
+                    pin_img_pos[0]  = m_center.x;
+                    pin_img_pos[1]  = m_center.y;
+                    pr["pin_coord"] = pin_img_pos;
+                }
+            }
+        }
 
 		// 偏差值过大，可能根本就没找到，偏差值设置为99表示NG
 		if (std::abs(x_off) > tolerance * 3 || std::abs(y_off) > tolerance * 3) {
@@ -2035,112 +2084,122 @@ bool compareContourAreas(std::vector<cv::Point> contour1, std::vector<cv::Point>
 
 cv::Point2f FrontPinDetect::Refind_pin_fromImg2(cv::Mat& binary_roi, std::vector<std::vector<cv::Point>>& contorus, const json& params)
 {
-	cv::Point2f m_center = { -1, -1 };
-	std::vector<std::vector<cv::Point>> contorus_roi; // 保留真正的轮廓
-	for (auto cont : contorus) {
-		cv::Rect boundingRect = cv::boundingRect(cont);
-		// float w = boundingRect.width;
-		// float h = boundingRect.height;
-		// float area = cv::contourArea(cont);
+    cv::Point2f                         m_center = {-1, -1};
+    std::vector<std::vector<cv::Point>> contorus_roi;   // 保留真正的轮廓
+    for (auto cont : contorus) {
+        cv::Rect boundingRect = cv::boundingRect(cont);
+        // float w = boundingRect.width;
+        // float h = boundingRect.height;
+        // float area = cv::contourArea(cont);
 
-		if (cv::contourArea(cont) > 5) {
-			contorus_roi.push_back(cont);
-		}
-	}
-	if (contorus_roi.size() < 1) {
-		return m_center;
-	}
+        if (cv::contourArea(cont) > 5) {
+            contorus_roi.push_back(cont);
+        }
+    }
+    if (contorus_roi.size() < 1) {
+        return m_center;
+    }
 
-	std::vector<cv::Point2f> con_center;
-	std::vector<double> con_area;
-	std::vector<double> con_width;
-	std::vector<double> con_height;
+    std::vector<cv::Point2f> con_center;
+    std::vector<double>      con_area;
+    std::vector<double>      con_width;
+    std::vector<double>      con_height;
 
-	if (contorus_roi.size() > 2) {
-		std::sort(contorus_roi.begin(), contorus_roi.end(), compareContourAreas);
-		std::vector<std::vector<cv::Point>>::iterator start = contorus_roi.begin() + 2; // 第3个元素的迭代器
-		std::vector<std::vector<cv::Point>>::iterator end = contorus_roi.end();         // 结束位置为向量的末尾
-		contorus_roi.erase(start, end);
-	}
+    if (contorus_roi.size() > 2) {
+        std::sort(contorus_roi.begin(), contorus_roi.end(), compareContourAreas);
+        std::vector<std::vector<cv::Point>>::iterator start = contorus_roi.begin() + 2;   // 第3个元素的迭代器
+        std::vector<std::vector<cv::Point>>::iterator end   = contorus_roi.end();         // 结束位置为向量的末尾
+        contorus_roi.erase(start, end);
+    }
 
-	if (contorus_roi.size() == 2) {
-		for (auto cont : contorus_roi)
-		{
-			cv::Moments moment = cv::moments(cont, false);
-			cv::Point2f center(moment.m10 / moment.m00, moment.m01 / moment.m00);
-			con_center.push_back(center);
+    if (contorus_roi.size() == 2) {
+        for (auto cont : contorus_roi) {
+            cv::Moments moment = cv::moments(cont, false);
+            cv::Point2f center(moment.m10 / moment.m00, moment.m01 / moment.m00);
+            con_center.push_back(center);
 
-			con_area.push_back(cv::contourArea(cont));
-			con_width.push_back(cv::boundingRect(cont).width);
-			con_height.push_back(cv::boundingRect(cont).height);
-		}
-		// 需要将条件卡严
-		double max_area = std::max(con_area[0], con_area[1]);
-		double max_width = std::max(con_width[0], con_width[1]);
-		double max_height = std::max(con_height[0], con_height[1]);
-		double min_area = std::min(con_area[0], con_area[1]);
-		double min_width = std::min(con_width[0], con_width[1]);
-		double min_height = std::min(con_height[0], con_height[1]);
+            con_area.push_back(cv::contourArea(cont));
+            con_width.push_back(cv::boundingRect(cont).width);
+            con_height.push_back(cv::boundingRect(cont).height);
+        }
+        // 需要将条件卡严
+        double max_area   = std::max(con_area[0], con_area[1]);
+        double max_width  = std::max(con_width[0], con_width[1]);
+        double max_height = std::max(con_height[0], con_height[1]);
+        double min_area   = std::min(con_area[0], con_area[1]);
+        double min_width  = std::min(con_width[0], con_width[1]);
+        double min_height = std::min(con_height[0], con_height[1]);
 
-		double dx = std::abs(con_center[0].x - con_center[1].x);
-		double dy = std::abs(con_center[0].y - con_center[1].y);
+        double dx = std::abs(con_center[0].x - con_center[1].x);
+        double dy = std::abs(con_center[0].y - con_center[1].y);
 
-		double blob_area_min = params["r_blob_area_min"];
-		double blob_area_max = params["r_blob_area_max"];
-		double blob_width_min = params["r_blob_width_min"];
-		double blob_width_max = params["r_blob_width_max"];
-		double blob_height_min = params["r_blob_height_min"];
-		double blob_height_max = params["r_blob_height_max"];
+        double blob_area_min   = params["r_blob_area_min"];
+        double blob_area_max   = params["r_blob_area_max"];
+        double blob_width_min  = params["r_blob_width_min"];
+        double blob_width_max  = params["r_blob_width_max"];
+        double blob_height_min = params["r_blob_height_min"];
+        double blob_height_max = params["r_blob_height_max"];
 
-		// 上下结构
-		if (dy >= 10) {
-			if (max_area < min_area * 5 && max_area < blob_area_max / 2.0 && max_width < min_width * 2.0 && max_width < blob_width_max) {
-				m_center = cv::Point2f((con_center[0].x + con_center[1].x) / 2, (con_center[0].y + con_center[1].y) / 2);
-			}
-		}
-		// 左右结构
-		else {
-			if (max_area < min_area * 5 && max_area < blob_area_max / 2.0 && max_height < min_height * 2.0 && max_height < blob_height_max) {
-				m_center = cv::Point2f((con_center[0].x + con_center[1].x) / 2, (con_center[0].y + con_center[1].y) / 2);
-			}
-		}
-	}
-	return m_center;
+        // 上下结构
+        if (dy >= 10) {
+            if (max_area < min_area * 5 && max_area < blob_area_max / 2.0 && max_width < min_width * 2.0 && max_width < blob_width_max) {
+                m_center = cv::Point2f((con_center[0].x + con_center[1].x) / 2, (con_center[0].y + con_center[1].y) / 2);
+            }
+        }
+        // 左右结构
+        else {
+            if (max_area < min_area * 5 && max_area < blob_area_max / 2.0 && max_height < min_height * 2.0 && max_height < blob_height_max) {
+                m_center = cv::Point2f((con_center[0].x + con_center[1].x) / 2, (con_center[0].y + con_center[1].y) / 2);
+            }
+        }
+    }
+    return m_center;
 }
 
 cv::Point2f FrontPinDetect::Refind_pin_fromImg1(cv::Mat& white_roi, const json& params)
 {
-	cv::Point2f center = { -1, -1 };
-	int white_thr = params["w_pin_gv_min"];
-	int area_thr = params["w_area_target"];
-	if (white_thr < 150) {
-		white_thr = 150;
-		cv::Mat binary;
-		cv::threshold(white_roi, binary, white_thr, 255, cv::THRESH_BINARY);
-		// 连通域分析
-		cv::Mat labels;
-		int num_labels = cv::connectedComponents(binary, labels, 8, CV_32S);
+    cv::Point2f center    = {-1, -1};
+    int         white_thr = params["w_pin_gv_min"];
+    int         area_thr  = params["w_area_target"];
+    double      tolerance = params["tolerance"];
+    double      pixel     = params["ppum"];
+    double      distThr   = tolerance / pixel * 1000.0 * 0.7;
+    cv::Mat binary;
+    cv::threshold(white_roi, binary, 230, 255, cv::THRESH_BINARY);
+    // 连通域分析
+    cv::Mat labels;
+    int     num_labels = cv::connectedComponents(binary, labels, 8, CV_32S);
 
-		float max_area = -1;
-		for (int label = 1; label < num_labels; ++label) {
-			// 遍历每个连通域
-			cv::Mat label_mask = (labels == label);
-			std::vector<cv::Point> component_points;
-			cv::findNonZero(label_mask, component_points);
-			float blob_area = component_points.size();
-			// 计算包围框面积
-			cv::Rect sub_bbox = cv::boundingRect(component_points);
-
-			if (blob_area > area_thr / 2.0 && blob_area > max_area) {
-				std::vector<std::vector<cv::Point>>white_cons;
-				cv::findContours(label_mask, white_cons, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
-				cv::Moments M = cv::moments(white_cons[0], false);
-				center = cv::Point2f(M.m10 / M.m00, M.m01 / M.m00);
-				max_area = blob_area;
-			}
+    float max_area = -1;
+    for (int label = 1; label < num_labels; ++label) {
+        // 遍历每个连通域
+        cv::Mat                label_mask = (labels == label);		
+        std::vector<std::vector<cv::Point>> white_cons;
+        cv::findContours(label_mask, white_cons, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE);
+        cv::Moments M = cv::moments(white_cons[0], false);
+        if (M.m00 <= 0) {
+            continue;
+        }
+        cv::Point2f maskCentP = cv::Point2f(M.m10 / M.m00, M.m01 / M.m00);
+        // 计算与中心的距离
+        cv::Point2f imgCentP = {-1, -1};
+        imgCentP.x           = white_roi.cols / 2.0;
+        imgCentP.y           = white_roi.rows / 2.0;
+        double distance      = cv::norm(imgCentP - maskCentP);
+        if (distance > distThr) {
+            continue;
 		}
-	}
-	return center;
+        // 计算包围框面积
+        std::vector<cv::Point> component_points;
+        cv::findNonZero(label_mask, component_points);
+        float blob_area = component_points.size();
+        if (blob_area > area_thr / 2.0 && blob_area > max_area) {            
+            max_area      = blob_area;
+            center   = maskCentP;
+        }
+    }
+    
+    return center;
 }
 
 
@@ -2572,15 +2631,16 @@ cv::Mat FrontPinDetect::AlignTransform(cv::Mat& image1, cv::Mat& pin_img, std::v
     return transformImg;
 }
 
-bool FrontPinDetect::CheckBlobByClassify(std::vector<cv::Mat>& imgList, std::vector<int>& indexList, std::vector<PinInfoPtr>& pin_infos, double confThr)
+bool FrontPinDetect::CheckBlobByClassify(std::vector<cv::Mat>& imgList, std::vector<int>& indexList, std::vector<PinInfoPtr>& pin_infos, double confThr, const json& params)
 {
     if (imgList.size()<0) {
         return false;
 	}
+    bool enable_save_cropImage = Tival::JsonHelper::GetParam(params, "enable_save_cropImage", false);
 
     TaskInfoPtr _cls_task       = std::make_shared<stTaskInfo>();
     _cls_task->imageData        = {imgList};
-    _cls_task->modelId          = 0;
+    _cls_task->modelId          = AI_modelIndex;
     _cls_task->taskId           = 0;
     ModelResultPtr clsResultPtr = GetAIRuntime()->RunInferTask(_cls_task);
 
@@ -2604,9 +2664,15 @@ bool FrontPinDetect::CheckBlobByClassify(std::vector<cv::Mat>& imgList, std::vec
             int x   = pin_infos[indexList[m]]->bbox.x;
             int y   = pin_infos[indexList[m]]->bbox.y;
             LOGI("Classify predict NG: box lt point is:{}, {}, confidence:{}", x + detect_lt_x, y + detect_lt_y, conf);
+            if (enable_save_cropImage){
+                cv::imwrite(pin_infos[indexList[m]]->ngName, imgList[m]);
+			}
         }
         else {
             isOK[m] = true;
+            if (enable_save_cropImage) {
+                cv::imwrite(pin_infos[indexList[m]]->okName, imgList[m]);
+            }
         }
     }
 

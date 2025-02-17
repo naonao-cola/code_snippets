@@ -4,6 +4,14 @@ from pathlib import Path
 import glob
 import yaml
 from tqdm import tqdm
+import cv2
+import os
+
+# 金针需要裁图
+left_x = 1272
+left_y = 416
+temp_width = 2256
+temp_height = 2072
 
 
 class data_parse:
@@ -42,8 +50,11 @@ class data_parse:
 
             with open(path_json, 'r', encoding='utf-8') as path_json:
                 jsonx = json.load(path_json)
-            img_w = jsonx["info"]["width"]
-            img_h = jsonx["info"]["height"]
+            # img_w = jsonx["info"]["width"]
+            # img_h = jsonx["info"]["height"]
+            img_w = temp_width
+            img_h = temp_height
+
             objects = jsonx['objects']
             with open(path_txt, 'w+') as ftxt:
                 for object in objects:
@@ -52,8 +63,8 @@ class data_parse:
                     points = object["segmentation"]
                     points_nor_list = []
                     for pt in points:
-                        points_nor_list.append(pt[0]/img_w)
-                        points_nor_list.append(pt[1]/img_h)
+                        points_nor_list.append((pt[0] - left_x)/img_w)
+                        points_nor_list.append((pt[1] - left_y)/img_h)
                     points_nor_list = list(
                         map(lambda x: str(x), points_nor_list))
                     points_nor_list = " ".join(points_nor_list)
@@ -105,32 +116,34 @@ class data_parse:
             with open(output_annotation_path, 'w') as f:
                 json.dump(transformed_annotation, f)
 
+    def crop_img(self, img_path, save_path):
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        image_files = [f for f in os.listdir(img_path) if f.endswith(('.jpg', '.jpeg', '.png', '.bmp','.PNG'))]
+        for image_file in image_files:
+            input_path = os.path.join(img_path, image_file)
+            img = cv2.imread(input_path)
+            if img is None:
+                print(f"Error: Unable to read {input_path}")
+                continue
+            x1, y1, x2, y2 = left_x, left_y, left_x + temp_width, left_y + temp_height
+            cropped_img = img[y1:y2, x1:x2]
+            output_path = os.path.join(save_path, image_file)
+            # 保存裁剪后的图片
+            cv2.imwrite(output_path, cropped_img)
+            print(f"Processed {input_path} and saved to {output_path}")
+
 
 if __name__ == "__main__":
-    # 创建工具
-    # yaml_txt = r"/home/tvt/luobing/hf_dataset/segment/1113/0121/seg/isat.yaml"
-    # m_tool = data_parse(yaml_txt)
 
-    # -----json2txt---------#
-    # json_path = r"/home/tvt/luobing/hf_dataset/segment/1113/0121/seg/"
-    # save_path = r"/home/tvt/luobing/hf_dataset/segment/1113/0121/label/"
-    # if not os.path.exists(save_path):
-    #     os.makedirs(save_path)
-    # m_tool.seg_json2txt(json_path, save_path)
-
-    # ----txt2json---------#
-    # txt_path = r""
-    # save_path = r""
-    # img_width=5472
-    # img_height=3648
-    # m_tool.seg_txt2json(txt_path, save_path, img_width, img_height)
 
     # 金针
     yaml_txt = r"/home/tvt/luobing/hf_dataset/jinzhen_seg/origin_img/isat.yaml"
     m_tool = data_parse(yaml_txt)
+    #m_tool.crop_img("/home/tvt/luobing/hf_dataset/jinzhen_seg/origin_img/", "/home/tvt/luobing/hf_dataset/jinzhen_seg/0216/seg/")
 
-    json_path = r"/home/tvt/luobing/hf_dataset/jinzhen_seg/0216/seg/"
+    json_path = r"/home/tvt/luobing/hf_dataset/jinzhen_seg/origin_img/"
     save_path = r"/home/tvt/luobing/hf_dataset/jinzhen_seg/0216/label/"
     if not os.path.exists(save_path):
-        os.makedirs(save_path)
+         os.makedirs(save_path)
     m_tool.seg_json2txt(json_path, save_path)
