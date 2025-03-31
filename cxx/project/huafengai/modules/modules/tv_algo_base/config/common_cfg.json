@@ -1,0 +1,7 @@
+{
+    "log_level": 0,
+    "debug_mode": 1,
+    "task_thread_pool_size": 4,
+    "algo_thread_pool_size": 8,
+    "mem_cache_size": 32
+}

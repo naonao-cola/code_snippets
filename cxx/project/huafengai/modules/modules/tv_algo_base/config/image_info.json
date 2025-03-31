@@ -1,0 +1,11 @@
+[
+    {
+        "type_id":"001",
+        "img_name": "name_xx",
+        "img_path": "",
+        "img_dir":"./test",
+        "img_w": 3072,
+        "img_h": 2048,
+        "img_c": 1
+    }
+]

@@ -1,0 +1,33 @@
+{
+    "log_level": 0,
+    "debug_mode": 1,
+    "task_thread_pool_size": 4,
+    "algo_thread_pool_size": 8,
+    "mem_cache_size": 32,
+
+    "preProcessThreadCnt":4,
+    "inferThreadCnt": 4,
+    "ai_models": [
+        {
+            "model_id": 0,
+            "model_version": 1,
+            "algo_type": 4,
+            "model_name": "ocr_det",
+            "model_path": "D:/env/algo_models/det_s_960x960.onnx",
+            "model_backend": "onnxruntime",
+            "conf_threshold" : 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 1,
+            "model_version": 1,
+            "algo_type": 3,
+            "model_name": "ocr_det",
+            "model_path": "D:/env/algo_models/rec_new.onnx",
+            "label_path": "D:/env/algo_models/ppocr_keys_v1.txt",
+            "model_backend": "onnxruntime",
+            "conf_threshold" : 0.5,
+            "batch_size": 1
+        }
+    ]
+}

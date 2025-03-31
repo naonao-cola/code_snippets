@@ -1,0 +1,38 @@
+[
+    {
+        "type_id": "001",
+        "type_name": "Example",
+        "ai_models": [
+            {
+                "model_id": 0,
+                "model_path": "./Model/best.trtmodel",
+                "confidence" : 0.5,
+                "nms": 0.5,
+                "maxObject":100
+
+            }
+        ],
+        "pre_algo_params": [],
+
+        "algo_params": [
+            {
+                "algo_name": "AlgoA",
+                "algo_index": 1,
+                "param": {
+                    "threshold": 120,
+                    "offset_x": 50,
+                    "offset_y": 50
+                }
+            },
+            {
+                "algo_name": "AlgoB",
+                "algo_index": 1,
+                "param": {
+                    "threshold": 120,
+                    "offset_x": 50,
+                    "offset_y": 50
+                }
+            }
+        ]
+    }
+]

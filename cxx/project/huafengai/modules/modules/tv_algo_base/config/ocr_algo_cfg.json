@@ -1,0 +1,16 @@
+﻿[
+    {
+        "type_id": "001",
+        "type_name": "Example",
+        "pre_algo_params": [],
+
+        "algo_params": [
+            {
+                "algo_name": "OcrDemo",
+                "algo_index": 1,
+                "param": {
+                }
+            }
+        ]
+    }
+]
