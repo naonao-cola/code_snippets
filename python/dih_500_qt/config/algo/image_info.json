@@ -1,0 +1,13 @@
+
+{
+	"type_id": "003",
+	"img_name": "name_xx",
+	"img_path": "c://1.jpg",
+	"json_dir": "c://1//",
+	"img_w": 1920,
+	"img_h": 1200,
+	"img_c": 3,
+	"current_idx": 0,
+	"detect_flag": 1,
+	"debug": false
+}

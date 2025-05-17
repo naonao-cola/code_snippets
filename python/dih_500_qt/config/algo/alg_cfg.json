@@ -1,0 +1,85 @@
+[
+    {
+        "type_id": "001",
+        "type_name": "Example",
+        "pre_algo_params": [],
+        "algo_params": [
+            {
+                "algo_name": "Clarity",
+                "algo_index": 1,
+                "param": {
+                    "detect_flag": 1,
+                    "model_idx_1": 1,
+                    "model_idx_2": 6,
+                    "far_near_near": 0.6,
+                    "far_near_far": 0.6,
+                    "far_near_clear": 0.4,
+                    "far_near_rbc": 0.6,
+                    "far_near_coarse_focus": 0.6,
+                    "far_near_change_view": 0.6,
+                    "coarse_category_num": 6,
+                    "coarse_clear": 0.65
+                }
+            }
+        ]
+    },
+    {
+        "type_id": "002",
+        "type_name": "Example",
+        "pre_algo_params": [],
+        "algo_params": [
+            {
+                "algo_name": "BasoAlg",
+                "algo_index": 1,
+                "param": {
+                    "detect_model_idx1": 0,
+                    "img_count": 2,
+                    "dilution_ratio": 10,
+                    "pix_value": 0.089,
+                    "flow_high": 500
+                }
+            }
+        ]
+    },
+    {
+        "type_id": "003",
+        "type_name": "Example",
+        "pre_algo_params": [],
+        "algo_params": [
+            {
+                "algo_name": "RbcAlg",
+                "algo_index": 1,
+                "param": {
+                    "detect_model_idx1": 3,
+                    "detect_model_idx2": 2,
+                    "detect_model_idx3": 8,
+                    "seg_model_idx": 7,
+                    "img_count": 5,
+                    "dilution_ratio": 50,
+                    "pix_value": 0.089,
+                    "coarse_category_num": 6,
+                    "flow_high": 100
+                }
+            }
+        ]
+    },
+    {
+        "type_id": "004",
+        "type_name": "Example",
+        "pre_algo_params": [],
+        "algo_params": [
+            {
+                "algo_name": "WbcAlg",
+                "algo_index": 1,
+                "param": {
+                    "detect_model_idx1": 4,
+                    "detect_model_idx2": 5,
+                    "img_count": 2,
+                    "dilution_ratio": 50,
+                    "pix_value": 0.089,
+                    "flow_high": 150
+                }
+            }
+        ]
+    }
+]

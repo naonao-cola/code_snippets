@@ -1,0 +1,362 @@
+{
+    "get_ret_flag": 1,
+    "mcv_network": {
+        "w1": [
+            0.2431
+        ],
+        "w1_shape": [
+            1,
+            1
+        ],
+        "b1": [
+            -0.1494
+        ],
+        "b1_shape": [
+            1,
+            1
+        ],
+        "w2": [],
+        "w2_shape": [
+            1,
+            1
+        ],
+        "b2": [],
+        "b2_shape": [
+            1,
+            1
+        ],
+        "w3": [],
+        "w3_shape": [
+            1,
+            1
+        ],
+        "in_c": 10.0,
+        "out_c": 100.0
+    },
+    "mpv_network": {
+        "w1": [
+            1.538
+        ],
+        "w1_shape": [
+            1,
+            1
+        ],
+        "b1": [
+            -0.4683
+        ],
+        "b1_shape": [
+            1,
+            1
+        ],
+        "w2": [],
+        "w2_shape": [
+            1,
+            1
+        ],
+        "b2": [],
+        "b2_shape": [
+            1,
+            1
+        ],
+        "w3": [],
+        "w3_shape": [
+            1,
+            1
+        ],
+        "in_c": 10.0,
+        "out_c": 10.0
+    },
+    "rdw_cv_network": {
+        "w1": [
+            2.226,
+            -1.6016,
+            -1.1895,
+            0.8488
+        ],
+        "w1_shape": [
+            1,
+            4
+        ],
+        "b1": [
+            -1.919,
+            0.9665,
+            0.9368,
+            -0.3713
+        ],
+        "b1_shape": [
+            1,
+            4
+        ],
+        "w2": [
+            1.69,
+            1.3286,
+            1.0906,
+            -0.1717,
+            -1.5055,
+            -1.0963,
+            -0.7696,
+            -0.1374,
+            -0.7892,
+            -0.9399,
+            -0.6264,
+            -0.2982,
+            0.5923,
+            0.5045,
+            -0.2049,
+            0.1773
+        ],
+        "w2_shape": [
+            4,
+            4
+        ],
+        "b2": [
+            -0.8738,
+            -0.7787,
+            -0.7458,
+            -0.394
+        ],
+        "b2_shape": [
+            1,
+            4
+        ],
+        "w3": [
+            1.7032,
+            1.4277,
+            0.8108,
+            -0.1388
+        ],
+        "w3_shape": [
+            4,
+            1
+        ],
+        "in_c": 10.0,
+        "out_c": 10.0
+    },
+    "rdw_sd_network": {
+        "w1": [
+            -2.0594,
+            -1.5945,
+            0.407,
+            1.7059
+        ],
+        "w1_shape": [
+            1,
+            4
+        ],
+        "b1": [
+            0.8064,
+            0.41,
+            -0.2212,
+            -0.5196
+        ],
+        "b1_shape": [
+            1,
+            4
+        ],
+        "w2": [
+            0.8051,
+            -1.6153,
+            -0.5331,
+            -0.2009,
+            0.4839,
+            -1.226,
+            -0.6671,
+            -0.4815,
+            -0.5371,
+            0.1961,
+            0.1293,
+            -0.228,
+            -0.8522,
+            1.3346,
+            -0.0019,
+            0.1896
+        ],
+        "w2_shape": [
+            4,
+            4
+        ],
+        "b2": [
+            0.3575,
+            0.1393,
+            -0.1179,
+            -0.2977
+        ],
+        "b2_shape": [
+            1,
+            4
+        ],
+        "w3": [
+            -1.4214,
+            2.342,
+            0.6117,
+            0.2609
+        ],
+        "w3_shape": [
+            4,
+            1
+        ],
+        "in_c": 100.0,
+        "out_c": 100.0
+    },
+    "cell_count_network": {
+        "w1": [
+            0.9074
+        ],
+        "w1_shape": [
+            1,
+            1
+        ],
+        "b1": [
+            -0.1477
+        ],
+        "b1_shape": [
+            1,
+            1
+        ],
+        "w2": [],
+        "w2_shape": [
+            1,
+            1
+        ],
+        "b2": [],
+        "b2_shape": [
+            1,
+            1
+        ],
+        "w3": [],
+        "w3_shape": [
+            1,
+            1
+        ],
+        "in_c": 1.0,
+        "out_c": 1.0
+    },
+    "judgements": [
+        {
+            "name": "001",
+            "use": true,
+            "judgeparams": [
+                {
+                    "name": "wbc_num",
+                    "enable": "True",
+                    "symbol": ">=",
+                    "value": "2.5"
+                },
+                {
+                    "name": "wbc_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "18"
+                },
+                {
+                    "name": "neu_num",
+                    "enable": "True",
+                    "symbol": ">=",
+                    "value": "1.0"
+                },
+                {
+                    "name": "neu_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "18"
+                },
+                {
+                    "name": "lym_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "4.0"
+                },
+                {
+                    "name": "mon_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "1.5"
+                },
+                {
+                    "name": "eos_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "1.5"
+                },
+                {
+                    "name": "baso_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "0.3"
+                },
+                {
+                    "name": "ig_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "2.0"
+                },
+                {
+                    "name": "rbc_rdw_sd",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "64.0"
+                },
+                {
+                    "name": "rbc_rdw_cv",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "22.0"
+                },
+                {
+                    "name": "rbc_mcv",
+                    "enable": "True",
+                    "symbol": ">=",
+                    "value": "70.0"
+                },
+                {
+                    "name": "rbc_mcv",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "110.0"
+                },
+                {
+                    "name": "rbc_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "6.5"
+                },
+                {
+                    "name": "rbc_hgb",
+                    "enable": "True",
+                    "symbol": ">=",
+                    "value": "90.0"
+                },
+                {
+                    "name": "rbc_mchc",
+                    "enable": "True",
+                    "symbol": ">=",
+                    "value": "29.0"
+                },
+                {
+                    "name": "plt_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "600.0"
+                },
+                {
+                    "name": "plt_num",
+                    "enable": "True",
+                    "symbol": ">=",
+                    "value": "60.0"
+                },
+                {
+                    "name": "ret_num",
+                    "enable": "True",
+                    "symbol": "<=",
+                    "value": "500"
+                },
+                {
+                    "name": "ret_num",
+                    "enable": "True",
+                    "symbol": ">=",
+                    "value": "0.5"
+                }
+            ]
+        }
+    ]
+}

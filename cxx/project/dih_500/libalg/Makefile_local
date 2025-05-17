@@ -1,0 +1,104 @@
+# Makefile for DIH
+SUBDIRS=$(shell ls -l | grep ^d | awk '{if(($$9 != "include")&&($$9 != "build")&&($$9 != "app"))print $$9}')
+ROOT_DIR=$(shell pwd)
+
+.PHONY : dir all clean
+
+# 名称设置
+NAME := libalgcell.so
+
+# 路径设置
+COMPILE_PATH := /c++/gcc/aarch64-linux-android-gcc4.9.x/aarch64-linux-android/bin/aarch64-linux-android-
+PROJECT_PATH := /home/y/c++/alg_git/dih2
+THIRD_PARTY_PATH := /home/y/c++/rknpu2/examples/third-party
+#PROTOBUF_PATH := /home/forlinx/work/lib/protobuf-3.21.11
+
+APP_PATH := $(PROJECT_PATH)/app
+LIB_PATH := $(APP_PATH)/lib
+RES_PATH := $(APP_PATH)/res
+CUR_PATH := $(ROOT_DIR)/
+OBJ_PATH := $(CUR_PATH)build/obj
+OPT_PATH := $(CUR_PATH)build/lib
+
+#dir:ECHO
+#ECHO:
+#	@echo -e $(OBJ_PATH)
+#	@echo -e $(LIB_PATH)
+#	@echo -e $(RES_PATH)
+
+# 创建路径
+dir:$(OBJ_PATH)
+$(OBJ_PATH):
+	mkdir -p build/obj
+	@echo -e $(OBJ_PATH)
+dir:$(OPT_PATH)
+$(OPT_PATH):
+	mkdir -p build/lib
+	@echo -e $(OPT_PATH)
+#all:$(RES_PATH)
+#$(RES_PATH):
+#	mkdir -p $(RES_PATH)
+#	@echo -e $(RES_PATH)
+# 工具设置
+CXX := $(COMPILE_PATH)g++
+LD := $(COMPILE_PATH)g++
+
+SRCS := $(wildcard *.cpp)
+OBJS := $(patsubst %cpp, %o, $(SRCS))
+
+# 引用设置
+CPPFLAGS := -I$(CUR_PATH)
+CPPFLAGS += -I$(PROJECT_PATH)/alg/DIH-ALG/libalg
+CPPFLAGS += -I$(PROJECT_PATH)/alg/DIH-ALG/libalg/include
+CPPFLAGS += -I$(PROJECT_PATH)/alg/DIH-ALG/libalg/make_result
+CPPFLAGS += -I$(PROJECT_PATH)/alg/DIH-ALG/libalg/model_config
+CPPFLAGS += -I$(PROJECT_PATH)/alg/DIH-ALG/libalg/tinyxml2
+CPPFLAGS += -I$(PROJECT_PATH)/mcu/libmcuboard
+CPPFLAGS += -I$(THIRD_PARTY_PATH)
+CPPFLAGS += -I$(PROJECT_PATH)/dynoLog
+
+# 编译选项
+# CPPFLAGS += -fPIE # 编译位置无关的可执行文件
+CPPFLAGS += -fPIC # 编译位置无关代码
+CPPFLAGS += -g # 调试信息
+CPPFLAGS += -std=c++14 # C++标准
+CPPFLAGS += -DANDROID_STL=c++_static # Android STL 设置
+CPPFLAGS += -D__ANDROID_API__=24 # Android API 版本
+
+
+#ALL_OBJ_POS = $(addprefix $(OBJ_PATH),$(OBJS))
+
+# 链接库设置
+LDFLAGS := -lopencv_imgcodecs -lopencv_imgproc -lopencv_core -lrga -lrknnrt -limmune -llua -lDIHLog -llog4cplus
+LDFLAGS += -L$(LIB_PATH)
+
+# 链接选项
+# LDFLAGS += -pie # 链接位置无关的可执行文件
+LDFLAGS += -pthread # 多线程支持
+LDFLAGS += -shared # 生成动态库
+LDFLAGS += -Wl,--allow-shlib-undefined # 允许动态库未定义 
+
+export  CXX CPPFLAGS OBJ_PATH  BIN_DIR ROOT_DIR OPT_PATH
+
+export LD NAME LIB_PATH
+export LDFLAGS
+
+all:$(OBJS) $(SUBDIRS)
+	$(LD) -o $(OPT_PATH)/$(NAME) $(OBJ_PATH)/*.o $(LDFLAGS)
+	@echo  "install  $(LIB_PATH)"
+	@cp -f  $(OPT_PATH)/$(NAME) $(LIB_PATH)
+$(SUBDIRS):ECHO
+	make -C $@ -j8
+#DEBUG:ECHO
+#	make -C build
+ECHO:
+	@echo $(SUBDIRS)
+
+$(OBJS):%.o:%.cpp
+	@#echo $(OBJS_DIR)
+	$(CXX) $(CPPFLAGS) -c $^ -o $(OBJ_PATH)/$@
+
+clean :
+	$(RM) $(OBJ_PATH)/*.o
+	$(RM) $(OPT_PATH)/$(NAME)
+	$(RM) $(LIB_PATH)/$(NAME)

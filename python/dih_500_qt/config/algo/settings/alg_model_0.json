@@ -1,0 +1,101 @@
+{
+    "log_level": 0,
+    "debug_mode": 0,
+    "task_thread_pool_size": 1,
+    "algo_thread_pool_size": 1,
+    "mem_cache_size": 32,
+    "preProcessThreadCnt": 4,
+    "inferThreadCnt": 4,
+    "ai_models": [
+        {
+            "model_id": 0,
+            "model_version": 1,
+            "algo_type": 1,
+            "model_name": "detection",
+            "model_path": "E:/demo/cxx/al_base/models/wang/baso_1x3x640x640.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 1,
+            "model_version": 0,
+            "algo_type": 0,
+            "model_name": "classify",
+            "model_path": "E:/demo/cxx/al_base/models/wang/baso-focus_1x3x640x640_softmax.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 2,
+            "model_version": 1,
+            "algo_type": 1,
+            "model_name": "detection",
+            "model_path": "E:/demo/cxx/al_base/models/wang/plt-ret_1x3x800x800.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 3,
+            "model_version": 1,
+            "algo_type": 1,
+            "model_name": "detection",
+            "model_path": "E:/demo/cxx/al_base/models/wang/rbc_1x3x1920x1920.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 4,
+            "model_version": 1,
+            "algo_type": 1,
+            "model_name": "detection",
+            "model_path": "E:/demo/cxx/al_base/models/wang/wbc_1x3x640x640.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 5,
+            "model_version": 1,
+            "algo_type": 1,
+            "model_name": "detection",
+            "model_path": "E:/demo/cxx/al_base/models/wang/wbc4_1x3x1920x1920.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 6,
+            "model_version": 1,
+            "algo_type": 0,
+            "model_name": "classify",
+            "model_path": "E:/demo/cxx/al_base/models/wang/wbc-rbc-focus_1x3x320x320_softmax.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 7,
+            "model_version": 1,
+            "algo_type": 2,
+            "model_name": "classify",
+            "model_path": "E:/demo/cxx/al_base/models/wang/cell.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        },
+        {
+            "model_id": 8,
+            "model_version": 1,
+            "algo_type": 1,
+            "model_name": "detection",
+            "model_path": "E:/demo/cxx/al_base/models/wang/plt_volume.engine",
+            "model_backend": "tensorrt",
+            "conf_threshold": 0.5,
+            "batch_size": 1
+        }
+    ]
+}
