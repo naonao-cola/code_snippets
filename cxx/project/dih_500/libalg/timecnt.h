@@ -1,12 +1,3 @@
-#ifndef _TIME_CNT_H_
-#define _TIME_CNT_H_
-
-#include <stdio.h>
-#include <time.h>
-
-void TimeCnt_Init(const char *name, uint8_t open_print);
-void TimeCnt_Start(const char *name);
-void TimeCnt_End(const char *name);
-void TimeCnt_PrintResult(void);
-
-#endif /* _TIME_CNT_H_ */
+version https://git-lfs.github.com/spec/v1
+oid sha256:6ea61df8b5da5653e4ef9e70e6e762062fc5b0c2459b2b071d8a93c0348d43eb
+size 270
