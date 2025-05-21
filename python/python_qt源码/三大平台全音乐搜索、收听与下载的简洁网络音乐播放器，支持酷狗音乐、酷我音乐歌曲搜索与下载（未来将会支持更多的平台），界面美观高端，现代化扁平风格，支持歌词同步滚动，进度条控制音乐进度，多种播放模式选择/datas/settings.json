@@ -1,0 +1,12 @@
+{
+    "general": {
+        "default_engine": "kuwo",
+        "close_trayicon": true
+    },
+    "lrcs": {
+        "distance": 1
+    },
+    "download": {
+        "path": ""
+    }
+}

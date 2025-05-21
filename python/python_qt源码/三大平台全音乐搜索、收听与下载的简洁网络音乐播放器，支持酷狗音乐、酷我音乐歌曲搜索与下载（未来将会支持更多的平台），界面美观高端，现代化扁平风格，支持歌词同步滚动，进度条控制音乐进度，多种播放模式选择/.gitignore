@@ -1,0 +1,7 @@
+# python
+__pycache__
+out
+
+# pyqt5
+QtApp
+ui2py.bat

@@ -1,0 +1,13 @@
+pyqt5-tools
+PyQt5
+PyQt5-sip
+requests
+QDarkStyle
+pystardict
+opencv-python
+numpy
+system_hotkey
+xcffib
+xpybutil
+pyzmq
+googletrans>=4.0.0rc1
