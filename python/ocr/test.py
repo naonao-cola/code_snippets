@@ -318,6 +318,13 @@ class det_rec_functions(object):
         self.small_rec_file = r'F:\new_file\demo\cxx\lego\models\ort_models\ch_PP-OCRv4_rec_infer\reshape\rec.onnx'
         self.large_rec_file = '../inference/onnx_model/large_rec.onnx'
         self.onet_det_session = onnxruntime.InferenceSession(self.det_file)
+
+        inputs_info = self.onet_det_session.get_inputs()
+        print("Input(s) of the model:")
+        for input in inputs_info:
+            print(f"Name: {input.name}, Shape: {input.shape}, Type: {input.type}")
+
+
         if use_large:
             self.onet_rec_session = onnxruntime.InferenceSession(
                 self.large_rec_file)
@@ -462,11 +469,11 @@ class det_rec_functions(object):
     def resize_norm_img(self, img, max_wh_ratio):
         imgC, imgH, imgW = [int(v) for v in "3, 48, 320".split(",")]
         assert imgC == img.shape[2]
-        imgW = int((32 * max_wh_ratio))
+        # imgW = int((32 * max_wh_ratio))
         h, w = img.shape[:2]
         ratio = w / float(h)
-        if math.ceil(imgH * ratio) > imgW:
-            resized_w = imgW
+        if math.ceil(imgH * ratio) > int((32 * max_wh_ratio)):
+            resized_w = int((32 * max_wh_ratio))
         else:
             resized_w = int(math.ceil(imgH * ratio))
         resized_image = cv2.resize(img, (resized_w, imgH))
