@@ -86,17 +86,17 @@ bool ReadImgToBuf(struct AlgCellImg *img_buf, const std::string& img_path, const
 }
 
 bool IntegratedCode::InitMachine(const std::string& detect_type_name){
-  this->algctx = AlgCell_Init();
+  this->algctx = AlgCell_Init(3);
   if(this->algctx== nullptr){
     std::cout<<"Fail to Init "<<detect_type_name<<std::endl;
     return false;
   }
   AlgCellModeID mode_id = this->machine_type_name_to_mode_m.at(detect_type_name);
   std::cout<<"Use mode_id "<<mode_id<<std::endl;
-
-  if(AlgCell_RunConfigLoad(this->algctx, mode_id , "./data")!=0){
-    std::cout<<"Fail to Load work mode"<<detect_type_name<<std::endl;
-    return false;
+  std::vector<char> model_info_heamo;
+  if (AlgCell_RunConfigLoad(this->algctx, mode_id, "./data", model_info_heamo) != 0) {
+      std::cout << "Fail to Load work mode" << detect_type_name << std::endl;
+      return false;
   }
   return true;
 }
@@ -127,8 +127,14 @@ bool IntegratedCode::Init(const std::vector<XML::IntDetectTypeInitConfig>& int_d
   this->MapAlgTypeName();
   this->MapSampleTypeName();
   this->MapMachineType();
+
+  char        imm_alg_version[ALGIMM_LIB_VERSION_LENGTH];
+  char        imm_qr_json_version[ALGIMM_LIB_VERSION_LENGTH];
+  char        l_version[ALGIMM_LIB_VERSION_LENGTH];
+  char        m_version[ALGIMM_LIB_VERSION_LENGTH];
+
   std::string alg_cell_version = AlgCell_Version();
-  std::string alg_imm_version =  AlgImm_Version();
+  std::string alg_imm_version  = AlgImm_Version(imm_alg_version, imm_qr_json_version, l_version, m_version);
   std::cout<<"Alg cell version "<<alg_cell_version<<std::endl;
   std::cout<<"Alg imm version "<<alg_imm_version<<std::endl;
 

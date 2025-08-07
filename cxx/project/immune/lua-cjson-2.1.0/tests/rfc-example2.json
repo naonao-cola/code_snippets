@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2eca148be90e033164e3de0fbcbcd53c72c9f42a0c79e3dee1dfba74befaf249
-size 487
+[
+   {
+      "precision": "zip",
+      "Latitude":  37.7668,
+      "Longitude": -122.3959,
+      "Address":   "",
+      "City":      "SAN FRANCISCO",
+      "State":     "CA",
+      "Zip":       "94107",
+      "Country":   "US"
+   },
+   {
+      "precision": "zip",
+      "Latitude":  37.371991,
+      "Longitude": -122.026020,
+      "Address":   "",
+      "City":      "SUNNYVALE",
+      "State":     "CA",
+      "Zip":       "94085",
+      "Country":   "US"
+   }
+]

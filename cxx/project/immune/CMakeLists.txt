@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6a3b6e61e4bfda38f299bcaf16b4b05fc331461930c62d31f8f1428bdd914874
-size 462
+cmake_minimum_required(VERSION 3.4.1)
+#÷∏∂®linux-android±‡“Î∆˜
+
+set(CMAKE_C_COMPILER "/home/naonao/demo/3rdparty/rknn_tools/aarch64-linux-android-gcc4.9.x/aarch64-linux-android/bin/aarch64-linux-android-gcc")
+set(CMAKE_CXX_COMPILER "/home/naonao/demo/3rdparty/rknn_tools/aarch64-linux-android-gcc4.9.x/aarch64-linux-android/bin/aarch64-linux-android-g++")
+project(immune_project CXX C)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/src)
+add_subdirectory(${CMAKE_SOURCE_DIR}/process)
+add_dependencies(immune_demo immune)

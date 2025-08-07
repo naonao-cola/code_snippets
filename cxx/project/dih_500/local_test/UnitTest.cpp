@@ -288,69 +288,107 @@ bool UnitTest::ForwardOneType(
     int max_image_nums = std::max(int(bright_image_path_v.size()),
                                   int(fluo_image_path_v.size()));
     std::cout << "图片的最大数量 : " << max_image_nums << std::endl;
-    for (int i = 0; i < max_image_nums; ++i) {
-      std::cout << "开始推理图片 ," << std::endl;
-      std::string bright_image_name, fluo_image_name;
-      cv::Mat image_bright_mat, image_fluo_mat;
-      ForwardParam forward_param;
-      // 明场和荧光场图像存在才读取
-      if (i < bright_image_path_v.size()) {
-        if (!ReadMatAndName(bright_image_path_v[i], image_bright_mat,
-                            bright_image_name, forward_param.img_height,
-                            forward_param.img_width)) {
-          return false;
-        }
-        forward_param.img_brightness = &image_bright_mat;
-      }
-      if (i < fluo_image_path_v.size()) {
-        if (!ReadMatAndName(fluo_image_path_v[i], image_fluo_mat,
-                            fluo_image_name, forward_param.img_height,
-                            forward_param.img_width)) {
-          return false;
-        }
-        forward_param.img_fluorescence = &image_fluo_mat;
-      }
-      std::cout << "当前推理的明场图片路径：" << bright_image_path_v[i] << "\n";
-      std::cout << "当前推理的荧光图片路径：" << fluo_image_path_v[i] << "\n";
 
-      // 逐算法推理
-      for (const auto &one_alg_name : alg_names_inside_detect) {
-        try {
-          forward_param.alg_type = this->alg_name_to_type_m.at(one_alg_name);
-        } catch (std::exception &e) {
-          std::cout << "Fail to Get alg type with regard to the " +
-                           one_alg_name + " in " + detect_type_name + " type."
-                    << std::endl;
-          continue;
-        }
-        forward_param.detect_result_v.clear();
-        forward_param.mat_bright_result_v.clear();
-        forward_param.mat_fluo_result_v.clear();
-        forward_param.processed = false;
-        // 推理
-        if (!detect_type->Forward(forward_param)) {
-          std::cout << "Forward alg " + one_alg_name + " Failed" << std::endl;
-          return false;
-        }
-        // 监控检测结果
-        std::string save_path_bright = save_dir_with_time_and_type + "/" +
-                                       one_alg_name + "/bright/" +
-                                       bright_image_name;
-        std::string save_path_fluo = save_dir_with_time_and_type + "/" +
-                                     one_alg_name + "/fluo/" + fluo_image_name;
 
-        // 保存结果
-        MonitorRestult(
-            forward_param.processed, one_alg_name, forward_param.img_brightness,
-            forward_param.img_fluorescence, forward_param.mat_bright_result_v,
-            forward_param.mat_fluo_result_v, save_path_bright, save_path_fluo,
-            forward_param.detect_result_v, debug);
-      }
-      std::cout << "Processing image done.\n" << std::endl;
+    // int cnt =0;
+    // std::vector<cv::Mat>      image_bright_mat_vec;
+    // std::vector<cv::Mat>      image_fluo_mat_vec;
+    // for (cnt = 0; cnt < max_image_nums; ++cnt)
+    // {
+    //     cv::Mat image_bright_mat, image_fluo_mat;
+    //     std::string  bright_image_name, fluo_image_name;
+    //     int w,h;
+    //     if (cnt < bright_image_path_v.size()) {
+    //         if (!ReadMatAndName(bright_image_path_v[cnt], image_bright_mat, bright_image_name, h, w)) {
+    //             return false;
+    //         }
+    //         image_bright_mat_vec.push_back(image_bright_mat);
+    //         //forward_param.img_brightness = &image_bright_mat_vec[cnt];
+    //     }
+    //     if (cnt < fluo_image_path_v.size()) {
+    //         if (!ReadMatAndName(fluo_image_path_v[cnt], image_fluo_mat, fluo_image_name, h, w)) {
+    //             return false;
+    //         }
+    //         image_fluo_mat_vec.push_back(image_fluo_mat);
+    //         //forward_param.img_fluorescence = &image_fluo_mat_vec[cnt];
+    //     }
+
+    // }
+
+    // for(int m=0;m<1000000;m++)
+    // {
+        for (int i = 0; i < max_image_nums; ++i) {
+            std::cout << "开始推理图片 ," << std::endl;
+            std::string bright_image_name, fluo_image_name;
+            cv::Mat     image_bright_mat, image_fluo_mat;
+            ForwardParam forward_param;
+            // // 明场和荧光场图像存在才读取
+            if (i < bright_image_path_v.size()) {
+              if (!ReadMatAndName(bright_image_path_v[i], image_bright_mat,
+                                  bright_image_name, forward_param.img_height,
+                                  forward_param.img_width)) {
+                return false;
+              }
+              forward_param.img_brightness = &image_bright_mat;
+            }
+            if (i < fluo_image_path_v.size()) {
+              if (!ReadMatAndName(fluo_image_path_v[i], image_fluo_mat,
+                                  fluo_image_name, forward_param.img_height,
+                                  forward_param.img_width)) {
+                return false;
+              }
+              forward_param.img_fluorescence = &image_fluo_mat;
+            }
+            std::cout << " 313 当前推理的明场图片路径：" << bright_image_path_v[i] << "\n";
+            std::cout << "313 当前推理的荧光图片路径：" << fluo_image_path_v[i] << "\n";
+            // forward_param.img_fluorescence = &image_fluo_mat_vec[i];
+            // forward_param.img_brightness   = &image_bright_mat_vec[i];
+            // forward_param.img_height       = image_fluo_mat_vec[i].rows;
+            // forward_param.img_width        = image_fluo_mat_vec[i].cols;
+            // ForwardParam forward_param = forwardParam_vec[i];
+            //  逐算法推理
+            for (const auto& one_alg_name : alg_names_inside_detect)
+            {
+                try {
+                    forward_param.alg_type = this->alg_name_to_type_m.at(one_alg_name);
+                }
+                catch (std::exception& e) {
+                    std::cout << "Fail to Get alg type with regard to the " + one_alg_name + " in " + detect_type_name + " type." << std::endl;
+                    continue;
+                }
+                forward_param.detect_result_v.clear();
+                forward_param.mat_bright_result_v.clear();
+                forward_param.mat_fluo_result_v.clear();
+                forward_param.processed = false;
+                std::cout << "330 推理参数  监测类型：" << forward_param.alg_type << std::endl;
+                std::cout << "330 推理参数 图片宽高： " << forward_param.img_brightness->rows << " " << forward_param.img_brightness->cols
+                          << std::endl;
+                std::cout << "330 推理参数 图片宽高： " << forward_param.img_fluorescence->rows << " " << forward_param.img_fluorescence->cols
+                          << std::endl;
+                // 推理
+                if (!detect_type->Forward(forward_param)) {
+                    std::cout << "Forward alg " + one_alg_name + " Failed" << std::endl;
+                    return false;
+                }
+                // 监控检测结果
+                std::string save_path_bright = save_dir_with_time_and_type + "/" +
+                                              one_alg_name + "/bright/" +
+                                              bright_image_name;
+                std::string save_path_fluo = save_dir_with_time_and_type + "/" +
+                                            one_alg_name + "/fluo/" + fluo_image_name;
+
+                // 保存结果
+                MonitorRestult(
+                    forward_param.processed, one_alg_name, forward_param.img_brightness,
+                    forward_param.img_fluorescence, forward_param.mat_bright_result_v,
+                    forward_param.mat_fluo_result_v, save_path_bright, save_path_fluo,
+                    forward_param.detect_result_v, debug);
+            }
+            std::cout << "Processing image done.\n" << std::endl;
+       // }
+      detect_type->RunAssistFunction();
+      std::cout << "Forward " + detect_type_name + " done" << std::endl;
     }
-    detect_type->RunAssistFunction();
-    std::cout << "Forward " + detect_type_name + " done" << std::endl;
-
   } else {
     std::cout << "Error, empty object ptr." << std::endl;
   }

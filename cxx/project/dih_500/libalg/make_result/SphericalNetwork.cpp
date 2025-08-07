@@ -67,6 +67,32 @@ int SphericalRdwCvNetwork::Forward(const std::vector<float>& input_param_v,
   return 0;
 }
 
+////pdw
+int SphericalPdwCvNetwork::Init()
+{
+    if (ReshapeNormalNetworkParams(conv1_weight, conv1_bias, conv2_weight, conv2_bias, conv3_weight)) {
+        ALGLogError << "Failed to construct NormalPdwCvNetwork network params.";
+        return -1;
+    }
+    return 0;
+}
+
+int SphericalPdwCvNetwork::Forward(const std::vector<float>& input_param_v, std::vector<float>& output_v)
+{
+    if (input_param_v.size() != required_param_nums) {
+        ALGLogError << "For normal PdwCv Network, param size must be " << required_param_nums << "  but " << input_param_v.size() << " was given.";
+        return -1;
+    }
+
+    cv::Mat input{input_param_v};
+    input = input / norm_input1;
+
+    cv::Mat x;
+    ForwardNormalNetwork(conv1_weight, conv1_bias, conv2_weight, conv2_bias, conv3_weight, input, x);
+    x        = x * norm_output;
+    output_v = x.reshape(0, 1);
+    return 0;
+}
 
 /////////////////////////
 ////rdw sd

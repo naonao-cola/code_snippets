@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Setting>
+	<!--> 机型:牛奶<-->
+	<AlgMachineType Name="MACHINE_MILK" MachineIdx="3">
+		<GroupType Name="GROUP_MILK" GroupIdx="0">
+			<!--细菌流道> <-->
+			<Channel Name ="MILK_BAC_ZERO_CHANNEL" ChannelIdx="0">
+				<View Name = "MILK_BAC_ZERO_FLU" ViewIdx="0">  </View>
+			</Channel>
+			<Channel Name ="MILK_BAC_ONE_CHANNEL" ChannelIdx="1">
+				<View Name = "MILK_BAC_ONE_FLU" ViewIdx="0">  </View>
+			</Channel>
+			<!--体细胞流道> <-->
+			<Channel Name ="MILK_CELL_ZERO_CHANNEL" ChannelIdx="2">
+				<View Name = "MILK_CELL_ZERO_FLU" ViewIdx="0">  </View>
+			</Channel>
+			<Channel Name ="MILK_CELL_ONE_CHANNEL" ChannelIdx="3">
+				<View Name = "MILK_CELL_ONE_FLU" ViewIdx="0">  </View>
+			</Channel>
+		</GroupType>
+	</AlgMachineType>
+</Setting>

@@ -105,8 +105,8 @@ bool IntegratedCode::ClarityFindClearest(const std::vector<std::string>& img_pat
   //获取结果
   uint32_t index = 0;
   float clarity = 0.f;
-  ret =
-      AlgCell_ClarityGetResultBest(this->algctx, &index, &clarity);
+  IMAGE_TYPE type    = IMAGE_NORMAL;
+  ret              = AlgCell_ClarityGetResultBest(this->algctx, &index, &clarity, type);
   if(ret!=0){
     std::cout << "Failed to get clarity result, error code "<< ret << std::endl;
     return false;
@@ -146,15 +146,13 @@ bool IntegratedCode::ClarityCheckEach(const std::vector<std::string>& img_path_v
     }
       std::cout << "Current clarity_channel_id: " << this->clarity_channel_id << std::endl;
     //获取结果
-    if(this->clarity_channel_id==CLARITY_AI_COARSE){
-      ret =
-          AlgCell_ClarityGetResultCoarse(this->algctx, &index, &clarity);
+      IMAGE_TYPE type = IMAGE_NORMAL;
+      if (this->clarity_channel_id == CLARITY_AI_COARSE) {
+          ret = AlgCell_ClarityGetResultCoarse(this->algctx, &index, &clarity, type);
     } else if(this->clarity_channel_id ==CLARITY_AI_MILK_BOARDLINE){
-      ret =
-              AlgCell_ClarityGetResultMilkBoardLine(this->algctx, &index, &clarity);
+        ret = AlgCell_ClarityGetResultMilkBoardLine(this->algctx, &index, &clarity, type);
     } else{
-      ret =
-          AlgCell_ClarityGetResultFarNear(this->algctx, &index, &clarity);
+        ret = AlgCell_ClarityGetResultFarNear(this->algctx, &index, &clarity, type);
     }
 
 

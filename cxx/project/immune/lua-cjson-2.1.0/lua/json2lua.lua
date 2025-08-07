@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1e317a17e9621e4908280c2d4a41bc8cc7a423e7cef8e0d8b18b04d3ea8e07c8
-size 318
+#!/usr/bin/env lua
+
+-- usage: json2lua.lua [json_file]
+--
+-- Eg:
+-- echo '[ "testing" ]' | ./json2lua.lua
+-- ./json2lua.lua test.json
+
+local json = require "cjson"
+local util = require "cjson.util"
+
+local json_text = util.file_load(arg[1])
+local t = json.decode(json_text)
+print(util.serialise_value(t))

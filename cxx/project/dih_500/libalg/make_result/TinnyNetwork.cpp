@@ -49,14 +49,13 @@ void ForwardNormalNetwork(const cv::Mat& conv1_weight,
   cv::resize(conv1_bias, conv1_bias_dynamic_shape, cv::Size(x.cols,x.rows));// 复制使能够做加法
   x = x + conv1_bias_dynamic_shape;
   sigmoid(x, x);
-
   x = x * conv2_weight;  // b*4 4*4 -> b*4
   cv::Mat conv2_bias_dynamic_shape;
   cv::resize(conv2_bias, conv2_bias_dynamic_shape, cv::Size(x.cols,x.rows));
   x = x + conv2_bias_dynamic_shape;
   sigmoid(x, x);
-
   output = x * conv3_weight;  // b*4 4*1 -> b*1
+
 }
 
 

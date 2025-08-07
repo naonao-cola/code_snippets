@@ -57,10 +57,10 @@ DEFS += -D CL_VERSION_1_1=1 -D CL_TARGET_OPENCL_VERSION=110
 CPPFLAGS += ${DEFS}
 
 
-# ����ѡ��
-# LDFLAGS += -pie # ����λ���޹صĿ�ִ���ļ�
-LDFLAGS += -pthread # ���߳�֧��
-LDFLAGS += -Wl,--allow-shlib-undefined # ����̬��δ����
+#
+# LDFLAGS += -pie #
+LDFLAGS += -pthread #
+LDFLAGS += -Wl,--allow-shlib-undefined # 
 LDFLAGS += -lopencv_core -lopencv_imgcodecs -lopencv_imgproc
 LDFLAGS += -lrga -lrknnrt -llua -limmune -lDIHLog
 LDFLAGS += -leventLib -lOpenCL

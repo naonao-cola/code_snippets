@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:906131db33aa6302037452f38bee7cc89f77446de125794492d4e4e5f728b29d
-size 704
+#ifndef __CRC16_H
+#define __CRC16_H
+
+unsigned short int CRC16_CCITT(unsigned char *puchMsg, unsigned int usDataLen);
+unsigned short int CRC16_CCITT_FALSE(unsigned char *puchMsg, unsigned int usDataLen);
+unsigned short int CRC16_XMODEM(unsigned char *puchMsg, unsigned int usDataLen);
+unsigned short int CRC16_X25(unsigned char *puchMsg, unsigned int usDataLen);
+unsigned short int CRC16_MODBUS(unsigned char *puchMsg, unsigned int usDataLen);
+unsigned short int CRC16_IBM(unsigned char *puchMsg, unsigned int usDataLen);
+unsigned short int CRC16_MAXIM(unsigned char *puchMsg, unsigned int usDataLen);
+unsigned short int CRC16_USB(unsigned char *puchMsg, unsigned int usDataLen);
+
+
+#endif
+

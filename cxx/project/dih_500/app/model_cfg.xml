@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModelSetting>
+   <DetectType name="heamo_human">
+	<model>
+		<mod_id>1</mod_id>
+		<name>RBC_VOLUME_SPHERICAL_UNQUNTIZATION_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>31</mod_id>
+		<name>MICFLU_20250721</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+
+	<model>
+		<mod_id>21</mod_id>
+		<name>RBC_VOLUME_SPHERICAL_UNQUNTIZATION_QC_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>2</mod_id>
+		<name>WBC_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>3</mod_id>
+		<name>WBC4_20250711</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>9999</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>4</mod_id>
+		<name>PLT_RET_20250721</name>
+		<multi_label_flag>1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>3</label_nums>
+		<reserved_float_param_nums>3</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>5</mod_id>
+		<name>BASO_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>22</mod_id>
+		<name>SPHERICAL_FOCAL_20250721</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>2</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>14</mod_id>
+		<name>PLT_VOLUME_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>27</mod_id>
+		<name>CALIB_COUNT_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>29</mod_id>
+		<name>PLA_20250728</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>30</mod_id>
+		<name>PLA4_20250729</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>6</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+   </DetectType name="">
+   <DetectType name="heamo_cat">
+   <model>
+		<mod_id>1</mod_id>
+		<name>RBC_VOLUME_SPHERICAL_UNQUNTIZATION_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>21</mod_id>
+		<name>RBC_VOLUME_SPHERICAL_UNQUNTIZATION_QC_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>2</mod_id>
+		<name>WBC_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>3</mod_id>
+		<name>WBC4_20250721</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>7</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>4</mod_id>
+		<name>PLT_RET_20250721</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>2</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>5</mod_id>
+		<name>BASO_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>12</mod_id>
+		<name>SPHERICAL_FOCAL_20250721</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>2</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>14</mod_id>
+		<name>PLT_VOLUME_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+   </DetectType>
+   <DetectType  name="heamo_dog">
+   <model>
+		<mod_id>1</mod_id>
+		<name>RBC_VOLUME_SPHERICAL_UNQUNTIZATION_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>21</mod_id>
+		<name>RBC_VOLUME_SPHERICAL_UNQUNTIZATION_QC_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>2</mod_id>
+		<name>WBC_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>3</mod_id>
+		<name>WBC4_20250711</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>7</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>4</mod_id>
+		<name>PLT_RET_20250721</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>2</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>5</mod_id>
+		<name>BASO_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>12</mod_id>
+		<name>SPHERICAL_FOCAL_20250721</name>
+		<multi_label_flag> 1 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>2</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>14</mod_id>
+		<name>PLT_VOLUME_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>2</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+   </DetectType>
+   <DetectType  name="heamo_milk">
+   <model>
+		<mod_id>16</mod_id>
+		<name>MILK_GERM_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>1</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>17</mod_id>
+		<name>MILK_CELL_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 1</fusion_rate>
+		<group_mask>1</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+   </DetectType>
+   <DetectType  name="clarity">
+    <model>
+		<mod_id>10</mod_id>
+		<name>CLARITY_BASO_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>1</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>1</nms_nums>
+		<conf_nums>1</conf_nums>
+		<anchor_nums>18</anchor_nums>
+		<label_nums>1</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>13</mod_id>
+		<name>CLARITY_NORMAL_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>0</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>0</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>3</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>15</mod_id>
+		<name>CLARITY_FAR_NEAR_20050703</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>3</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>0</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>13</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>19</mod_id>
+		<name>CLARITY_BASO_FAR_NEAR_20250715</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>3</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>0</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>9</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>23</mod_id>
+		<name>CLARITY_FAR_NEAR_20050703</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>3</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>0</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>13</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>25</mod_id>
+		<name>CLARITY_MIC_FLU_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>3</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>0</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>6</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>26</mod_id>
+		<name>CLARITY_MIC_FLU_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>3</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>0</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>6</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+	<model>
+		<mod_id>28</mod_id>
+		<name>CLARITY_MILK_BOARDLINE_20250721</name>
+		<multi_label_flag> 0 </multi_label_flag>
+		<fusion_rate> 0</fusion_rate>
+		<group_mask>1048567</group_mask>
+		<letterbox>3</letterbox>
+		<model_type_nums>1</model_type_nums>
+		<nms_nums>0</nms_nums>
+		<conf_nums>0</conf_nums>
+		<anchor_nums>0</anchor_nums>
+		<label_nums>8</label_nums>
+		<reserved_float_param_nums>0</reserved_float_param_nums>
+		<reserved_string_param_nums>0</reserved_string_param_nums>
+	</model>
+
+   </DetectType>
+</ModelSetting>
+
+

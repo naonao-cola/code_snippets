@@ -40,6 +40,7 @@ static uint8_t *Alg_ReadFile(const char *path,  uint32_t *len)
   snprintf(filename, 256, "%s", path);
   //DLOG(INFO, "sample process pos = %d x=%d y=%d process=%d (%d/%d)", ctx->pos, ctx->x, ctx->y, process, ctx->currentField, ctx->totalField);
   EVINFO(EVID_INFO, "Use rknn model path: %s", filename);
+  std::cout << "Use rknn model path 43" << filename << std::endl;
   fp = fopen(filename, "rb");
   if(fp == NULL)
   {
@@ -329,7 +330,7 @@ bool DetectHuman::Init(const InitParam& init_param) {
         return false;
       }
 
-      required_params_nums = {1, 1, 1, 18, 5, 0, 0};
+      required_params_nums = {1, 1, 1, 18, LABEL_NUMS_CUSTOM, 0, 0};
       std::cout << "当前的group id:  " << this->group_id << " \n";
       ret = NNet_AddModel(
           this->net_ctx, this->group_id, NNET_MODID_PLA4, mod_data, mod_size,
@@ -715,9 +716,14 @@ bool DetectHuman::Init(const InitParam& init_param) {
         return false;
       }
 
-
-      std::vector<float> required_params_nums{1, 0, 0, 0, 8, 0, 0};
-      int ret = NNet_AddModel(this->net_ctx, this->group_id, NNET_MODID_AI_CLARITY_FAR_NEAR, mod_data, mod_size, LEFT_TOP_CROP,
+      std::cout << "NNET_MODID_AI_CLARITY_FAR_NEAR this->group_id : " << this->group_id << std::endl;
+      std::vector<float> required_params_nums{1, 0, 0, 0, LABEL_NUMS_CUSTOM, 0, 0};
+      int                ret = NNet_AddModel(this->net_ctx,
+                              this->group_id,
+                              NNET_MODID_AI_CLARITY_FAR_NEAR,
+                              mod_data,
+                              mod_size,
+                              LEFT_TOP_CROP,
                               required_params_nums[0],
                               required_params_nums[1],
                               required_params_nums[2],
@@ -1790,6 +1796,18 @@ bool DetectHuman::ForwardAiClarityFarNear(std::vector<NNetResult>& detect_result
   std::list<NNetResult_t> result;
 //  cv::Mat img_brightness_bgr;
 //  cv::cvtColor(*img_brightness, img_brightness_bgr, cv::COLOR_RGB2BGR);
+  // int in_h = img_brightness->rows;
+  // int in_w = img_brightness->cols;
+  // cv::Mat target_img;
+  // float r        = std::max(float(640) / in_h, float(640) / in_w);
+  // int   inside_w = int(in_w * r);
+  // int   inside_h = int(in_h * r);
+  // cv::resize(*img_brightness, target_img, cv::Size(inside_w, inside_h), 0, 0, cv::INTER_LINEAR);
+  // int start_x = (target_img.cols - 640) / 2;
+  // int start_y = (target_img.rows - 640) / 2;
+  // target_img  = cv::Mat(target_img, cv::Rect(start_x, start_y, 640, 640)).clone();
+
+  std::cout << " 1799 ForwardAiClarityFarNear 推理图片大小： " << img_brightness->rows << " " << img_brightness->cols << std::endl;
   int ret = NNet_Inference(this->net_ctx, this->group_id, NNET_MODID_AI_CLARITY_FAR_NEAR, img_brightness, result);
 
   if(ret!=0){
@@ -1797,6 +1815,14 @@ bool DetectHuman::ForwardAiClarityFarNear(std::vector<NNetResult>& detect_result
     return false;
   }
   detect_result_v.assign(result.begin(), result.end());
+
+  std::cout << " ForwardAiClarityFarNear 1801" << std::endl;
+
+  for (int i = 0; i < result.begin()->category_v.size(); i++) {
+
+      std::cout << " index: " << i <<" ret: " <<result.begin()->category_v[i];
+  }
+  std::cout<<std::endl;
 
 
   auto end =duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();

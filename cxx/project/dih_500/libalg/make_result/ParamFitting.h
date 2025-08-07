@@ -192,9 +192,12 @@ class SphericalReagentFitting: public ParamFitting{
   PSEUDO_NETWORK::SphericalMcvNetwork mcv_network;
   PSEUDO_NETWORK::SphericalMpvNetwork mpv_network;
   PSEUDO_NETWORK::SphericalRdwCvNetwork rdw_cv_network;
+  PSEUDO_NETWORK::SphericalPdwCvNetwork pdw_cv_network;
   PSEUDO_NETWORK::SphericalRdwSdNetwork rdw_sd_network;
 
- private:
+  float pdw = 0.0;
+
+  private:
   //体积通用设置
   const int SPHERICAL_VOLUME_SIZE                  = 300;
   const int SPHERICAL_VOLUME_MAX_AREA              = 30000;

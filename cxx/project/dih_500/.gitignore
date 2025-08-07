@@ -1,0 +1,102 @@
+*.pyc
+*.map
+*.dblite
+*.elf
+*.bin
+*.hex
+*.axf
+*.pdb
+*.idb
+*.ilk
+*.old
+build/
+Debug
+cmake-build-debug/
+.idea/
+.xmake/
+*~
+*.o
+*.obj
+*.out
+*.bak
+*.dep
+*.lib
+*.i
+*.d
+.DS_Stor*
+.config 3
+.config 4
+.config 5
+*.uimg
+GPATH
+GRTAGS
+GTAGS
+.vscode
+JLinkLog.txt
+JLinkSettings.ini
+DebugConfig/
+
+BASO/
+RTE/
+settings/
+.settings/
+
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+*.lst
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+build/
+*.gif
+*.pdf
+*.html
+*.shtml
+test_libalg
+.settings/.rtmenus

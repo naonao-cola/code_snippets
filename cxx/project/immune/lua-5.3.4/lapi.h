@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ccd13df54fefb81156d32c9e0667b02d4f6422bf903077d36ccee9a8e369cc47
-size 592
+/*
+** $Id: lapi.h,v 2.9 2015/03/06 19:49:50 roberto Exp $
+** Auxiliary functions from Lua API
+** See Copyright Notice in lua.h
+*/
+
+#ifndef lapi_h
+#define lapi_h
+
+
+#include "llimits.h"
+#include "lstate.h"
+
+#define api_incr_top(L)   {L->top++; api_check(L, L->top <= L->ci->top, \
+                "stack overflow");}
+
+#define adjustresults(L,nres) \
+    { if ((nres) == LUA_MULTRET && L->ci->top < L->top) L->ci->top = L->top; }
+
+#define api_checknelems(L,n)    api_check(L, (n) < (L->top - L->ci->func), \
+                  "not enough elements in the stack")
+
+
+#endif

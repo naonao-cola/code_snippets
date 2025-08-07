@@ -52,13 +52,13 @@ int GetViewArea(const T& img_h, const T& img_w, const T& img_h_um,
  * @param calibrated_area_percentage
  */
 template <typename T>
-int Calibration<T>::SetPhysicalSizeCalibration(const T& img_h, const T& img_w, const T& img_h_um){
-  ALGLogInfo<<"Camera img info "<<img_h<<" "<<img_w<<" "<<img_h_um;
-  if(img_h*img_w*img_h_um==0){//任意值为0,均不正常
-    ALGLogError<<"Get error camera img info";
-    return -1;
+int Calibration<T>::SetPhysicalSizeCalibration(const T& img_h, const T& img_w, const T& img_w_um){
+    ALGLogInfo << "Camera img info " << img_h << " " << img_w << " " << img_w_um;
+    if (img_h * img_w * img_w_um == 0) {   // 任意值为0,均不正常
+        ALGLogError << "Get error camera img info";
+        return -1;
   }
-  this->pixel_um = img_h_um/img_h;
+  this->pixel_um  = img_w_um / img_w;
   this->view_area = pixel_um* img_h*pixel_um*img_w;
 
 

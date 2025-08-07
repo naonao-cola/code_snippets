@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--this is a xml test file-->
+<Setting>
+    <Dir>
+		<UnitDir>
+				<!--inpput dir of brightness image, for  blood cell -->
+				<input_bright_dir>/mnt/user/0/5896687C96685C8E/alg_test/images</input_bright_dir>
+				<!--input dir of  fluorescence image, for  blood cell. Make sure fluo and bright image have the same  width and heights-->
+				<input_fluo_dir>/mnt/user/0/5896687C96685C8E/alg_test/images</input_fluo_dir>
+				<!--save dir of  results-->
+				<save_dir>/mnt/user/0/5896687C96685C8E/alg_test</save_dir>
+		</UnitDir>
+		<IntegrationDir>
+				<!--cards dir , for  immune -->
+				<card_info_dir>/data/alg_test/test_immunes/card_info_dir</card_info_dir>
+				<!--data dir, for immune . Make sure cards and datas have the same nums-->
+				<data_info_dir>/data/alg_test/test_immunes/data_info_dir</data_info_dir>
+				<!--For heamo, ALG will only read dirs that are configured by  channels in <<alg_heamo.cpp>>.-->
+				<!--For clarity, only the last channel will be used-->
+				<channel name="heamo_channel 0"><!-- rbc  channel-->
+					<!--input_img_dir>/mnt/user/0/F45033C0503387FE/alg_test/milk_germ</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/rbc/input_bright_dir</input_img_dir>
+					<input_img_dir>/data/alg_test/test_images_int/plt/input_fluo_dir</input_img_dir>
+				</channel>
+				<channel name="heamo_channel 1"><!-- wbc  channel-->
+					<!--input_img_dir>/mnt/user/0/F45033C0503387FE/alg_test/milk_germ</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/wbc/input_bright_dir</input_img_dir>
+					<input_img_dir>/data/alg_test/test_images_int/wbc/input_fluo_dir</input_img_dir>
+				</channel>
+				<channel name="heamo_channel 2"><!-- baso  channel-->
+					<!--input_img_dir>/mnt/user/0/F45033C0503387FE/alg_test/milk_cell</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/baso/input_bright_dir</input_img_dir>
+				</channel>
+				<channel name="heamo_channel 3"><!-- ret  channel-->
+					<!--input_img_dir>/mnt/user/0/F45033C0503387FE/alg_test/milk_cell</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/ret/input_fluo_dir</input_img_dir>
+					<input_img_dir>/data/alg_test/test_images_int/ret/input_fluo_dir</input_img_dir>
+				</channel >
+				<channel name="heamo_channel 4"><!-- rbc  channel-->
+					<!--input_img_dir>/mnt/user/0/B2DC8AA5DC8A6407/alg_test/milk-germ</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/rbc/input_bright_dir</input_img_dir>
+					<input_img_dir>/data/alg_test/test_images_int/plt/input_fluo_dir</input_img_dir>
+				</channel>
+				<channel name="heamo_channel 5"><!-- wbc  channel-->
+					<!--input_img_dir>/mnt/user/0/B2DC8AA5DC8A6407/alg_test/milk-germ</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/wbc/input_bright_dir</input_img_dir>
+					<input_img_dir>/data/alg_test/test_images_int/wbc/input_fluo_dir</input_img_dir>
+				</channel>
+				<channel name="heamo_channel 6"><!-- baso  channel-->
+					<!--input_img_dir>/mnt/user/0/B2DC8AA5DC8A6407/alg_test/milk-cell-duplicated</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/baso/input_bright_dir</input_img_dir>
+				</channel>
+				<channel name="heamo_channel 7"><!-- ret  channel-->
+					<!--input_img_dir>/mnt/user/0/B2DC8AA5DC8A6407/alg_test/milk-cell-duplicated</input_img_dir-->
+					<input_img_dir>/data/alg_test/test_images_int/ret/input_fluo_dir</input_img_dir>
+					<input_img_dir>/data/alg_test/test_images_int/ret/input_fluo_dir</input_img_dir>
+				</channel >
+				<!--Dir under clarity_channel0 should be dirs. Each contains serveral images -->
+				<channel name="clarity_channel0">
+					<!--input_img_dir>/data/alg_test/test_images_int/clarity_normal</input_img_dir-->
+					<input_img_dir>/mnt/user/0/9AC0C90FC0C8F315/Pictures/test</input_img_dir>
+				</channel>
+				<!--save dir of  middle results-->
+				<save_dir>/mnt/user/0/9AC0C90FC0C8F315/Pictures</save_dir>
+		</IntegrationDir>
+    </Dir>
+	<!--config test type, only one type can be set to {ture} among UnitTest and IntegrationTest-->
+	<UnitTest enable="true">
+	<!--only one type can be set to true-->
+	<DetectType  name="human" enable="true" debug="true">
+			<!--wether init the  specific algrithem-->
+			<alg  name="rbc" enable="false">
+					<!--rknn model path-->
+					<model_path >/data/alg/model/1/RBC_VOLUME_SPHERICAL_UNQUNTIZATION.rknn</model_path>
+					<!--xml config with regard to  rknn model -->
+					<model_path >/data/alg/model/1/RBC_VOLUME_SPHERICAL_UNQUNTIZATION.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<!-- depredicated, model params are moved to  model xml document-->
+					<float_param_v></float_param_v>
+			</alg>
+			<alg  name="pla" enable="false">
+					<model_path >/data/alg_test/2reconstruct/data/alg/model/1/PLA.rknn</model_path>
+					<model_path >/data/alg_test/2reconstruct/data/alg/model/1/PLA.xml</model_path>
+					<model_path >/data/alg_test/2reconstruct/data/alg/model/1/PLA4.rknn</model_path>
+					<model_path >/data/alg_test/2reconstruct/data/alg/model/1/PLA4.xml</model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<!-- wbc detection, must set bright and fluo dir on the simultaneously-->
+			<alg  name="wbc" enable="false">
+					<model_path >/data/alg/model/1/WBC.rknn</model_path>
+					<model_path >/data/alg/model/1/WBC.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<!-- wbc detection, only need to set bright dir consists of bright and fluo merged img -->
+			<alg  name="wbc_single" enable="false">
+					<model_path >/data/alg/model/1/WBC.rknn</model_path>
+					<model_path >/data/alg/model/1/WBC.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<!-- wbc4 detection, must set bright and fluo dir on the simultaneously-->
+			<alg  name="wbc4" enable="false">
+					<model_path >/data/alg/model/1/WBC.rknn</model_path>
+					<model_path >/data/alg/model/1/WBC.xml</model_path>
+					<model_path >/data/alg/model/1/WBC4.rknn</model_path>
+					<model_path >/data/alg/model/1/WBC4.xml</model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<!-- wbc4 detection, only need to set bright dir consists of croped img-->
+			<alg  name="wbc4_single" enable="false">
+					<model_path >/data/alg/model/1/WBC4.rknn</model_path>
+					<model_path >/data/alg/model/1/WBC4.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<alg  name="plt" enable="false">
+					<model_path >/data/alg/model/1/PLT_RET.rknn</model_path>
+					<model_path >/data/alg/model/1/PLT_RET.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<alg  name="baso" enable="false">
+					<model_path >/data/alg/model/1/BASO.rknn</model_path>
+					<model_path >/data/alg/model/1/BASO.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<alg  name="ret" enable="false">
+					<model_path >/data/alg/model/1/RET.rknn</model_path>
+					<model_path >/data/alg/model/1/RET.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v>0.45,0.5</float_param_v>
+			</alg>
+			<alg  name="grad_clarity" enable="false">
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<alg  name="baso_clarity" enable="false">
+					<model_path >/data/alg/model/20/BASCLARITY.rknn</model_path>
+					<model_path >/data/alg/model/20/BASCLARITY.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v>0.45,0.5</float_param_v>
+			</alg>
+			<alg  name="rbc_volume" enable="false">
+					<model_path >/data/alg/model/1/INCLINE_RBC.rknn</model_path>
+					<model_path >/data/alg/model/1//INCLINE_RBC.txt</model_path>
+					<model_path >/data/alg/model/1/INCLINE_RBC_SEG.rknn</model_path>
+					<model_path >/data/alg/model/1/INCLINE_RBC_SEG.txt</model_path>
+					<!-- incline nms, incline thr, seg thr-->
+					<float_param_v>0.45,0.5,0.5</float_param_v>
+			</alg>
+			<alg  name="ai_clarity" enable="false">
+					<model_path >/data/alg/model/20/CLARITY_NORMAL.rknn</model_path>
+					<model_path >/data/alg/model/20/CLARITY_NORMAL.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<!-- clarity thr-->
+					<float_param_v>0.85</float_param_v>
+			</alg>
+			<alg  name="plt_volume" enable="false">
+					<model_path >/data/alg/model/1/PLT_VOLUME.rknn</model_path>
+					<model_path >/data/alg/model/1/PLT_VOLUME.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<alg  name="ai_clarity_far_near" enable="true">
+				<model_path >/data/alg_test/2reconstruct/data/alg/model/20/CLARITY_FAR_NEAR-new_20050703.rknn</model_path>
+				<model_path >/data/alg_test/2reconstruct/data/alg/model/20/CLARITY_FAR_NEAR-new_20050703.xml</model_path>
+				<!--model_path >/data/alg/model/20/CLARITY_BASO_FAR_NEAR.rknn</model_path>
+				<model_path >/data/alg/model/20/CLARITY_BASO_FAR_NEAR.txt</model_path-->
+				<model_path ></model_path>
+				<model_path ></model_path>
+				<float_param_v></float_param_v>
+			</alg>
+			<alg  name="clarity_milk_boardline" enable="false">
+				<model_path >/data/alg/model/20/CLARITY_MILK_BOARDLINE.rknn</model_path>
+				<model_path >/data/alg/model/20/CLARITY_MILK_BOARDLINE.xml</model_path>
+				<model_path ></model_path>
+				<model_path ></model_path>
+				<float_param_v></float_param_v>
+			</alg>
+			<alg  name="milk_germ" enable="false">
+				<model_path >/data/alg/model/0/MILK_GERM.rknn</model_path>
+				<model_path >/data/alg/model/0/MILK_GERM.xml</model_path>
+				<model_path ></model_path>
+				<model_path ></model_path>
+				<float_param_v></float_param_v>
+			</alg>
+			<alg  name="milk_cell" enable="false">
+				<model_path >/data/alg/model/0/MILK_CELL.rknn</model_path>
+				<model_path >/data/alg/model/0/MILK_CELL.xml</model_path>
+				<model_path ></model_path>
+				<model_path ></model_path>
+				<float_param_v></float_param_v>
+			</alg>
+			<alg  name="rbc_volume_spherical_box" enable="false">
+					<model_path >/data/alg/model/1/RBC_VOLUME_SPHERICAL.rknn</model_path>
+					<model_path >/data/alg/model/1/RBC_VOLUME_SPHERICAL.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<!-- clarity thr-->
+					<float_param_v>0.45,0.5</float_param_v>
+			</alg>
+			<alg  name="spherical_focal" enable="false">
+				<model_path >/data/alg/model/1/SPHERICAL_FOCAL.rknn</model_path>
+				<model_path >/data/alg/model/1/SPHERICAL_FOCAL.xml</model_path>
+				<model_path ></model_path>
+				<model_path ></model_path>
+				<float_param_v></float_param_v>
+			</alg>
+			<alg  name="rbc_volume_spherical_seg" enable="false">
+					<model_path >/data/alg/model/1/RBC_VOLUME_SPHERICAL.rknn</model_path>
+					<model_path >/data/alg/model/1/RBC_VOLUME_SPHERICAL.xml</model_path>
+					<model_path >/data/alg/model/1/INCLINE_RBC_SEG.rknn</model_path>
+					<model_path >/data/alg/model/1/INCLINE_RBC_SEG.xml</model_path>
+					<!-- clarity thr-->
+					<float_param_v>0.35,0.5, 0.5</float_param_v>
+			</alg>
+			<alg  name="classification_custom" enable="false">
+					<model_path >/data/alg/model/20/CLARITY_COARSE.rknn</model_path>
+					<model_path >/data/alg/model/20/CLARITY_COARSE.xml</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+					<float_param_v></float_param_v>
+			</alg>
+			<assist_function name="GetRbcAndPltResult" enable="true" ></assist_function>
+			<assist_function name="GetWbcResult" enable="true" ></assist_function>
+	</DetectType>
+	<DetectType name="animal" enable="false" debug="false">
+			<alg  name="rbc" enable="false">
+					<model_path >/data/alg/model/animal/RBC.rknn</model_path>
+					<model_path >/data/alg/model/animal/RBC.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<alg  name="wbc" enable="false">
+					<model_path >/data/alg/model/animal/WBC.rknn</model_path>
+					<model_path >/data/alg/model/animal/WBC.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<alg  name="wbc4" enable="false">
+					<model_path >/data/alg/model/animal/WBC4.rknn</model_path>
+					<model_path >/data/alg/model/animal/WBC4.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<alg  name="plt" enable="false">
+					<model_path >/data/alg/model/animal/PLT.rknn</model_path>
+					<model_path >/data/alg/model/animal/PLT.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<alg  name="baso" enable="false">
+
+					<model_path >/data/alg/model/animal/BAS.rknn</model_path>
+					<model_path >/data/alg/model/animal/BAS.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<assist_function name="Default" enable="false"></assist_function>
+			<assist_function name="Default" enable="false"></assist_function>
+	</DetectType>
+	<DetectType name="milk" enable="false" debug="false">
+			<alg  name="somatic" enable="false">
+					<model_path >/data/alg/model/milk/SOMATIC.rknn</model_path>
+					<model_path >/data/alg/model/milk/SOMATIC.txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<alg  name="bacteria" enable="false">
+					<model_path >/data/alg/model/milk/BACTERIA.rknn</model_path>
+					<model_path >/data/alg/model/milk/BACTERIA..txt</model_path>
+					<model_path ></model_path>
+					<model_path ></model_path>
+			</alg>
+			<assist_function name="Default" enable="false"></assist_function>
+			<assist_function name="Default" enable="false"></assist_function>
+	</DetectType>
+	</UnitTest>
+	<IntegrationTest enable="false">
+	<!--only one type can be set to {true} among Human, Cat... -->
+	<DetectType name="Human" enable="false" debug="false">
+		<SampleType name="SampleField" enable="false">
+			<!--  the first number will deem the corresponding quantity of continuous imgs as the same view -->
+			<!--  the second number {1.0 for quality control, 0.0 for normal test} -->
+			<!--  the third number for  img height of  camera calibration. note: the number have no concern with input img -->
+			<!--  the fourth number for  img width of  camera calibration. note: the number have no concern with input img -->
+			<!--  the fifth number for  micron with regard to  img height of  camera calibration -->
+			<!--  the sixth number {1.0 for calib counts, 0.0 for normal test}. note: can not set second and sixth number to 1.0 simultaneously-->
+			<float_param_v>1.0, 0.0, 3036, 4024, 272, 0.0</float_param_v>
+		</SampleType>
+		<SampleType name="SampleClarity" enable="false">
+			<!--0.0 for grad heighest peak,
+			1.0 for coarse focusing of wbc/spherical rbc,
+			2.0 for fine focusing of wbc/spherical rbc,
+			3.0 for fine focusing of baso,
+			4.0 for coarse focusing of fluorescence microsphere,
+			5.0 for fine focusing of fluorescence microsphere,
+			6.0 for coarse focusing of baso
+			-->
+			<float_param_v>7.0</float_param_v>
+		</SampleType>
+		<SampleType name="SampleHGB" enable="false">
+			<!--four param from coef a, b ,c,d respectively-->
+			<float_param_v>-0.291,2.2497,-0.0948,0.0748</float_param_v>
+		</SampleType>
+		<SampleType name="SampleImmune" enable="false">
+			 <!--for the first term :0.0 for normal test, others for caliboration -->
+			 <!--for the second term :float value for coef -->
+			<float_param_v>0.0,1.0</float_param_v>
+		</SampleType>
+		<SampleType name="SampleHybrid" enable="false">
+			<!--push field and clairity simultaneously to emulate real condition-->
+		</SampleType>
+	</DetectType>
+	<DetectType name="Cat" enable="false" debug="false">
+		<SampleType name="SampleField" enable="false"></SampleType>
+		<SampleType name="SampleClarity" enable="true">
+			<float_param_v>0.0</float_param_v>
+		</SampleType>
+		<SampleType name="SampleHGB" enable="false">
+			<float_param_v>1.0,1.0,1.0</float_param_v>
+		</SampleType>
+		<SampleType name="SampleImmune" enable="false">
+			<float_param_v>0.0,1.0</float_param_v>
+		</SampleType>
+	</DetectType>
+	<DetectType name="Milk" enable="false" debug="false">
+		<SampleType name="SampleField" enable="false">
+					<float_param_v>2.0, 0.0,1200, 1920, 320,0.0</float_param_v>
+		</SampleType>
+		<SampleType name="SampleClarity" enable="true">
+					<float_param_v>0.0</float_param_v>
+		</SampleType>
+		<SampleType name="SampleHGB" enable="false">
+					<float_param_v>1.0,1.0,1.0, 1.0</float_param_v>
+		</SampleType>
+
+		<SampleType name="SampleImmune" enable="false">
+					<float_param_v>0.0,1.0</float_param_v>
+		</SampleType>
+	</DetectType>
+	</IntegrationTest>
+
+
+</Setting>
+
+

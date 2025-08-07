@@ -4,11 +4,11 @@
     <Dir>
 		<UnitDir>
 				<!--inpput dir of brightness image, for  blood cell -->
-				<input_bright_dir>/mnt/user/0/526E8E846E8E6119/test_opencl/imageER</input_bright_dir>
+				<input_bright_dir>/data/alg_test/2reconstruct/imgdir/test/</input_bright_dir>
 				<!--input dir of  fluorescence image, for  blood cell. Make sure fluo and bright image have the same  width and heights-->
-				<input_fluo_dir>/mnt/user/0/526E8E846E8E6119/test_opencl/imageER</input_fluo_dir>
+				<input_fluo_dir>/data/alg_test/2reconstruct/imgdir/test/</input_fluo_dir>
 				<!--save dir of  results-->
-				<save_dir>/mnt/user/0/526E8E846E8E6119/test_opencl/flu/ret</save_dir>
+				<save_dir>/data/alg_test/2reconstruct/imgdir/save</save_dir>
 		</UnitDir>
 		<IntegrationDir>
 				<!--cards dir , for  immune -->
@@ -112,8 +112,8 @@
 			</alg>
 			<!-- wbc4 detection, only need to set bright dir consists of croped img-->
 			<alg  name="wbc4_single" enable="false">
-					<model_path >/data/alg/model/1/WBC4.rknn</model_path>
-					<model_path >/data/alg/model/1/WBC4.xml</model_path>
+					<model_path >/data/alg/model/1/WBC4_20250623.rknn</model_path>
+					<model_path >/data/alg/model/1/WBC4_20250623.xml</model_path>
 					<model_path ></model_path>
 					<model_path ></model_path>
 					<float_param_v></float_param_v>
@@ -176,8 +176,8 @@
 					<float_param_v></float_param_v>
 			</alg>
 			<alg  name="ai_clarity_far_near" enable="true">
-				<model_path >/data/alg_test/2reconstruct/data/alg/model/20/CLARITY_FAR_NEAR.rknn</model_path>
-				<model_path >/data/alg_test/2reconstruct/data/alg/model/20/CLARITY_FAR_NEAR.xml</model_path>
+				<model_path >/data/alg_test/2reconstruct/data/alg/model/20/CLARITY_FAR_NEAR-new_20050703.rknn</model_path>
+				<model_path >/data/alg_test/2reconstruct/data/alg/model/20/CLARITY_FAR_NEAR-new_20050703.xml</model_path>
 				<!--model_path >/data/alg/model/20/CLARITY_BASO_FAR_NEAR.rknn</model_path>
 				<model_path >/data/alg/model/20/CLARITY_BASO_FAR_NEAR.txt</model_path-->
 				<model_path ></model_path>

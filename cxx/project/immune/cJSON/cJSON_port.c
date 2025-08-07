@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f5510fb6d3e85c7aff3940678db52f85d090bdc2464cbe30d97928198d08c600
-size 379
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+//#include <rtthread.h>
+
+#include "cJSON.h"
+
+/*
+int cJSON_hook_init(void)
+{
+    cJSON_Hooks cJSON_hook;
+
+    cJSON_hook.malloc_fn = (void *(*)(size_t sz))rt_malloc;
+    cJSON_hook.free_fn = rt_free;
+
+    cJSON_InitHooks(&cJSON_hook);
+
+    return RT_EOK;
+}
+INIT_COMPONENT_EXPORT(cJSON_hook_init);*/

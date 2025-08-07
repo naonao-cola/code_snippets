@@ -125,13 +125,16 @@ target("algLib")
         "-fPIC",  -- 编译位置无关代码
         "-g",  -- 调试信息
         "-DANDROID_STL=c++_static",-- Android STL 设置
-        "-D__ANDROID_API__=24" -- Android API 版本
+        "-D__ANDROID_API__=24", -- Android API 版本
+        "-fopenmp"
     )
 
 
     add_ldflags(
         "-Wl,--allow-shlib-undefined",
-        "-shared"
+        "-shared",
+        "-pthread",
+        "-fopenmp"
     )
      --添加显示头文件
     add_includedirs(
@@ -142,7 +145,8 @@ target("algLib")
         "libalg/model_config",
         "libalg/tinyxml2",
         "libalg/opencl_tools",
-        "libalg/include/libopencl-stub/include"
+        "libalg/include/libopencl-stub/include",
+        "libalg/include/nlohmann/"
 
     )
     add_headerfiles("libalg/*.h")
@@ -150,6 +154,7 @@ target("algLib")
     add_headerfiles("libalg/make_result/*.h")
     add_headerfiles("libalg/model_config/*.h")
     add_headerfiles("libalg/tinyxml2/*.h")
+    add_headerfiles("libalg/include/nlohmann/*.hpp")
 
     -- 添加编译文件
     add_files("libalg/*.cpp")
@@ -162,10 +167,73 @@ target("algLib")
 target_end()
 
 
+target("main2")
+    add_deps("toolchain_env")
+    add_deps("algLib")
+
+    set_toolchains("my_toolchain")
+    set_kind("binary")
+
+    --添加三方库
+    add_rules("package_opencv")
+    -- add_rules("package_rknn")
+    -- add_rules("package_lua")
+    -- add_rules("package_other")
+    add_rules("rule_display")
+
+    -- 添加编译文件
+    add_files("main_2.cpp")
+
+
+    --依赖
+    add_cxxflags(
+        "-fPIE",
+        "-std=c++11",
+        "-g",
+        "-DANDROID_STL=c++_static",
+        "-D__ANDROID_API__=24",
+        "-pthread",
+        "-D CL_VERSION_1_1=1",
+        "-D CL_TARGET_OPENCL_VERSION=110",
+        "-fopenmp"
+    )
+    add_ldflags(
+        "-Wl,--allow-shlib-undefined",
+        "-pie",
+        "-fopenmp"
+    )
+    --添加显示头文件
+    add_includedirs(
+        "$(projectdir)",
+        "libalg",
+        "libalg/include"
+        -- "libalg/make_result",
+        -- "libalg/model_config",
+        -- "libalg/tinyxml2",
+        -- "libalg/opencl_tools",
+        -- "libalg/include/libopencl-stub/include",
+        -- "local_test",
+        -- "local_test/human",
+        -- "local_test/local_xml_config"
+    )
+
+    --依赖
+    -- add_headerfiles("libalg/opencl_tools/*.h")
+    -- add_headerfiles("libalg/*.h")
+    -- add_headerfiles("libalg/make_result/*.h")
+    -- add_headerfiles("libalg/model_config/*.h")
+    -- add_headerfiles("libalg/tinyxml2/*.h")
+    add_linkdirs("./app/lib")
+    add_links("eventLib")
+
+target_end()
+
+
 target("app_local_test")
     add_deps("toolchain_env")
     set_toolchains("my_toolchain")
     set_kind("binary")
+    set_strip("none")
 
     --添加三方库
     add_rules("package_opencv")
@@ -176,31 +244,28 @@ target("app_local_test")
 
     -- 添加编译文件
     add_files("main.cpp")
-    add_files("local_test/human/*.cpp")
-    add_files("local_test/local_xml_config/*.cpp")
-    add_files("local_test/*.cpp")
+    add_files("./local_test/**.cpp")
+    add_files("./libalg/*.cpp")
+    add_files("./libalg/make_result/*.cpp")
+    add_files("./libalg/model_config/*.cpp")
+    add_files("./libalg/tinyxml2/*.cpp")
+    add_files("./libalg/opencl_tools/*.cpp")
+
 
     --依赖
-    add_files("libalg/*.cpp")
-    add_files("libalg/make_result/*.cpp")
-    add_files("libalg/model_config/*.cpp")
-    add_files("libalg/tinyxml2/*.cpp")
-    add_files("libalg/opencl_tools/*.cpp")
-
     add_cxxflags(
-        "-fPIC",
+        "-fPIE",
+        "-std=c++11",
         "-g",
         "-DANDROID_STL=c++_static",
         "-D__ANDROID_API__=24",
-        "-pie",
-        "-fPIE",
-        "-std=c++11",
         "-pthread",
         "-D CL_VERSION_1_1=1",
         "-D CL_TARGET_OPENCL_VERSION=110"
     )
     add_ldflags(
-        "-Wl,--allow-shlib-undefined"
+        "-Wl,--allow-shlib-undefined",
+        "-pie"
     )
     --添加显示头文件
     add_includedirs(
@@ -217,24 +282,22 @@ target("app_local_test")
         "local_test/local_xml_config"
     )
 
-
-    add_headerfiles("local_test/human/*.h")
-    add_headerfiles("local_test/local_xml_config/*.h")
-    add_headerfiles("local_test/*.h")
     --依赖
     add_headerfiles("libalg/opencl_tools/*.h")
     add_headerfiles("libalg/*.h")
     add_headerfiles("libalg/make_result/*.h")
     add_headerfiles("libalg/model_config/*.h")
     add_headerfiles("libalg/tinyxml2/*.h")
+    add_linkdirs("./app/lib")
+    add_links("eventLib")
 
 target_end()
 
-includes("@builtin/xpack")
-xpack("libalgLib")
-    --set_strip("none")
-    set_version("0.0.2")
-    set_formats("zip")
-    set_license("Apache-2.0")
-    add_targets("algLib")
-    set_description("pdw 写入单个明场图的csv.")
+-- includes("@builtin/xpack")
+-- xpack("libalgLib")
+--     --set_strip("none")
+--     set_version("0.0.2")
+--     set_formats("zip")
+--     set_license("Apache-2.0")
+--     add_targets("algLib")
+--     set_description("pdw 写入单个明场图的csv.")

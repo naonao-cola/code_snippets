@@ -291,6 +291,31 @@ class SphericalRdwCvNetwork : public NormalNetwork {
   const float norm_output = 10;
 };
 
+class SphericalPdwCvNetwork : public NormalNetwork
+{
+public:
+    SphericalPdwCvNetwork() = default;
+    ~SphericalPdwCvNetwork() override {};
+
+    int Init() override;
+
+    int Forward(const std::vector<float>& input_param_v, std::vector<float>& output_v) override;
+
+private:
+    cv::Mat conv1_weight{0.3426, -0.6208, 0.6322, -0.8143};
+    cv::Mat conv1_bias{0.1232, 0.2732, 0.5604, 1.0107};
+
+    cv::Mat conv2_weight{
+        0.0312, -0.3815, 0.2744, 0.3946, -0.3707, -0.0570, -0.4964, -0.4230, -0.0153, -0.3882, -0.2450, 0.3424, -0.4923, -0.5709, -0.6259, -0.5057};
+    cv::Mat conv2_bias{0.1232, 0.0523, -0.3931, 0.0230};
+
+    cv::Mat conv3_weight{0.8163, 0.4219, 0.6711, 1.3255};
+    const int   required_param_nums = 1;
+    const float norm_input1         = 10;
+
+    const float norm_output = 10;
+};
+
 class SphericalRdwSdNetwork : public NormalNetwork {
  public:
   SphericalRdwSdNetwork() = default;
@@ -349,8 +374,15 @@ class SphericalMpvNetwork : public NormalNetwork {
 
   const float norm_output = 10;
 
+// private:
+//   cv::Mat conv1_weight{1.5380};
+//   cv::Mat conv1_bias{-0.4683};
 
 
+//   const int   required_param_nums = 1;
+//   const float norm_input1         = 10;
+
+//   const float norm_output = 10;
 };
 
 

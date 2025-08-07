@@ -27,6 +27,7 @@ static uint8_t *Alg_ReadFile(const char *path,  uint32_t *len)
   snprintf(filename, 256, "%s", path);
   //DLOG(INFO, "sample process pos = %d x=%d y=%d process=%d (%d/%d)", ctx->pos, ctx->x, ctx->y, process, ctx->currentField, ctx->totalField);
   EVINFO(EVID_INFO, "Use rknn model path: %s", filename);
+  std::cout << "Use rknn model path 30 : " << filename << std::endl;
   fp = fopen(filename, "rb");
   if(fp == NULL)
   {

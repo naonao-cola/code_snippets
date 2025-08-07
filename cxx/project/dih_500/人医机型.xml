@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Setting>
+	<!--> 机型:人, 其MachineIdx为1<-->
+	<AlgMachineType Name="MACHINE_HUMAN" MachineIdx="1">
+		<!--> 样本类型:人,其GroupIdx为1<-->
+		<GroupType Name="GROUP_HUMAN" GroupIdx="1">
+			<!--> 流道配置:红细胞流道,其ChannelIdx为0<-->
+			<Channel Name ="HUMAN_RBC_CHANNEL" ChannelIdx="0">
+				<!--> 视图配置:第一张图为明场(BRI),其ViewIdx为0<-->
+				<View Name = "HUMAN_RBC_BRI" ViewIdx="0">  </View>
+				<!--> 视图配置:第二张图为荧光场(FLU),其ViewIdx为1<-->
+				<View Name = "HUMAN_RBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<!--白细胞流道> <-->
+			<Channel Name ="HUMAN_WBC_CHANNEL" ChannelIdx="1">
+				<View Name = "HUMAN_WBC_BRI" ViewIdx="0">  </View>
+				<View Name = "HUMAN_WBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<!--嗜碱细胞流道> <-->
+			<Channel Name ="HUMAN_BASO_CHANNEL" ChannelIdx="2">
+				<View Name = "HUMAN_BASO_BRI" ViewIdx="0">  </View>
+			</Channel>
+			<!--网织红细胞流道> <-->
+			<Channel Name ="HUMAN_RET_CHANNEL" ChannelIdx="3">
+				<View Name = "HUMAN_RET_FLU" ViewIdx="0">  </View>
+			</Channel>
+			<Channel Name ="HUMAN_QC_RBC_CHANNEL" ChannelIdx="4">
+				<View Name = "HUMAN_QC_RBC_BRI" ViewIdx="0">  </View>
+				<View Name = "HUMAN_QC_RBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<Channel Name ="HUMAN_QC_WBC_CHANNEL" ChannelIdx="5">
+				<View Name = "HUMAN_QC_WBC_BRI" ViewIdx="0">  </View>
+				<View Name = "HUMAN_QC_WBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<Channel Name ="HUMAN_QC_BASO_CHANNEL" ChannelIdx="6">
+				<View Name = "HUMAN_QC_BASO_BRI" ViewIdx="0">  </View>
+			</Channel>
+			<Channel Name ="HUMAN_QC_RET_CHANNEL" ChannelIdx="7">
+				<View Name = "HUMAN_QC_RET_FLU" ViewIdx="0">  </View>
+			</Channel>
+			<Channel Name ="HUMAN_FLU_MIC_CHANNEL" ChannelIdx="8">
+				<View Name = "HUMAN_FLU_MIC_BRI" ViewIdx="0">  </View>
+				<View Name = "HUMAN_FLU_MIC_FLU" ViewIdx="1">  </View>
+			</Channel>
+		</GroupType>
+	</AlgMachineType>
+</Setting>

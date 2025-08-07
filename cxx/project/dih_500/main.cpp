@@ -1,3 +1,4 @@
+
 #include "DihLogPlog.h"
 #include "Format.h"
 #include "ProjectManager.h"
@@ -23,6 +24,7 @@ bool RegularTest()
     algPLogConfig("./");
     //  dihPLogConfig(".");
     std::string test = util::Format("This is a nice string with numbers {0} and strings {1} nicely formatted", 123, "hello");
+    std::cout << " test "<<test<<std::endl;
     // 读取测试配置
     ProjectManager project{};
     if (!project.GetInitParams("./alg_config.xml")) {

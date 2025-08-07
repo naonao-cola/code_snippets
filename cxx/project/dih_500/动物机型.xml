@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Setting>
+	<!--> 机型:动物<-->
+	<AlgMachineType Name="MACHINE_ANIMAL" MachineIdx="2">
+		<!--> 样本类型:猫<-->
+		<GroupType Name="GROUP_CAT" GroupIdx="2">
+			<Channel Name ="CAT_RBC_CHANNEL" ChannelIdx="0">
+				<View Name = "CAT_RBC_BRI" ViewIdx="0">  </View>
+				<View Name = "CAT_RBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<Channel Name ="CAT_WBC_CHANNEL" ChannelIdx="1">
+				<View Name = "CAT_WBC_BRI" ViewIdx="0">  </View>
+				<View Name = "CAT_WBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<Channel Name ="CAT_BASO_CHANNEL" ChannelIdx="2">
+				<View Name = "CAT_BASO_BRI" ViewIdx="0">  </View>
+			</Channel>
+			<Channel Name ="CAT_RET_CHANNEL" ChannelIdx="3">
+				<View Name = "CAT_RET_FLU" ViewIdx="0">  </View>
+			</Channel>
+		</GroupType>
+		<!--> 样本类型:狗<-->
+		<GroupType Name="GROUP_DOG" GroupIdx="3">
+			<Channel Name ="DOG_RBC_CHANNEL" ChannelIdx="0">
+				<View Name = "DOG_RBC_BRI" ViewIdx="0">  </View>
+				<View Name = "DOG_RBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<Channel Name ="DOG_WBC_CHANNEL" ChannelIdx="1">
+				<View Name = "DOG_WBC_BRI" ViewIdx="0">  </View>
+				<View Name = "DOG_WBC_FLU" ViewIdx="1">  </View>
+			</Channel>
+			<Channel Name ="DOG_BASO_CHANNEL" ChannelIdx="2">
+				<View Name = "DOG_BASO_BRI" ViewIdx="0">  </View>
+			</Channel>
+			<Channel Name ="DOG_RET_CHANNEL" ChannelIdx="3">
+				<View Name = "DOG_RET_FLU" ViewIdx="0">  </View>
+			</Channel>
+		</GroupType>
+	</AlgMachineType>
+</Setting>

@@ -45,7 +45,12 @@ int LocalMeanVolumeLine(const std::vector<float>& vol_v, const int& volume_size,
   for(int i=0;i<vol_v.size();++i){
     //    int idx = (v[i]==0)*1+v[i]-1;
     int idx = v[i];
-    plt_nums_under_interval[idx] +=1;
+    if (idx >= 0 && idx < volume_size) {
+      plt_nums_under_interval[idx] +=1;
+    }
+    else {
+        ALGLogInfo << "idx " << idx << " " << " volume_size " << volume_size << " v_f size" << v.size();
+    }
   }
 
 
@@ -103,7 +108,12 @@ int LocalMaxVolumeLine(const std::vector<float>& vol_v, const int& volume_size,
   for(int i=0;i<vol_v.size();++i){
     //    int idx = (v[i]==0)*1+v[i]-1;
     int idx = v[i];
-    plt_nums_under_interval[idx] +=1;
+    if (idx >= 0 && idx < volume_size) {
+      plt_nums_under_interval[idx] +=1;
+    }
+    else {
+        ALGLogInfo << "idx " << idx << " " << " volume_size " << volume_size << " v_f size" << v.size();
+    }
   }
 //  std::cout<<"rdw ds intervel -----------------"<<std::endl;
 //  for(const auto& iter:plt_nums_under_interval){
@@ -161,7 +171,7 @@ int MediumMeanVolumeLine(const std::vector<float>& vol_v, const int& volume_size
     return 0;
   }
 
-  cv::Mat vol{vol_v};
+  cv::Mat vol = cv::Mat(vol_v,true).clone();
   vol = vol * dilate_ratio;
   //排除异常大的值
   MatClip(vol, max_volume_confine, vol);
@@ -175,9 +185,15 @@ int MediumMeanVolumeLine(const std::vector<float>& vol_v, const int& volume_size
   std::for_each(v_f.begin(), v_f.end(), [](float & value){value = std::round(value);});
   std::vector<int> v(v_f.begin(), v_f.end());
   for(int i=0;i<vol_v.size();++i){
-    //    int idx = (v[i]==0)*1+v[i]-1;
+
     int idx = v[i];
-    nums_under_interval[idx] +=1;
+    if (idx >= 0 && idx < volume_size) {
+        nums_under_interval[idx] += 1;
+    }
+    else{
+        ALGLogInfo << "idx " << idx << " " << " volume_size " << volume_size << " v_f size" << v_f.size();
+    }
+
   }
 
 
@@ -236,7 +252,7 @@ int ParamFitting::HgbFitting(const std::vector<float> &data_v, const std::vector
   hgb = network_output[0];*/
   hgb = (a*input_param1+b*input_param2+c*input_param3+d)*100;
   if(std::isnan(hgb)){
-    ALGLogWarning<<"Hb produced nan value, please check the input, hgb is forced set to 0 ";
+    ALGLogError<<"Hb produced nan value, please check the input, hgb is forced set to 0 ";
     hgb = 0.f;
   }
   return 0;

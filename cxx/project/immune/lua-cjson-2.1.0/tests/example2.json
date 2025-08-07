@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:894fddaaef6a41a0edceeacc964b4579ea2e09246f170e269eb229b28ed8d0cd
-size 253
+{"menu": {
+  "id": "file",
+  "value": "File",
+  "popup": {
+    "menuitem": [
+      {"value": "New", "onclick": "CreateNewDoc()"},
+      {"value": "Open", "onclick": "OpenDoc()"},
+      {"value": "Close", "onclick": "CloseDoc()"}
+    ]
+  }
+}}

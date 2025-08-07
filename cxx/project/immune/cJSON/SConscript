@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:82328d5301af7c873ce7c322ccecf824dbd16fbc9f794fa4a62674e8554cf969
-size 198
+from building import *
+
+cwd     = GetCurrentDir()
+src     = Glob('*.c')
+CPPPATH = [cwd]
+
+group = DefineGroup('cJSON', src, depend = ['PKG_USING_CJSON'], CPPPATH = CPPPATH)
+
+Return('group')

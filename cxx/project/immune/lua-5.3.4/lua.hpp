@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a7a47ce4cd19f703b8025696f0631c09a664d54cfa831be4538d10441aebb48d
-size 200
+// lua.hpp
+// Lua header files for C++
+// <<extern "C">> not supplied automatically because Lua also compiles as C++
+
+extern "C" {
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
+}

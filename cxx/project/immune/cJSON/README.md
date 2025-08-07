@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a203d916d85b547405f760cf3736a1fa660e75eba98bbd15f31fda7203d8f1ce
-size 282
+# cJSON for RT-Thread
+
+[中文页](README_ZH.md) | English
+
+Ultralightweight JSON parser in ANSI C.
+
+Offical repository: https://github.com/DaveGamble/cJSON
+
+Maintenance: [Meco Man](https://github.com/mysterywolf)
+
+Homepage: https://github.com/RT-Thread-packages/cJSON
+
