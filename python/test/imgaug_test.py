@@ -1,5 +1,7 @@
 ﻿import imgaug.augmenters as iaa
 from imgaug.augmentables.bbs import BoundingBox, BoundingBoxesOnImage
+from imgaug.augmentables.kps import Keypoint, KeypointsOnImage
+from imgaug.augmentables.polys import Polygon, PolygonsOnImage
 import json
 import cv2
 import os
@@ -8,105 +10,126 @@ import glob
 from pathlib import Path
 
 
-def augment_data(image_path, annotation_path, output_dir, index):
-    image_base_name = os.path.basename(image_path).split('.')[0]
-    # 读取图像和标注文件
-    image = cv2.imread(image_path)
-    with open(annotation_path, 'r') as f:
-        annotation_data = json.load(f)
+# 修改bug  https://github.com/aleju/imgaug/issues/859
 
-    # 将labelme标注数据转换为imgaug的BoundingBoxesOnImage格式
-    bbs = []
-    for shape in annotation_data['shapes']:
-        label = shape['label']
-        points = shape['points']
-        x1 = points[0][0]
-        y1 = points[0][1]
-        x2 = points[1][0]
-        y2 = points[1][1]
-        bb = BoundingBox(x1=x1, y1=y1, x2=x2, y2=y2, label=label)
-        bbs.append(bb)
-    bbs_on_image = BoundingBoxesOnImage(bbs, shape=image.shape)
+def parse_labelme(json_path, img_shape):
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    # 定义图像增强器
-    seq = iaa.Sequential([
-        iaa.Multiply(mul=(0.8, 1.2)),
-        iaa.Sometimes(0.2, iaa.AddToHueAndSaturation(
-            value=(-10, 10), per_channel=True)),
-        iaa.Sometimes(0.5, iaa.GaussianBlur(sigma=(1, 3.0))),
-        iaa.Sometimes(0.5, iaa.AdditiveGaussianNoise(
-            scale=(0, random.random() * 0.05 * 255))),
-        iaa.Sometimes(0.5, iaa.LinearContrast((0.75, 1.25))),
-        iaa.Multiply((0.9, 1.1), per_channel=0.2),
-        iaa.Fliplr(0.1),  # 水平翻转
-        # iaa.Affine(scale=random.uniform(0.9, 1.1)),
-        # iaa.Affine(rotate=(-5, 5)),
-        # iaa.PerspectiveTransform(scale=(0, 0.05)),
-    ])
+    bbs, kps, polys, shape_meta = [], [], [], []
+    h, w = img_shape[:2]
 
-    # 进行图像增强
-    augmented_image, augmented_bbs_on_image = seq(
-        image=image, bounding_boxes=bbs_on_image)
+    for shape in data["shapes"]:
+        label = shape["label"]
+        pts = shape["points"]
 
-    # 生成labelme标注
-    transformed_annotation = {
-        'version': '5.3.1',
-        'flags': {},
-        'shapes': [],
-        'imagePath': f'{image_base_name}_aug_{index}.jpg',
-        'imageData': None,
-        'imageHeight': augmented_image.shape[0],
-        'imageWidth': augmented_image.shape[1]
+        if shape["shape_type"] == "rectangle":
+            (x1, y1), (x2, y2) = pts
+            bbs.append(BoundingBox(x1=x1, y1=y1, x2=x2, y2=y2, label=label))
+            shape_meta.append(shape)
+
+        elif shape["shape_type"] == "point":
+            x, y = pts[0]
+            kps.append(Keypoint(x=x, y=y))
+            shape_meta.append(shape)
+
+        elif shape["shape_type"] == "polygon":
+            # 转成 imgaug.Polygon
+            polys.append(Polygon([Keypoint(x=p[0], y=p[1]) for p in pts]))
+            shape_meta.append(shape)
+
+    bbs_on = BoundingBoxesOnImage(bbs, shape=img_shape) if bbs else None
+    kps_on = KeypointsOnImage(kps, shape=img_shape) if kps else None
+    polys_on = PolygonsOnImage(polys, shape=img_shape) if polys else None
+
+    return bbs_on, kps_on, polys_on, shape_meta, data
+
+
+# ---------- 2. 写回 labelme ----------
+def rebuild_labelme(aug_img, bbs_aug, kps_aug, polys_aug, shape_meta, imagePath):
+    h, w = aug_img.shape[:2]
+    new_shapes = []
+
+    bb_idx = kp_idx = poly_idx = 0
+    for shape in shape_meta:
+        label = shape["label"]
+        new_shape = shape.copy()
+
+        if shape["shape_type"] == "rectangle":
+            bb = bbs_aug.bounding_boxes[bb_idx]
+            bb_idx += 1
+            new_shape["points"] = [[float(bb.x1), float(bb.y1)], [float(bb.x2), float(bb.y2)]]
+
+        elif shape["shape_type"] == "point":
+            kp = kps_aug.keypoints[kp_idx]
+            kp_idx += 1
+            new_shape["points"] = [[float(kp.x), float(kp.y)]]
+
+        elif shape["shape_type"] == "polygon":
+            poly = polys_aug.polygons[poly_idx]
+            poly_idx += 1
+            # 取回增强后的顶点
+            new_shape['points'] = poly.exterior.astype(float).tolist()
+
+        new_shapes.append(new_shape)
+
+    return {
+        "version": "5.3.1",
+        "flags": {},
+        "shapes": new_shapes,
+        "imagePath": imagePath,
+        "imageData": None,
+        "imageHeight": h,
+        "imageWidth": w,
     }
 
-    for bb in augmented_bbs_on_image.bounding_boxes:
-        transformed_shape = {
-            'label': bb.label,
-            'points': [[float(bb.x1), float(bb.y1)], [float(bb.x2), float(bb.y2)]],
-            'group_id': None,
-            'description': '',
-            'shape_type': 'rectangle',
-            'flags': shape['flags']
-        }
-        transformed_annotation['shapes'].append(transformed_shape)
 
-    # 导出增强后的图像和标注
-    output_image_path = os.path.join(
-        output_dir, f'{image_base_name}_aug_{index}.jpg')
-    output_annotation_path = os.path.join(
-        output_dir, f'{image_base_name}_aug_{index}.json')
+def augment_data(img_path, json_path, out_dir, idx):
+    img = cv2.imread(img_path)
+    bbs, kps, polys, shape_meta, json_data = parse_labelme(json_path, img.shape)
 
-    cv2.imwrite(output_image_path, augmented_image)
-    with open(output_annotation_path, 'w') as f:
-        json.dump(transformed_annotation, f)
+    seq = iaa.Sequential([
+        iaa.Multiply((0.8, 1.2)),
+        iaa.Sometimes(0.2, iaa.AddToHueAndSaturation((-10, 10), per_channel=True)),
+        iaa.Sometimes(0.5, iaa.GaussianBlur(sigma=(1, 3))),
+        iaa.Sometimes(0.5, iaa.AdditiveGaussianNoise(scale=(0, 0.05 * 255))),
+        iaa.Sometimes(0.5, iaa.LinearContrast((0.75, 1.25))),
+        iaa.Multiply((0.9, 1.1), per_channel=0.2),
+        iaa.Fliplr(0.1)
+    ])
+
+    aug_img, aug_bbs, aug_kps, aug_polys = seq(image=img, bounding_boxes=bbs, keypoints=kps, polygons=polys)
+
+    if aug_bbs is not None:
+        aug_bbs = aug_bbs.clip_out_of_image()
+    if aug_kps is not None:
+        aug_kps = aug_kps.clip_out_of_image()
+    if aug_polys is not None:
+        aug_polys = aug_polys.clip_out_of_image()
+
+    stem = Path(img_path).stem
+    aug_name = f"{stem}_aug_{idx}"
+    aug_img_path = Path(out_dir) / f"{aug_name}.jpg"
+    aug_json_path = Path(out_dir) / f"{aug_name}.json"
+
+    cv2.imwrite(str(aug_img_path), aug_img)
+    new_json = rebuild_labelme(aug_img, aug_bbs, aug_kps, aug_polys, shape_meta, f"{aug_name}.jpg")
+    with open(aug_json_path, "w", encoding="utf-8") as f:
+        json.dump(new_json, f, ensure_ascii=False, indent=2)
 
 
-# for i in range(30):
-#     augment_data('./data/Right_20240430151354405.jpg',
-#                  './data/Right_20240430151354405.json', './aug2', i)
 
-
-def apply_aug(img_path, dst_path):
-    search_path = img_path + '/*.JPG'
-    file_list = glob.glob(search_path, recursive=True)
-    for file in file_list:
-        img_path = file
-        json_path = Path(file).with_suffix('.json')
-        if not json_path.exists():
+def apply_aug(img_dir, dst_dir):
+    os.makedirs(dst_dir, exist_ok=True)
+    for img_file in glob.glob(os.path.join(img_dir, "*.jpg")):
+        json_file = Path(img_file).with_suffix(".json")
+        if not json_file.exists():
             continue
-        print(json_path)
-        with open(json_path, 'r')as f:
-            json_data = json.load(f)
-        index = 5
-        # 对黑色海绵 地线巴做多增强
-        # for i, label in enumerate(json_data['shapes']):
-        #     if json_data['shapes'][i]['label'] == "DXB" or json_data['shapes'][i]['label'] == "AXFSJ":
-        #         index = 8
-        #         break
-
-        for i in range(index):
-            augment_data(img_path, json_path, dst_path, i)
+        # 每张图做 2 次增强（可自行修改）
+        for i in range(2):
+            augment_data(img_file, json_file, dst_dir, i)
 
 
-apply_aug(r"Y:\proj\www\repo\yolo8_test\dataset\sbg_hl_test\result",
-          r'Y:\proj\www\repo\yolo8_test\dataset\sbg_hl_test\result\aug')
+# ---------- 入口 ----------
+if __name__ == "__main__":
+    apply_aug(r"E:\demo\py\test01\1", r"E:\demo\py\test01\1\aug")
