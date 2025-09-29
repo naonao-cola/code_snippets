@@ -1,0 +1,1 @@
+trtexec.exe --onnx=D:\hf\test_trt\DEIM.onnx --saveEngine=D:\hf\test_trt\DEIM.engine --plugins=D:\hf\test_trt\build\windows\x64\release\custom-plugin.dll  --memPoolSize=workspace:2048   --minShapes=images:1x3x640x640 --optShapes=images:1x3x640x640 --maxShapes=images:1x3x640x640
