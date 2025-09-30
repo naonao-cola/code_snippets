@@ -17,6 +17,8 @@ def parse_labelme(json_path):
         if shape["shape_type"] == "rectangle":
             x1, y1 = pts[0]
             x2, y2 = pts[1]
+            x1, x2 = sorted([x1, x2])   # 谁小谁当左边
+            y1, y2 = sorted([y1, y2])   # 谁小谁当顶边
             bboxes.append([x1, y1, x2, y2])  # [x1,y1,x2,y2]
             shape_meta.append(shape)
 
