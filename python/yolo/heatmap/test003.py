@@ -1,6 +1,6 @@
 ﻿from ultralytics import YOLO
 from pathlib import Path
-
+# https://blog.csdn.net/qq_37706472/article/details/128714604
 weights = "/home/greatek/huangsc/test001/run/konghu2/weights/best.pt"
 img_path = "/home/greatek/wangww/demo/py/test003/66e05ccc3f89422c9a0540097f4462ca.png"
 out_dir = Path("/home/greatek/wangww/demo/py/test003/output/my_feats")          # 你想放的目录
