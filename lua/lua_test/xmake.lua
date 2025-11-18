@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a5454f87f92860fcae00718640b7ec2dd29080fd85cbcb536b8ca95eab4de824
-size 599
+add_rules("mode.debug", "mode.release")
+add_requires("sol2")
+set_languages("c++17")
+
+
+target("lua_test")
+    set_kind("binary")
+    add_packages("sol2")
+    add_files("src/*.cpp")
+
