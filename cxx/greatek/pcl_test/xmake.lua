@@ -2,13 +2,14 @@
 set_project("pcl_test")
 set_version("0.0.1",{soname = true})
 set_languages("c++17")
-set_toolchains("msvc", {vs = "2019"})
+set_toolchains("msvc")
 --set_policy("build.c++.msvc.runtime", "MD")
 add_rules("mode.debug", "mode.release", "mode.releasedbg")
-add_requires("opencv 4.8.x", {system = false})
+add_requires("opencv 4.8.x", {system = false,configs = {shared = true}})
+set_config("cuda_sdkver","11.8")
 
 --add_requires("onnxruntime")
-add_requires("pcl",{configs = {vtk = true, visualization = true}})
+add_requires("pcl",{configs = {shared = true,vtk = true, visualization = true}})
 add_requireconfs("pcl.eigen", {override = true, version = "3.3.7"})
 
 add_requires("nlohmann_json",{system = false})
@@ -59,7 +60,7 @@ add_rpathdirs("E:/test/pcl_test/3rdparty/sensor")
 
 target("pcl_test")
     set_version("1.0.2")
-    set_toolchains("msvc", {vs = "2019"})
+    set_toolchains("msvc")
     set_kind("binary")
     add_packages("opencv")
     add_packages("pcl")
@@ -78,7 +79,33 @@ target("pcl_test")
 
 
     set_configdir(".")
-    add_configfiles("version.rc.in")
-    if is_plat("windows") then
-        add_files("version.rc")
-    end
+    -- add_configfiles("version.rc.in")
+    -- if is_plat("windows") then
+    --     add_files("version.rc")
+    -- end
+    after_install(function (target)
+        local installdir = target:installdir()
+        local seen = {}
+        local function copy_pkg(pkg)
+            if seen[pkg:name()] then return end
+            seen[pkg:name()] = true
+            local root = pkg:installdir()
+            if root and os.isdir(root) then
+                os.vcp(path.join(root, "**.dll"), path.join(installdir, "bin"))
+                os.vcp(path.join(root, "**.lib"), path.join(installdir, "lib"))
+                if os.isdir(path.join(root, "include")) then
+                    os.vcp(path.join(root, "include/**"), path.join(installdir, "include"))
+                end
+            end
+            for _, dep in ipairs(pkg:deps() or {}) do
+                copy_pkg(dep)
+            end
+        end
+        for _, pkg in ipairs(target:pkgs() or {}) do
+            copy_pkg(pkg)
+        end
+    end)
+
+
+
+
