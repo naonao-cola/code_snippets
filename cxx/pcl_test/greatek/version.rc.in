@@ -1,0 +1,24 @@
+﻿#include <windows.h>
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    ${VERSION_MAJOR}, ${VERSION_MINOR}, ${VERSION_ALTER}, 0
+PRODUCTVERSION ${VERSION_MAJOR}, ${VERSION_MINOR}, ${VERSION_ALTER}, 0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName",      "格里特公司"
+            VALUE "FileDescription",  "hardware calls canon_camera_server"
+            VALUE "FileVersion",      "${VERSION}"
+            VALUE "LegalCopyright",   "Copyright 闹闹"
+            VALUE "OriginalFilename", "canon_camera_server.exe"
+            VALUE "ProductName",      "激光雷达相机服务"
+            VALUE "ProductVersion",   "${VERSION}"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END

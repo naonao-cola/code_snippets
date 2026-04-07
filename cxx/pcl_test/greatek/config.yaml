@@ -1,0 +1,17 @@
+%YAML:1.0
+---
+camera_matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 1000., 0., 320., 0., 1000., 240., 0., 0., 1. ]
+dist_coeff: !!opencv-matrix
+   rows: 5
+   cols: 1
+   dt: d
+   data: [ 0.1, 0.01, 0., 0., 0. ]
+use_gpu: 1
+model_path: "E:/test/pcl_test/model/yolov8m-seg.onnx"
+thresholds:
+   conf: 0.25
+   iou: 0.45
