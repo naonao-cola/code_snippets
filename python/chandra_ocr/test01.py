@@ -9,6 +9,11 @@ from chandra.model.schema import BatchInputItem
 from PIL import Image
 from chandra.settings import settings
 
+
+
+"""
+参考链接 https://blog.csdn.net/weixin_35886636/article/details/159874400
+"""
 def wait_for_vllm(url, process, timeout=300):
     print(f"Waiting for vLLM server at {url}...")
     start_time = time.time()
