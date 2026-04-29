@@ -26,26 +26,24 @@ if is_mode "releasedbg" then
     set_symbols("debug")
 end
 
---trt cudnn
--- add_includedirs("E:/3rdparty/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/include/")
--- add_linkdirs("E:/3rdparty/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/lib/x64/")
--- add_includedirs("E:/3rdparty/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/include/")
--- add_linkdirs("E:/3rdparty/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/lib/")
--- add_rpathdirs("E:/3rdparty/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/lib")
--- add_rpathdirs("E:/3rdparty/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/bin/")
--- add_links("nvinfer",
--- "nvinfer_plugin",
--- "nvparsers",
--- "nvinfer_vc_plugin",
--- "nvonnxparser",
--- "cudnn",
--- "cudnn_adv_infer",
--- "cudnn_adv_train",
--- "cudnn_cnn_infer",
--- "cudnn_cnn_train",
--- "cudnn_ops_infer",
--- "cudnn_ops_train")
 
+
+
+add_includedirs("E:/3rdparty/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/include")
+add_includedirs("E:/3rdparty/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/include")
+add_linkdirs("E:/3rdparty/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8/TensorRT-8.6.1.6/lib")
+add_linkdirs("E:/3rdparty/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/cudnn-windows-x86_64-8.9.7.29_cuda11-archive/lib/x64")
+add_links("nvinfer",
+"nvinfer_plugin",
+"nvparsers",
+"nvonnxparser",
+"cudnn",
+"cudnn_adv_infer",
+"cudnn_adv_train",
+"cudnn_cnn_infer",
+"cudnn_cnn_train",
+"cudnn_ops_infer",
+"cudnn_ops_train")
 
 --onnxruntime
 add_includedirs("E:/3rdparty/onnxruntime-win-x64-1.22.1/onnxruntime-win-x64-1.22.1/include")
@@ -63,18 +61,32 @@ target("pcl_test")
     set_toolchains("msvc")
     set_kind("binary")
     add_packages("opencv")
+    add_cxxflags("/openmp")
+    add_ldflags("-lopenmp")
     add_packages("pcl")
     add_rules("cuda")
+    add_rules("c++.openmp")
     add_cugencodes("native")
     add_cuflags("-allow-unsupported-compiler", {force = true})
-    --set_policy("build.c++.msvc.runtime", "MD")
-    --add_packages("onnxruntime")
-    --add_rules("cuda")
     add_includedirs("include")
     add_headerfiles("include/*.h")
-    --add_files("src/*.cpp|win_dll_demo.cpp|test.cpp|test_1.cpp|test_2.cpp|test_3.cpp|test_4.cpp|test_5.cpp|test_6.cpp") -- 添加 .cpp 文件编译
     add_files("src/*.cu","src/ox_d.cpp","src/ox_seg.cpp","src/ox.cpp")-- 添加 .cu 文件编译
-    add_files("src/test_5.cpp")
+    add_files("src/test_5_trt.cpp")
+
+
+
+target("test_8")
+    set_version("1.0.0")
+    set_toolchains("msvc")
+    set_kind("binary")
+    add_packages("opencv")
+    add_packages("pcl")
+    add_includedirs("include")
+    add_headerfiles("include/*.h")
+    add_files("src/test_8.cpp")
+    add_linkdirs("E:/test/pcl_test/3rdparty/sensor")
+    add_links("Ldsensorllib")
+    set_configdir(".")
 
 
 

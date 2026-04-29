@@ -1,4 +1,14 @@
 ﻿/**
+ * @FilePath     : /pcl_test/src/test_5 copy.cpp
+ * @Description  :
+ * @Author       : weiwei.wang
+ * @Date         : 2026-04-21 11:11:51
+ * @Version      : 0.0.1
+ * @LastEditors  : weiwei.wang
+ * @LastEditTime : 2026-04-21 11:11:51
+ * @Copyright (c) 2026 by G, All Rights Reserved.
+ **/
+/**
  * @FilePath     : /pcl_test/src/test_5.cpp
  * @Description  : Collision detection using brute-force point-to-point distance calculation
  * @Author       : weiwei.wang
