@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: agent
+Version: 0.0.1
+Summary: Starter template for making a new agent LangGraph.
+Author-email: William Fu-Hinthorn <13333726+hinthornw@users.noreply.github.com>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: langgraph>=1.0.0
+Requires-Dist: python-dotenv>=1.0.1
+Provides-Extra: dev
+Requires-Dist: mypy>=1.11.1; extra == "dev"
+Requires-Dist: ruff>=0.6.1; extra == "dev"

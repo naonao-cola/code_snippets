@@ -1,0 +1,79 @@
+{
+  "document_info": {
+    "source_pdf": "E:\\my_project\\Multimodal_RAG\\paddle_ocr\\test2.pdf",
+    "total_pages": 14,
+    "extracted_images": 25
+  },
+  "pages": [
+    {
+      "page_number": 1,
+      "markdown_file": "parsed_document_openai\\markdown\\page_1.md",
+      "content_preview": "1第一章 Apache Flink概述<|LOC_66|><|LOC_55|><|LOC_482|><|LOC_55|><|LOC_482|><|LOC_88|><|LOC_66|><|LOC_88|>\n1.1 Apache Flink是什么？<|LOC_66|><|LOC_110|><|LOC_421|><|LOC_110|><|LOC_421|><|LOC_140|><|LOC_66|><|L..."
+    },
+    {
+      "page_number": 2,
+      "markdown_file": "parsed_document_openai\\markdown\\page_2.md",
+      "content_preview": "start of the stream  \nunbounded stream  \npast now future  \nunbounded stream  \n\n• 无界流  \n\n有定义流的开始，但没有定义流的结束。它们会无休止地产生数据。无界流的数据必须持续处理，即数据被摄取后需要立刻处理。我们不能等到所有数据都到达再处理，因为输入是无限的，在任何时候输入都不会完成。处理无界数据通常要求以特定顺序摄..."
+    },
+    {
+      "page_number": 3,
+      "markdown_file": "parsed_document_openai\\markdown\\page_3.md",
+      "content_preview": "Flink自从加入Apache后发展十分迅猛，自2014年8月发布0.6版本后，Flink仅用了3个月左右的时间，在2014年11月发布了0.7版本，该版本包含Flink目前为止最重要的Flink Streaming特性，2014年底，Flink顺利从孵化器“毕业”成为Apache顶级项目。随着Flink技术成为Apache顶级项目，Flink受到社区越来越多的关注，Flink逐步增加了很多核心的..."
+    },
+    {
+      "page_number": 4,
+      "markdown_file": "parsed_document_openai\\markdown\\page_4.md",
+      "content_preview": "- 2014-08-26: Flink 0.6发布；\n- 2014-11-04: Flink 0.7.0发布，推出最重要的特性：Streaming API；\n- 2016-03-08: Flink 1.0.0，流处理基础功能完善，支持Scala；\n- 2016-08-08: Flink 1.1.0 版本发布，流处理基础功能完善；\n- 2017-02-06: Flink 1.2.0 版本发布，流处理..."
+    },
+    {
+      "page_number": 5,
+      "markdown_file": "parsed_document_openai\\markdown\\page_5.md",
+      "content_preview": "实现了基于Kubernetes的高可用性（HA）方案，作为生产环境中，ZooKeeper方案之外的另外一种选择；\n扩展了 Kafka SQL connector，使其可以在 upsort 模式下工作，并且支持在 SQL DDL 中处理 connector 的 metadata；\nPyFlink 中添加了对于 DataStream API 的支持；\n支持FlinkSink，不建议再使用Streami..."
+    },
+    {
+      "page_number": 6,
+      "markdown_file": "parsed_document_openai\\markdown\\page_6.md",
+      "content_preview": "弃用StreamingFileSink，建议使用FileSink。\n优化checkpoint机制；\nPyFlink1.16将python3.6版本标记为弃用，PyFlink1.16版本将成为使用python3.6版本最后一个版本；\nHadoop支持3.3.2版本；\nKafka支持3.1.1版本；\nHive支持2.3.9版本；\n\n1.2数据架构的演变\n近年来随着越来越多的大数据技术被开源，例如：HD..."
+    },
+    {
+      "page_number": 7,
+      "markdown_file": "parsed_document_openai\\markdown\\page_7.md",
+      "content_preview": "微服务架构的核心思想是一个应用由多个小的、相互独立的微服务组成，这些服务运行在自己的进程中，开发和发布都没有依赖，不同的服务能依据不同的业务需求，构建不同的技术架构之上，组成不同的业务系统应用。\n\n微服务架构的核心思想是一个应用由多个小的、相互独立的微服务组成，这些服务运行在自己的进程中，开发和发布都没有依赖，不同的服务能依据不同的业务需求，构建不同的技术架构之上，组成不同的业务系统应用。\n微服务..."
+    },
+    {
+      "page_number": 8,
+      "markdown_file": "parsed_document_openai\\markdown\\page_8.md",
+      "content_preview": "源数据<|LOC_121|><|LOC_62|><|LOC_171|><|LOC_62|><|LOC_171|><|LOC_76|><|LOC_121|><|LOC_76|>\n业务数据<|LOC_117|><|LOC_100|><|LOC_176|><|LOC_100|><|LOC_176|><|LOC_115|><|LOC_117|><|LOC_115|>\n离线数据处理<|LOC_369|><|..."
+    },
+    {
+      "page_number": 9,
+      "markdown_file": "parsed_document_openai\\markdown\\page_9.md",
+      "content_preview": "数据处理逻辑  \n数据接入  \n状态写入  \n状态读出  \n\n本地状态（内存）  \nCheckpoint操作  \n外部状态存储  \n\n可以看出有状态流计算架构将会逐步成为企业作为构建数据平台的架构模式，Apache Flink 就是有状态的流计算架构，通过实现Google Dataflow流式计算模型实现了高吞吐、低延迟、高性能兼具的实时流式计算框架，同时Flink支持高度容错的状态管理，防止状态..."
+    },
+    {
+      "page_number": 10,
+      "markdown_file": "parsed_document_openai\\markdown\\page_10.md",
+      "content_preview": "在流式计算领域中，窗口计算的地位举足轻重，但目前大多数框架窗口计算采用的都是系统时间（Process Time），也是事件传输到计算框架处理时，系统主机的当前时间。Flink能够支持基于事件时间（Event Time）语义进行窗口计算，也就是使用事件产生的时间，这种基于事件驱动的机制使得事件即使乱序到达，流系统也能够计算出精确的结果，保持了事件原本产生时的时序性，尽可能避免网络传输或硬件系统的影响..."
+    },
+    {
+      "page_number": 11,
+      "markdown_file": "parsed_document_openai\\markdown\\page_11.md",
+      "content_preview": "对于7*24小时运行的流式应用，数据源源不断地接入，在一段时间内应用的终止有可能导致数据的丢失或者计算结果的不准确，例如进行集群版本的升级、停机运维操作等操作。值得一提的是，Flink通过Save Points技术将任务执行的快照保存在存储介质上，当任务重启的时候可以直接从事先保存的Save Points恢复原有的计算状态，使得任务继续按照停机之前的状态运行，Save Points技术可以让用户更..."
+    },
+    {
+      "page_number": 12,
+      "markdown_file": "parsed_document_openai\\markdown\\page_12.md",
+      "content_preview": "交易数据计算出用户的行为指标，然后通过规则判别出具有欺诈行为嫌疑的用户，再进行案件调查处理，在这种情况下资金可能早已被不法分子转移，从而给企业和用户造成大量的经济损失。而运用 Flink流式计算技术能够在毫秒内就完成对欺诈判断行为指标的计算，然后实时对交易流水进行规则判断或者模型预测，这样一旦检测出交易中存在欺诈嫌疑，则直接对交易进行实时拦截，避免因为处理不及时而导致的经济损失。\n4. 实时数仓与..."
+    },
+    {
+      "page_number": 13,
+      "markdown_file": "parsed_document_openai\\markdown\\page_13.md",
+      "content_preview": "aWs BetterCloud  \nAlibaba.com  \n\nbougues  \nCapitalOne  \nCOMCAST  \ncriteo  \nDiDi  \notto group  \nOVH.com  \n\nD  \nTRB  \nebay  \nERICSSON  \nQ gojek  \nResearchGate  \nSK  \nTelecom  \n唯品会  \nVIP.com  \n小米  \nyelp ..."
+    },
+    {
+      "page_number": 14,
+      "markdown_file": "parsed_document_openai\\markdown\\page_14.md",
+      "content_preview": "EventTime** 支持：**Storm早期和SparkStreaming实时数据处理不支持事件时间，Storm后期实时数据处理支持事件时间，同样Spark后期推出的StructuredStreaming处理流数据也是支持事件时间，Flink诞生开始处理实时数据就支持事件时间。\n\n- EventTime** 支持：**Storm早期和SparkStreaming实时数据处理不支持事件时间，St..."
+    }
+  ]
+}

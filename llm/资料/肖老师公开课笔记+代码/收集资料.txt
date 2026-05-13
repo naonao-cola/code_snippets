@@ -1,0 +1,21 @@
+﻿https://github.com/Tao3886099/my-test-langgraph-project
+
+
+text-to-sql
+https://github.com/JulianRong2025/agent_demo
+搜索词 from agent.utils.log_utils import log
+
+
+chroma 参考
+https://github.com/maharengarajan/RAG-Document-Q-A
+搜索词 vector_store=Chroma.from_documents
+
+
+ 检索器
+https://github.com/cr7258/hands-on-lab
+搜索词 RunnableLambda(vector_store.similarity_search)
+
+
+https://github.com/wsChendp/langchain_learning
+
+https://github.com/qq4215279/study_python
