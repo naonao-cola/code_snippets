@@ -13,9 +13,19 @@ https://github.com/maharengarajan/RAG-Document-Q-A
 
  检索器
 https://github.com/cr7258/hands-on-lab
+
 搜索词 RunnableLambda(vector_store.similarity_search)
+马路上走来一个女生，长长的黑头发披在肩上，大概1米7左右
 
 
 https://github.com/wsChendp/langchain_learning
+https://github.com/zkyuan/python_study
+搜索词: 马路上走来一个女生，长长的黑头发披在肩上，大概1米7左右(提取多个对象)
+
 
 https://github.com/qq4215279/study_python
+
+
+
+https://github.com/wsChendp/langchain_learning
+搜索词:create_data_generation_chain  生成数据
