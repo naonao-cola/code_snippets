@@ -12,6 +12,8 @@ set_config("cuda_sdkver","11.8")
 add_requires("pcl",{configs = {shared = true,vtk = true, visualization = true}})
 add_requireconfs("pcl.eigen", {override = true, version = "3.3.7"})
 
+add_requires("pybind11")
+
 add_requires("nlohmann_json",{system = false})
 set_policy("build.progress_style", "multirow")
 add_rules("plugin.vsxmake.autoupdate")
@@ -88,9 +90,20 @@ target("test_8")
     add_links("Ldsensorllib")
     set_configdir(".")
 
-
-
+target("lidar_collision")
+    set_version("1.0.0")
+    set_toolchains("msvc")
+    set_kind("shared")
+    add_packages("opencv", "pcl", "pybind11")
+    add_rules("python.library")
+    add_rules("cuda")
+    add_cugencodes("native")
+    add_cuflags("-allow-unsupported-compiler", {force = true})
+    add_includedirs("include")
+    add_files("src/lidar_detector.cpp", "src/python_bindings.cpp", "src/distance_calc.cu")
     set_configdir(".")
+
+
     -- add_configfiles("version.rc.in")
     -- if is_plat("windows") then
     --     add_files("version.rc")

@@ -5,7 +5,7 @@
  * @Date         : 2026-04-21 11:11:51
  * @Version      : 0.0.1
  * @LastEditors  : weiwei.wang
- * @LastEditTime : 2026-04-21 16:48:51
+ * @LastEditTime : 2026-05-07 14:22:57
  * @Copyright (c) 2026 by G, All Rights Reserved.
  **/
 
@@ -83,10 +83,11 @@ void processSingleObject(int i, const Object& obj, const cv::Mat& color_img, con
     if (obj.prob < 0.45)
         return;
 
-    cv::Mat        mask         = obj.boxMask;   // 这是 rect 大小的 mask
-    cv::Mat        mask_cropped = cv::Mat::zeros(color_img.size(), CV_8UC1);
-    cv::Rect_<int> roi_int      = obj.rect;
-    cv::Rect       roi          = roi_int & cv::Rect(0, 0, color_img.cols, color_img.rows);
+    cv::Mat mask         = obj.boxMask;   // 这是 rect 大小的 mask
+    cv::Mat mask_cropped = cv::Mat::zeros(color_img.size(), CV_8UC1);
+
+    cv::Rect_<int> roi_int = obj.rect;
+    cv::Rect       roi     = roi_int & cv::Rect(0, 0, color_img.cols, color_img.rows);
 
     if (roi.width > 0 && roi.height > 0) {
         cv::Mat mask_to_copy;
@@ -319,6 +320,9 @@ void visualizeCollisions(cv::Mat& image, const std::vector<ObjectCloud>& objects
         if (has_collision) {
             info += " [COLLISION!]";
         }
+        else {
+            info += " [NO COLLISION]";
+        }
 
         cv::Scalar color = has_collision ? cv::Scalar(0, 0, 255) : cv::Scalar(0, 255, 0);
         int        y_pos = 30 + i * 30;
@@ -330,7 +334,7 @@ int test_realtime_point2point_collision()
 {
     void*       receiver1   = CreateInterface(600, 800);
     std::string xmlpath     = R"(E:\test\pcl_test\config\calib_color_readFromCamera 1.yaml)";
-    std::string folder_path = R"(E:\test\pcl_test\build\windows\x64\releasedbg\captured_pcd)";   // 数据文件夹路径
+    std::string folder_path = R"(C:\Users\13191\Downloads\20260410铁钻工数据\captured_pcd8)";   // 数据文件夹路径
 
     if (!std::filesystem::exists(folder_path)) {
         printf("Folder %s does not exist\n", folder_path.c_str());
@@ -392,6 +396,7 @@ int test_realtime_point2point_collision()
         std::mutex               sdk_mutex;
         std::vector<std::thread> threads;
 
+
         for (int i = 0; i < (int)objs.size(); ++i) {
             threads.emplace_back(processSingleObject, i, std::ref(objs[i]), std::ref(color_img), std::ref(imgDepthReg), receiver1, std::ref(xmlpath), std::ref(object_list), std::ref(list_mutex), std::ref(sdk_mutex));
         }
@@ -402,14 +407,24 @@ int test_realtime_point2point_collision()
         }
 
         delete[] imgDepthReg.data;
+
+        // 新增：在图上绘制检测到的所有物体框和标签
+         for (const auto& obj : objs) {
+             if (obj.prob >= 0.45) {
+                 cv::rectangle(color_img, obj.rect, cv::Scalar(0, 255, 0), 2);
+                 std::string label = "ID:" + std::to_string(obj.label) + " " + std::to_string(obj.prob).substr(0, 4);
+                 cv::putText(color_img, label, cv::Point(obj.rect.x, obj.rect.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar(0, 255, 0), 2);
+             }
+         }
+
         if (object_list.size() >= 2) {
             auto collisions = detectAllCollisions(object_list, COLLISION_WARNING_DISTANCE);
-            // visualizeCollisions(color_img, object_list, collisions);
+            visualizeCollisions(color_img, object_list, collisions);
         }
         TOCK(TOTAL_TIME)
-        // cv::namedWindow("Offline Point-to-Point Collision", cv::WINDOW_NORMAL);
-        // cv::imshow("Offline Point-to-Point Collision", color_img);
-        // int key = cv::waitKey(500);   // 延时 500ms 以便观察
+         cv::namedWindow("Offline Point-to-Point Collision", cv::WINDOW_NORMAL);
+         cv::imshow("Offline Point-to-Point Collision", color_img);
+         int key = cv::waitKey(500);   // 延时 500ms 以便观察
         // if (key == 'q' || key == 27)
         //     break;
     }

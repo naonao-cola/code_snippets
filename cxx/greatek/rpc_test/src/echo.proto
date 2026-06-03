@@ -1,0 +1,19 @@
+﻿syntax="proto3";
+package example;
+
+option cc_generic_services = true;
+
+// 定义 Echo 方法请求参数结构
+message EchoRequest{
+    string message = 1;
+}
+
+// 定义 Echo 方法响应参数结构
+message EchoResponse{
+    string message = 1;
+}
+
+// 定义 RPC 远端方法
+service EchoService{
+    rpc Echo(EchoRequest) returns (EchoResponse);
+}
