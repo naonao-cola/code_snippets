@@ -4,14 +4,49 @@ import https from 'https';
 import { URL } from 'url';
 import fs from 'fs';
 
+const githubMirrors = [
+    "https://gh.llkk.cc/",
+    "https://ghproxy.cn/",
+    "https://ghproxy.net/",
+    "https://gitproxy.click/",
+    "https://github.tbedu.top/",
+    "https://github.moeyy.xyz/",
+    "https://ghfast.top/",
+    "https://v6.gh-proxy.org/",
+    "https://v4.gh-proxy.org/",
+    "https://gh-proxy.org/",
+    "https://cdn.gh-proxy.org/",
+    "https://ghfile.geekertao.top/",
+    "https://g.blfrp.cn/",
+    "https://xiake.pro/"
+];
+
+const pypiMirrors = [
+    "https://pypi.tuna.tsinghua.edu.cn/simple",
+    "https://mirrors.aliyun.com/pypi/simple/",
+    "https://mirrors.ustc.edu.cn/pypi/web/simple/",
+    "https://mirrors.huaweicloud.com/repository/pypi/simple/",
+    "https://pypi.doubanio.com/simple/"
+];
+
+// 解析命令行参数
+const args = process.argv.slice(2);
+const saveFlag = args.includes('--save');
+const mode = args.includes('--pypi') ? 'pypi' : 'github';
+
+const mirrors = mode === 'pypi' ? pypiMirrors : githubMirrors;
+const testUrl = mode === 'pypi' ? new URL('https://pypi.org/simple/pip/') : new URL('https://github.com/xmake-io/xmake/archive/refs/tags/v2.8.2.tar.gz');
+
 /**
  * 测速函数：测量请求某个 URL 的响应时间
  */
 async function measureLatency(mirrorUrl) {
-    const testUrl = new URL('https://github.com/xmake-io/xmake/archive/refs/tags/v2.8.2.tar.gz');
-    // 构造加速后的 URL，通常是 mirrorUrl + originalUrl
-    // 不同的代理站有不同的拼接规则，这里假设是常见的前缀模式
-    const targetUrl = `${mirrorUrl}${testUrl.href}`;
+    let targetUrl;
+    if (mode === 'pypi') {
+        targetUrl = mirrorUrl.endsWith('/') ? `${mirrorUrl}pip/` : `${mirrorUrl}/pip/`;
+    } else {
+        targetUrl = `${mirrorUrl}${testUrl.href}`;
+    }
 
     const start = Date.now();
     return new Promise((resolve) => {
@@ -38,28 +73,7 @@ async function measureLatency(mirrorUrl) {
     });
 }
 
-const mirrors = [
-    "https://gh.llkk.cc/",
-    "https://ghproxy.cn/",
-    "https://ghproxy.net/",
-    "https://gitproxy.click/",
-    "https://github.tbedu.top/",
-    "https://github.moeyy.xyz/",
-    "https://ghfast.top/",
-    "https://v6.gh-proxy.org/",
-    "https://v4.gh-proxy.org/",
-    "https://gh-proxy.org/",
-    "https://cdn.gh-proxy.org/",
-    "https://ghfile.geekertao.top/",
-    "https://g.blfrp.cn/",
-    "https://xiake.pro/"
-];
-
-// 解析命令行参数
-const args = process.argv.slice(2);
-const saveFlag = args.includes('--save');
-
-console.log("正在对节点进行并发测速 (异步即时反馈)... \n");
+console.log(`正在对 ${mode} 节点进行并发测速 (异步即时反馈)... \n`);
 
 // 记录已完成的数量
 let finishedCount = 0;
@@ -71,7 +85,7 @@ const tasks = mirrors.map(async (url) => {
     finishedCount++;
 
     // 即时打印结果，让用户看到“异步”在工作
-    const statusIcon = (result.status === 200 || result.status === 302) ? "✅" : "❌";
+    const statusIcon = (result.status === 200 || result.status === 302 || result.status === 301) ? "✅" : "❌";
     const latencyStr = result.latency === 9999 ? "超时" : `${result.latency}ms`;
     console.log(`[${finishedCount}/${totalCount}] ${statusIcon} ${url.padEnd(35)} : ${latencyStr}`);
 

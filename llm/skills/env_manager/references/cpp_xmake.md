@@ -1,38 +1,33 @@
-﻿---
-name: compile_xmake
-description: 处理 xmake 编译相关的问题，包括 CUDA/MSVC 兼容性、本地库加载、编译模式配置（如 releasedbg）等。当用户遇到 xmake 编译报错、环境配置失败或需要特定的编译示例时触发。
----
+# xmake 编译管理与疑难杂症修复
 
-# compile_xmake
+本模块用于解决 xmake 编译过程中的各种疑难杂症，特别是针对 Windows 环境下的 CUDA、MSVC 兼容性问题，以及本地依赖库（如 OpenCV）的配置。
 
-本技能用于解决 xmake 编译过程中的各种疑难杂症，特别是针对 Windows 环境下的 CUDA、MSVC 兼容性问题，以及本地依赖库（如 OpenCV）的配置。
-
-## 核心能力
-
+## 1. 核心能力
 1. **CUDA/MSVC 兼容性修复**：解决 CUDA 11.8 与过新 MSVC (如 14.51) 不兼容导致的 `STL1002` 错误。
 2. **多 CUDA 版本选择**：支持探测并切换系统安装的多个 CUDA 版本。
 3. **自动库检索与配置**：自动扫描本地目录（如 TensorRT、OpenCV）并配置 `include`、`lib`、`links` 及 `rpath`。
 4. **编译模式配置**：配置 `releasedbg` 等自定义模式，平衡性能与调试需求。
 5. **CI/CD 与插件扩展**：提供 GitHub Actions 模板以及自定义插件（Task）开发指导，实现构建流程的全自动化。
 
-## 闭环思维与深度诊断 (P10 Methodology)
-
+## 2. 闭环思维与深度诊断 (P10 Methodology)
 当遇到未知的编译错误时，遵循以下深度搜索与闭环路径：
 
+0. **环境拓扑摸底**：永远不要只盯着报错那一行看。先看 OS 架构（`uname -m` / `ver`），再看编译器族谱，再看系统环境变量（尤其是 `PATH`, `LIBRARY_PATH`, `LD_LIBRARY_PATH`）。环境不对，努力白费。
 1. **一键清洁验证**：排除缓存干扰。
    - `xmake f -c && xmake g --clean`
 2. **符号与依赖溯源**：
    - 使用 `xmake show -t <target>` 查看完整的 `includedirs` 和 `links` 是否包含预期的路径。
    - 在 Windows 上使用 `dumpbin /dependents <exe>` 或在 Linux 上使用 `ldd <exe>` 确认运行时链接是否正确。
+   - **ABI 兼容性嗅探**：如果是 C++ 库，务必检查调用方和被调用方的 `_GLIBCXX_USE_CXX11_ABI` 宏是否一致，避免出现符号找不到 (`undefined reference`) 的幽灵 Bug。
 3. **Verbose 模式拆解**：
    - 运行 `xmake -vD` 获取完整的命令行参数。
    - 将报错的那个 `nvcc` 或 `cl.exe` 命令提取出来，手动在终端运行，观察是否依然报错，从而隔离是 xmake 配置问题还是编译器本身问题。
 4. **版本边界探测**：
    - 如果是工具链问题（如 MSVC），尝试向上/向下跳一个大版本进行交叉对比。
 
-## 常见问题与解决 (Troubleshooting)
+## 3. 常见问题与解决
 
-### 1. CUDA 11.8 + MSVC 14.5x 冲突 (STL1002)
+### CUDA 11.8 + MSVC 14.5x 冲突 (STL1002)
 **症状**：编译 `.cu` 文件报错 `error STL1002: Unexpected compiler version, expected CUDA 13.2 or newer.`
 **根因**：`nvcc` 默认使用了系统中最新的 MSVC 头文件，而 CUDA 11.8 不支持新版 STL。
 **修复逻辑**：
@@ -51,7 +46,7 @@ description: 处理 xmake 编译相关的问题，包括 CUDA/MSVC 兼容性、�
   set_toolchains("msvc", {vs = "2022", vs_toolset = "14.29.xxxxx"})
   ```
 
-### 2. 多 CUDA 版本管理与切换
+### 多 CUDA 版本管理与切换
 **流程**：
 1. **探测已安装版本**：
    - **Windows**: 检查环境变量 `CUDA_PATH_V11_8`, `CUDA_PATH_V12_1` 等，或扫描 `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA`。
@@ -62,7 +57,7 @@ description: 处理 xmake 编译相关的问题，包括 CUDA/MSVC 兼容性、�
    - 或者使用 `xmake g --cuda=PATH` 进行全局设置，避免频繁切换。
 4. **验证**：运行 `xmake l detect.sdks.find_cuda` 确认 xmake 识别的版本。
 
-### 3. 自动检索并添加本地库 (TensorRT/OpenCV/cuDNN 等)
+### 自动检索并添加本地库 (TensorRT/OpenCV/cuDNN 等)
 **流程**：
 1. **探索结构**：使用 `LS` 或 `Glob` 查看用户提供的目录。寻找 `include`、`inc`、`lib`、`bin`、`build` 等子目录。
 2. **提取路径**：
@@ -75,8 +70,13 @@ description: 处理 xmake 编译相关的问题，包括 CUDA/MSVC 兼容性、�
 **示例指令**：
 "帮我把 D:\libs\TensorRT-8.x 加到 xmake 项目里" -> Agent 自动扫描该目录并生成 `add_includedirs`、`add_linkdirs`、`add_links` 和 `add_rpathdirs`。
 
-### 3. 加载本地依赖 (以 OpenCV 为例)
-**方案**：直接在 `xmake.lua` 中指定路径，避免 `add_requires` 自动下载。
+### 高阶构建生态整合 (P10 视野)
+除了单纯的 xmake 编译，当遇到大型跨生态项目时，必须考虑以下能力：
+1. **CMake 互操作**：很多第三方库只有 `CMakeLists.txt`。使用 `add_requires("cmake::xxx")` 或在 xmake 中调用 `package("cmake")` 将其平滑引入，不要强行把 CMake 改写成 xmake。
+2. **编译缓存加速**：编译慢不要干等。主动检查并配置 `ccache` (Linux) 或 `sccache` (Windows/跨平台)。运行 `xmake f --ccache=y` 开启全局编译缓存。
+
+**加载本地依赖 (以 OpenCV 为例)**
+直接在 `xmake.lua` 中指定路径，避免 `add_requires` 自动下载。
 ```lua
 target("your_target")
     add_includedirs("D:/3rdparty/opencv_4.8.1/build/include")
@@ -85,7 +85,7 @@ target("your_target")
     add_rpathdirs("D:/3rdparty/opencv_4.8.1/build/x64/vc16/bin") -- 增加运行时目录
 ```
 
-### 4. 下载加速与多代理切换 (Failover)
+### 下载加速与多代理切换 (Failover)
 **场景**：由于网络原因，xrepo 下载 GitHub 包极慢或失败。
 **修复逻辑**：
 1. **配置 PAC 脚本**：引导用户创建 `pac.lua`，并内置多个常用的 GitHub 镜像站。
@@ -96,7 +96,7 @@ target("your_target")
 3. **全局生效**：使用 `xmake g --proxy_pac=pac.lua` 命令。
 4. **清理重试**：切换代理后，务必提醒用户执行 `xmake f -c`。
 
-## 常用命令备忘 (Cheatsheet)
+## 4. 常用命令备忘 (Cheatsheet)
 
 | 命令 | 说明 |
 | --- | --- |
@@ -112,7 +112,7 @@ target("your_target")
 | `xmake project -k vsxmake2022` | 生成 VS 工程文件 |
 | `xmake l find_package opencv` | 检测系统上的包信息 |
 
-## GCC 探测与环境 (GCC Detection)
+## 5. GCC 探测与环境 (GCC Detection)
 
 | 命令 | 说明 |
 | --- | --- |
@@ -122,7 +122,7 @@ target("your_target")
 | `gcc -v` | 查看详细的版本和编译配置信息 |
 | `sudo apt install gcc-aarch64-linux-gnu` | 安装 ARM 架构的交叉编译器 |
 
-## XRepo 常用命令 (XRepo Cheatsheet)
+## 6. XRepo 常用命令 (XRepo Cheatsheet)
 
 | 命令 | 说明 |
 | --- | --- |
@@ -146,9 +146,9 @@ xrepo add-repo gitee https://gitee.com/tboox/xmake-repo master
 xmake g --proxy_pac=github_mirror.lua
 ```
 
-## 参考资料
+## 7. 参考资料
 更多详细的编译示例和高级配置，请参考：
-- [编译案例与技巧](file:///.trae/skills/compile_xmake/references/compile_tips.md)
-- [xmake.lua 模板库](file:///.trae/skills/compile_xmake/references/templates.md) (含 CI/CD 模板)
-- [插件开发指导](file:///.trae/skills/compile_xmake/references/plugin_dev.md)
-- [进阶疑难杂症排除](file:///.trae/skills/compile_xmake/references/troubleshooting_advanced.md)
+- [编译案例与技巧](file:///.trae/skills/env_manager/references/compile_tips.md)
+- [xmake.lua 模板库](file:///.trae/skills/env_manager/references/templates.md) (含 CI/CD 模板)
+- [插件开发指导](file:///.trae/skills/env_manager/references/plugin_dev.md)
+- [进阶疑难杂症排除](file:///.trae/skills/env_manager/references/troubleshooting_advanced.md)
