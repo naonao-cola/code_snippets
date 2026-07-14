@@ -1,0 +1,32 @@
+{
+  "skill": "cpp_toolkit",
+  "evaluations": [
+    {
+      "scenario": "User requests help refactoring legacy C++98 code to modern C++20",
+      "expected_behavior": "Agent should read references/1_basics_and_modern_cpp.md and suggest using smart pointers and move semantics.",
+      "success_criteria": [
+        "Replaces raw pointers with std::unique_ptr/std::shared_ptr",
+        "Uses auto and constexpr appropriately",
+        "Agent explains the refactoring rationale"
+      ]
+    },
+    {
+      "scenario": "User asks to optimize a nested for-loop using CUDA or OpenMP",
+      "expected_behavior": "Agent should consult references/2_optimization_and_parallelism.md, propose either OpenMP pragmas or a CUDA kernel, and handle memory properly.",
+      "success_criteria": [
+        "Provides correctly scoped OpenMP pragmas or CUDA block/grid dimensions",
+        "Handles data sharing/private variables or Host-to-Device memory copy",
+        "Agent explains the performance bottleneck and the solution"
+      ]
+    },
+    {
+      "scenario": "User needs to deploy an ONNX model using TensorRT in C++",
+      "expected_behavior": "Agent should consult references/3_tensorrt_deployment.md, explain the engine building process, and outline the inference context setup.",
+      "success_criteria": [
+        "Describes the calibration/precision (FP16/INT8) process",
+        "Sets up cudaStream_t for asynchronous inference",
+        "Agent provides a clear execution step for deployment"
+      ]
+    }
+  ]
+}
