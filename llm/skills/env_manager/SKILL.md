@@ -30,7 +30,7 @@ description: 统一处理 Python 和 C/C++ (xmake) 环境的创建、配置、�
 - [xmake 编译管理与疑难杂症修复](file:///.trae/skills/env_manager/references/cpp_xmake.md)
 
 ---
-·
+
 ### 👉 场景三：处理 Python 与 C/C++ 混合编译环境 (pybind11 / C-Extension)
 **触发条件**：项目既包含 Python 脚本，又包含需要编译的 C/C++ 扩展（例如通过 `pybind11` 绑定，或者通过 xmake 编译 `.so`/`.pyd` 给 Python 调用），导致链接报错、找不到 Python.h 等。
 **你需要阅读的文件**：
