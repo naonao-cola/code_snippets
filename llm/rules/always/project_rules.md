@@ -1,6 +1,5 @@
 ﻿---
-alwaysApply: false
-description:
+alwaysApply: true
 ---
 ## 通用礼节 (General Etiquette)
 - 如果目录中存在 README.md，先阅读该文件了解项目
